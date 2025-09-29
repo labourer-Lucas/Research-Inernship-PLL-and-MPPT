@@ -1,0 +1,88 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Page Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% PDF metadata information %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\hypersetup
+{
+ pdftitle={Master Thesis Template},
+ pdfsubject={Master Thesis},
+ pdfauthor={Wei Tian},
+ pdfkeywords={power electronics, electrical drives, predictive control, model predictive control, finite-set model predictive control}
+}
+
+\newcommand{\helv}{\fontfamily{phv}\fontseries{a}\fontsize{9}{11}\selectfont}
+
+\pagestyle{fancy}
+
+\fancypagestyle{plain}
+{	
+ %% keine Fußzeile
+ \fancyfoot{}
+ %% Rechts auf geraden Seiten=innen; in \leftmark stehen \chapters
+ \fancyhead[RE]{\small\leftmark}
+ %% Links auf ungeraden Seiten=außen;in \rightmark stehen \sections
+ \fancyhead[LO]{\small\rightmark}
+ %%Rechts auf ungeraden und links auf geraden Seiten
+ \fancyhead[RO,LE]{\thepage}
+}
+
+\fancyfoot{}
+\fancyhead[RE]{\small\leftmark}
+\fancyhead[LO]{\small\rightmark}
+\fancyhead[RO,LE]{\thepage}
+
+%% Definieren der Ränder und Längen %%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\textwidth}{16cm}					%14cm
+\setlength{\textheight}{23cm}					%20cm
+\setlength{\evensidemargin}{0mm}			%10mm
+\setlength{\oddsidemargin}{0mm}				%10mm
+\setlength{\headwidth}{16cm}					%15cm
+\setlength{\topmargin}{-10mm} 				%10mm
+\setlength{\marginparwidth}{0mm}			%Added, not existing before
+\setlength{\marginparsep}{0mm}				%Added, not existing before
+
+\theoremstyle{break}
+\newtheorem{satz}{Thesis}
+
+%% JFS VERMEIDE WARNUNG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% "package fancyhdr warning headheight too small"
+\setlength{\headheight}{30.0pt} %15.5
+
+%%Prevent figures to be on "figure only" pages
+\renewcommand{\topfraction}{0.85}					
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
+
+%% Fix overfull hboxes automatically:
+%\tolerance=2000
+\emergencystretch=10pt
+
+%% Black margin marker if overfull hbox error
+%\setlength{\overfullrule}{5pt}}					
+
+\renewcommand{\epigraphflush}{center}
+\renewcommand{\sourceflush}{flushright}
+%\setlength{\epigraphwidth}{0.5\textwidth}
+
+%% Colors
+\definecolor{matlabgreen}{rgb}{0, 0.5, 0}
+\definecolor{matlabmagenta}{rgb}{0.75, 0, 0.75}
+
+%\SetWatermarkText{Preliminary Version}
+%\SetWatermarkScale{0.5}
+%\SetWatermarkColor[rgb]{0.95, 0.95, 0.95}
+
+%\renewcommand{\thechapter}{\Roman{chapter}}
+\titleformat{\chapter}
+[display]
+{\bfseries\LARGE}
+{\filright\MakeUppercase{\chaptertitlename} \Huge\thechapter}
+{4ex}
+{\titlerule \vspace{3ex} \filright}
+[\vspace{3ex} \titlerule]
+
+\hyphenation{off-line meth-od draw-backs}
+
+%% Kein Einrücken beim Absatz!!
+\setlength{\parindent}{0pt} % Kein Einrücken beim Absatz!!

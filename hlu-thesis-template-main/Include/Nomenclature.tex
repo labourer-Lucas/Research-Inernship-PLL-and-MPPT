@@ -1,0 +1,1282 @@
+
+% Nomenclature
+\newcounter{assumption}
+\newcommand{\Assumption}[2][]{
+	\refstepcounter{assumption}
+	\begin{description}
+		\item[\textit{Assumption \theassumption{}\ifthenelse{\equal{#1}{}}{}{ (#1)}:}] \textit{#2}
+	\end{description}
+}
+
+\renewcommand{\c}{\mathrm} %constant
+\renewcommand{\t}[1]{\text{\normalfont{#1}}} %text for indices
+\newcommand{\M}{\boldsymbol} %matrix
+\renewcommand{\v}{\boldsymbol} %vector
+\newcommand{\T}{\top} %transpose
+\renewcommand{\d}{\mathrm{d}} %for d / dt
+\newcommand{\F}[1]{\mathbb{#1}} %e.g. for "in reals"
+\newcommand{\dir}{\operatorname{dir}} %direction
+\newcommand{\uv}[1]{\unit{\left[#1\right]}} %unit of variable
+
+% image
+
+\newlength\figureheight
+\newlength\figurewidth
+
+%DC/AC MMC
+%arm currents
+\newcommand{\iua}{\mathit{i_{u,a}}}% phase-a, upper arm current
+\newcommand{\iub}{\mathit{i_{u,b}}}% phase-b, upper arm current
+\newcommand{\iuc}{\mathit{i_{u,c}}}% phase-c, upper arm current
+\newcommand{\ila}{\mathit{i_{l,a}}}% phase-a, lower arm current
+\newcommand{\ilb}{\mathit{i_{l,b}}}% phase-b, lower arm current
+\newcommand{\ilc}{\mathit{i_{l,c}}}% phase-c, lower arm current
+%arm voltages
+\newcommand{\vua}{\mathit{v_{u,a}}}% phase-a, upper arm voltage
+\newcommand{\vub}{\mathit{v_{u,b}}}% phase-b, upper arm voltage
+\newcommand{\vuc}{\mathit{v_{u,c}}}% phase-c, upper arm voltage
+\newcommand{\vla}{\mathit{v_{l,a}}}% phase-a, lower arm voltage
+\newcommand{\vlb}{\mathit{v_{l,b}}}% phase-b, lower arm voltage
+\newcommand{\vlc}{\mathit{v_{l,c}}}% phase-c, lower arm voltage
+%MMC output voltages and currents
+\newcommand{\vsa}{\mathit{v_{s,a}}}% phase-a voltage
+\newcommand{\vsb}{\mathit{v_{s,b}}}% phase-b voltage
+\newcommand{\vsc}{\mathit{v_{s,c}}}% phase-c voltage
+\newcommand{\isa}{\mathit{i_{s,a}}}% phase-a current
+\newcommand{\isb}{\mathit{i_{s,b}}}% phase-b current
+\newcommand{\isc}{\mathit{i_{s,c}}}% phase-c current
+%AC system voltages
+\newcommand{\ega}{\mathit{e_{g,a}}}% AC system phase-a voltage
+\newcommand{\egb}{\mathit{e_{g,b}}}% AC system phase-b voltage
+\newcommand{\egc}{\mathit{e_{g,c}}}% AC system phase-c voltage
+%%circulating currents
+\newcommand{\ica}{i_{c,a}} % phase-a circulating current
+\newcommand{\icb}{i_{c,b}} % phase-b circulating current
+\newcommand{\icc}{i_{c,c}} % phase-c circulating current
+%%others
+\newcommand{\vdc}{V_{dc}} % total DC system voltage
+
+%%for MMC-HVDC system
+%%%arm currents
+%\newcommand{\ixyabctop}{\vec{i}_{\rm top,\rm x}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixytop}{\mathit{i}_{T,\it z}^{\it p}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixylow}{\mathit{i}_{B,\it z}^{\it p}}%grid1 , phase-a, upper arm current, x for side
+%%first side
+%\newcommand{\ixabctop}{\vec{i}_{\rm top,\rm 1}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixatop}{{i}_{\rm top,\rm 1}^{a}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixbtop}{{i}_{\rm top,\rm 1}^{b}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixctop}{{i}_{\rm top,\rm 1}^{c}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixabclow}{\vec{i}_{\rm low,\rm 1}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixalow}{{i}_{\rm low,\rm 1}^{a}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixblow}{{i}_{\rm low,\rm 1}^{b}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixclow}{{i}_{\rm low,\rm 1}^{c}}%grid1 , phase-a, upper arm current, x for side
+%%arm currents second side
+%\newcommand{\iyabctop}{\vec{i}_{\rm top,\rm 2}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\iyatop}{{i}_{\rm top,\rm 2}^{a}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\iybtop}{{i}_{\rm top,\rm 2}^{b}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\iyctop}{{i}_{\rm top,\rm 2}^{c}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\iyabclow}{\vec{i}_{\rm low,\rm 2}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\iyalow}{{i}_{\rm low,\rm 2}^{a}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\iyblow}{{i}_{\rm low,\rm 2}^{b}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\iyclow}{{i}_{\rm low,\rm 2}^{c}}%grid1 , phase-a, upper arm current, x for side
+%%%circulating currents
+%\newcommand{\ixyabccir}{\vec{i}_{\rm cir,\rm x}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixycir}{i_{cir,\it z}^{\it p}}%grid1 , phase-a, upper arm current, x for side
+%%first side
+%\newcommand{\ixabccir}{\vec{i}_{\rm cir,\rm 1}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixacir}{{i}_{\rm cir,\rm 1}^{a}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixbcir}{{i}_{\rm cir,\rm 1}^{b}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixccir}{{i}_{\rm cir,\rm 1}^{c}}%grid1 , phase-a, upper arm current, x for side
+%%second side
+%\newcommand{\iyabccir}{\vec{i}_{\rm cir,\rm 2}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\iyacir}{{i}_{\rm cir,\rm 2}^{a}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\iybcir}{{i}_{\rm cir,\rm 2}^{b}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\iyccir}{{i}_{\rm cir,\rm 2}^{c}}%grid1 , phase-a, upper arm current, x for side
+%%phase current
+%\newcommand{\ixy}{i_{g,\it z}^{\it p}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixabc}{\vec{i}_{\rm 1}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixa}{{i}_{\rm 1}^{a}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixb}{{i}_{\rm 1}^{b}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\ixc}{{i}_{\rm 1}^{c}}
+%
+%%%DC link currents
+%%\newcommand{\ixyabccir}{\vec{i}_{\rm cir,\rm x}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\idcxy}{I_{dc,\it z}}%grid1 , phase-a, upper arm current, x for side
+%%%Terminal voltage
+%\newcommand{\vxabcterminal}{\vec{v}_{\rm ter,\rm 1}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vyabcterminal}{\vec{v}_{\rm ter,\rm 2}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vxyterminal}{V_{t,\it z}^{\it p}}
+%%
+%\newcommand{\vxaterminal}{{v}_{\rm ter,\rm 1}^{a}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vxbterminal}{{v}_{\rm ter,\rm 1}^{b}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vxcterminal}{{v}_{\rm ter,\rm 1}^{c}}%grid1 , phase-a, upper arm current, x for side
+%%
+%\newcommand{\vyaterminal}{{v}_{\rm ter,\rm 2}^{a}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vybterminal}{{v}_{\rm ter,\rm 2}^{b}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vycterminal}{{v}_{\rm ter,\rm 2}^{c}}%grid1 , phase-a, upper arm current, x for side
+%%
+%%%source voltage
+%\newcommand{\exabc}{\vec{e}_{\rm 1}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\eyabc}{\vec{e}_{\rm 2}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\exy}{e_{g,\it z}^{\it p}}
+%%Tunable voltages (mocular voltages)
+%\newcommand{\vxylow}{V_{B,\it z}^{\it p}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vxytop}{V_{T,\it z}^{\it p}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vxabctop}{\vec{v}_{\rm top,\rm 1}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vyabctop}{\vec{v}_{\rm top,\rm 2}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vxabclow}{\vec{v}_{\rm low,\rm 1}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vyabclow}{\vec{v}_{\rm low,\rm 2}^{abc}}%grid1 , phase-a, upper arm current, x for side
+%%\newcommand{\vxy}{{v}_{\rm mmc,\rm x}^{y}}
+%%
+%\newcommand{\vxatop}{{v}_{\rm top,\rm 1}^{a}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vxbtop}{{v}_{\rm top,\rm 1}^{b}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vxctop}{{v}_{\rm top,\rm 1}^{c}}%grid1 , phase-a, upper arm current, x for side
+%%
+%\newcommand{\vyatop}{{v}_{\rm top,\rm 2}^{a}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vybtop}{{v}_{\rm top,\rm 2}^{b}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vyctop}{{v}_{\rm top,\rm 2}^{c}}
+%%
+%\newcommand{\vxalow}{{v}_{\rm low,\rm 1}^{a}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vxblow}{{v}_{\rm low,\rm 1}^{b}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vxclow}{{v}_{\rm low,\rm 1}^{c}}%grid1 , phase-a, upper arm current, x for side
+%%
+%\newcommand{\vyalow}{{v}_{\rm low,\rm 2}^{a}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vyblow}{{v}_{\rm low,\rm 2}^{b}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\vyclow}{{v}_{\rm low,\rm 2}^{c}}
+%%%n-th Modular capacitor voltage
+%\newcommand{\vcnxy}{V_{C,n}^{\it p ,\it z}}%grid1 , phase-a, upper arm current, x for side
+%%%Number of the connected elements
+%\newcommand{\nxylow}{N_{B,\it z}^{\it p}}%grid1 , phase-a, upper arm current, x for side
+%\newcommand{\nxytop}{N_{T,\it z}^{\it p}}%grid1 , phase-a, upper arm current, x for side
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%	electrical drives
+%\newcommand{\J}{\mm{J}} % Park-Transformation matrix for phi=90Ѝ
+%\newcommand{\Lsabc}{\boldsymbol{L}_{\rm  s}^{\rm  abc}} % Inductance PMSM in stator (alpha,beta)frame
+%\newcommand{\Lsa}{{L}_{\rm  s}^{\rm  a}}
+%\newcommand{\Lsb}{{L}_{\rm  s}^{\rm  b}}
+%\newcommand{\Lsc}{{L}_{\rm  s}^{\rm  c}}
+%\newcommand{\Ls}{{L}_{\rm  s}}
+%\newcommand{\Lsab}{\boldsymbol{L}_{\rm  s}^{\,\rm \alpha\beta}} % Inductance PMSM in stator (alpha,beta)frame
+%\newcommand{\Lsaa}{L_{\rm  s}^{\rm  \alpha}}
+%\newcommand{\Lsbb}{L_{\rm  s}^{\rm  \beta}}
+%\newcommand{\Lsdq}{\boldsymbol{L}_{\rm  s}^{\rm  dq}} % Inductance PMSM in stator (alpha,beta)frame
+%\newcommand{\Lsd}{L_{\rm  s}^{\rm  d}}
+%\newcommand{\Lsq}{L_{\rm  s}^{\rm  q}}
+%
+%\newcommand{\Rsabc}{\boldsymbol{R}_{\rm  s}^{\rm  abc}} % Inductance PMSM in stator (alpha,beta)frame
+%\newcommand{\Rsa}{{R}_{\rm  s}^{\rm  a}}
+%\newcommand{\Rsb}{{R}_{\rm  s}^{\rm  b}}
+%\newcommand{\Rsc}{{R}_{\rm  s}^{\rm  c}}
+%\newcommand{\Rs}{{R}_{\rm  s}}
+%\newcommand{\Rsab}{\boldsymbol{R}_{\rm  s}^{\,\rm \alpha\beta}} % Inductance PMSM in stator (alpha,beta)frame
+%\newcommand{\Rsaa}{R_{\rm  s}^{\rm  \alpha}}
+%\newcommand{\Rsbb}{R_{\rm  s}^{\rm  \beta}}
+%\newcommand{\Rsdq}{\boldsymbol{R}_{\rm  s}^{\rm  dq}} % Inductance PMSM in stator (alpha,beta)frame
+%\newcommand{\Rsd}{R_{\rm  s}^{\rm  d}}
+%\newcommand{\Rsq}{R_{\rm  s}^{\rm  q}}
+%
+%\newcommand{\Rrabc}{\boldsymbol{R}_{\rm  r}^{\rm  abc}} % Inductance PMSM in stator (alpha,beta)frame
+%\newcommand{\Rra}{{R}_{\rm  r}^{\rm  a}}
+%\newcommand{\Rrb}{{R}_{\rm  r}^{\rm  b}}
+%\newcommand{\Rrc}{{R}_{\rm  r}^{\rm  c}}
+%\newcommand{\Rr}{{R}_{\rm  r}}
+%\newcommand{\Rrab}{\boldsymbol{R}_{\rm  sr}^{\,\rm \alpha\beta}} % Inductance PMSM in stator (alpha,beta)frame
+%\newcommand{\Rraa}{R_{\rm  r}^{\rm  \alpha}}
+%\newcommand{\Rrbb}{R_{\rm  r}^{\rm  \beta}}
+%\newcommand{\Rrdq}{\boldsymbol{R}_{\rm  r}^{\rm  dq}} % Inductance PMSM in stator (alpha,beta)frame
+%\newcommand{\Rrd}{R_{\rm  r}^{\rm  d}}
+%\newcommand{\Rrq}{R_{\rm  r}^{\rm  q}}
+%
+%\newcommand{\omegam}{\omega_{\rm  m}}
+%\newcommand{\omegamk}{\omega_{\rm  m[k]}}
+%\newcommand{\omegag}{\omega_{\rm  g}}
+%\newcommand{\omegamhat}{\hat{\omega}_{\rm  m}}
+%\newcommand{\omegae}{\omega_{\rm  e}}
+%\newcommand{\omegaek}{\omega_{\rm  e[k]}}
+%\newcommand{\omegaexk}{\omega_{\rm  e[k+1]}}
+%\newcommand{\omegaehat}{\hat{\omega}_{\rm  e}}
+%\newcommand{\omegaeest}{\hat{\omega}_{\rm  e}}
+%\newcommand{\thehat}{\hat{\theta}_{\rm  e}}
+%\newcommand{\thee}{\theta_{\rm  e}}
+%\newcommand{\theeest}{\hat{\theta}_{\rm  e}}
+%\newcommand{\theek}{\theta_{\rm  e[k]}}
+%\newcommand{\them}{\theta_{\rm  m}}
+%\newcommand{\theg}{\theta_{\rm  g}}
+%\newcommand{\thegk}{\theta_{\rm  g[k]}}
+%
+%%	abbreviations for current, voltage and flux linkage
+%%	-> stator and rotor current signals
+%\newcommand{\imabc}{\vec{i}_{\rm  m}^{\rm  abc}}
+%\newcommand{\imabct}{\vec{i}_{\rm  m}^{\rm  abc\top}}
+%\newcommand{\ima}{{i}_{\rm  m}^{\rm  a}}
+%\newcommand{\imb}{{i}_{\rm  m}^{\rm  b}}
+%\newcommand{\imc}{{i}_{\rm  m}^{\rm  c}}
+%
+%\newcommand{\imabck}{\vec{i}_{\rm  m[k]}^{\rm  abc}}
+%\newcommand{\imabckt}{\vec{i}_{\rm  m[k]}^{\rm  abc\top}}
+%
+%\newcommand{\iyabc}{\vec{i}_{\rm  y}^{\rm  abc}}
+%\newcommand{\iyabct}{\vec{i}_{\rm  y}^{\rm  abc\top}}
+%
+%\newcommand{\imab}{\vec{i}_{\rm  m}^{\,\rm \alpha\beta}}
+%\newcommand{\imabz}{\vec{i}_{\rm  m}^{\,\rm \alpha\beta0}}
+%\newcommand{\imabest}{\hat{\vec{i}}_{\rm  m}^{\,\rm \alpha\beta}}
+%\newcommand{\imabzest}{\hat{\vec{i}}_{\rm  m}^{\,\rm \alpha\beta0}}
+%\newcommand{\imabk}{\vec{i}_{\rm  m[k]}^{\,\rm \alpha\beta}}
+%\newcommand{\imabxk}{\vec{i}_{\rm  m[k+1]}^{\,\rm \alpha\beta}}
+%\newcommand{\imaa}{i_{\rm  m}^{\rm  \alpha}}
+%\newcommand{\imbb}{i_{\rm  m}^{\rm  \beta}}
+%\newcommand{\imD}{i_{\rm  m}^{\rm  D}}
+%\newcommand{\imQ}{i_{\rm  m}^{\rm  Q}}
+%\newcommand{\imaaest}{\hat{i}_{\rm  m}^{\rm  \alpha}}
+%\newcommand{\imbbest}{\hat{i}_{\rm  m}^{\rm  \beta}}
+%\newcommand{\imaamax}{i_{\rm  m}^{\rm  \alpha\,\max}}
+%\newcommand{\imbbmax}{i_{\rm  m}^{\rm  \beta\,\max}}
+%\newcommand{\imaaref}{i_{\rm  m}^{\rm  \alpha*}}
+%\newcommand{\imbbref}{i_{\rm  m}^{\rm  \beta*}}
+%\newcommand{\imaak}{i_{\rm  m[k]}^{\rm  \alpha}}
+%\newcommand{\imbbk}{i_{\rm  m[k]}^{\rm  \beta}}
+%\newcommand{\imaaxk}{i_{\rm  m[k+1]}^{\rm  \alpha}}
+%\newcommand{\imbbxk}{i_{\rm  m[k+1]}^{\rm  \beta}}
+%
+%\newcommand{\ilab}{\vec{i}_{\rm  l}^{\,\rm \alpha\beta}}
+%\newcommand{\ilabref}{\vec{i}_{\rm  l}^{\,\rm \alpha\beta*}}
+%\newcommand{\ilabk}{\vec{i}_{\rm  l[k]}^{\,\rm \alpha\beta}}
+%\newcommand{\ilabkref}{\vec{i}_{\rm  l[k]}^{\,\rm \alpha\beta*}}
+%\newcommand{\ilabnkref}{\vec{i}_{\rm  l[k-1]}^{\,\rm \alpha\beta*}}
+%\newcommand{\ilabnnkref}{\vec{i}_{\rm  l[k-2]}^{\,\rm \alpha\beta*}}
+%\newcommand{\ilabxk}{\vec{i}_{\rm  l[k+1]}^{\,\rm \alpha\beta}}
+%\newcommand{\ilabxkref}{\vec{i}_{\rm  l[k+1]}^{\,\rm \alpha\beta*}}
+%\newcommand{\ilaa}{i_{\rm  l}^{\rm  \alpha}}
+%\newcommand{\ilbb}{i_{\rm  l}^{\rm  \beta}}
+%\newcommand{\ilmax}{i_{\rm  l}^{\rm  \max}}
+%\newcommand{\igmax}{i_{\rm  g}^{\rm  r}}
+%\newcommand{\immax}{i_{\rm  m}^{\rm  r}}
+%\newcommand{\ilaamax}{i_{\rm  l}^{\rm  \alpha\,\max}}
+%\newcommand{\ilbbmax}{i_{\rm  l}^{\rm  \beta\,\max}}
+%\newcommand{\ilaaref}{i_{\rm  l}^{\rm  \alpha*}}
+%\newcommand{\ilbbref}{i_{\rm  l}^{\rm  \beta*}}
+%\newcommand{\ilaaxkref}{i_{\rm  l[k+1]}^{\rm  \alpha*}}
+%\newcommand{\ilbbxkref}{i_{\rm  l[k+1]}^{\rm  \beta*}}
+%\newcommand{\ilaak}{i_{\rm  l[k]}^{\rm  \alpha}}
+%\newcommand{\ilbbk}{i_{\rm  l[k]}^{\rm  \beta}}
+%\newcommand{\ilaaxk}{i_{\rm  l[k+1]}^{\rm  \alpha}}
+%\newcommand{\ilbbxk}{i_{\rm  l[k+1]}^{\rm  \beta}}
+%
+%\newcommand{\imdq}{\vec{i}_{\rm  m}^{\rm  dq}}
+%\newcommand{\imdqxk}{\vec{i}_{\rm  m[k+1]}^{\rm  dq}}
+%\newcommand{\imdqxkref}{\vec{i}_{\rm  m[k+1]}^{\rm  dq*}}
+%\newcommand{\imdqk}{\vec{i}_{\rm  m[k]}^{\rm  dq}}
+%\newcommand{\imd}{i_{\rm  m}^{\rm  d}}
+%\newcommand{\imdref}{i_{\rm  m}^{\rm  d*}}
+%\newcommand{\imq}{i_{\rm  m}^{\rm  q}}
+%\newcommand{\imdmax}{i_{\rm  m}^{\rm  d\, max}}
+%\newcommand{\imqmax}{i_{\rm  m}^{\rm  q\, max}}
+%\newcommand{\imqref}{i_{\rm  m}^{\rm  q*}}
+%\newcommand{\imqreft}{i_{\rm  m}^{\rm  q*}(t)}
+%\newcommand{\imdk}{i_{\rm  m[k]}^{\rm  d}}
+%\newcommand{\imqk}{i_{\rm  m[k]}^{\rm  q}}%\imdxk^{\vec{u}_{\rm 0,1}}
+%\newcommand{\imdkuij}{i_{\rm  m[k]}^{{\rm  d},\vec{u}_{\rm 0,1}}}
+%\newcommand{\imdxkuij}{i_{\rm  m[k+1]}^{{\rm  d},\vec{u}_{\rm 0,1}}}
+%\newcommand{\imdxkuijxx}{i_{\rm  m[k+1]}^{{\rm  d},\vec{u}_{\rm i,i+1}}}
+%\newcommand{\imdkuijk}{i_{\rm  m[k]}^{{\rm  d},\vec{u}_{\rm 1,2}}}
+%\newcommand{\imdkuijxk}{i_{\rm  m[k+1]}^{{\rm  d},\vec{u}_{\rm 1,2}}}
+%\newcommand{\imdxk}{i_{\rm  m[k+1]}^{\rm  d}}
+%\newcommand{\imqxk}{i_{\rm  m[k+1]}^{\rm  q}}
+%\newcommand{\imdxkref}{i_{\rm  m[k+1]}^{\rm  d*}}
+%\newcommand{\imqxkref}{i_{\rm  m[k+1]}^{\rm  q*}}
+%
+%\newcommand{\isabc}{\vec{i}_{\rm  s}^{\rm  abc}}
+%\newcommand{\isa}{{i}_{\rm  s}^{\rm  a}}
+%\newcommand{\isb}{{i}_{\rm  s}^{\rm  b}}
+%\newcommand{\isc}{{i}_{\rm  s}^{\rm  c}}
+%
+%\newcommand{\isab}{\vec{i}_{\rm  s}^{\,\rm \alpha\beta}}
+%\newcommand{\isaa}{i_{\rm  s}^{\rm  \alpha}}
+%\newcommand{\isbb}{i_{\rm  s}^{\rm  \beta}}
+%
+%\newcommand{\isdq}{\vec{i}_{\rm  s}^{\rm  dq}}
+%\newcommand{\isd}{i_{\rm  s}^{\rm  d}}
+%\newcommand{\isq}{i_{\rm  s}^{\rm  q}}
+%
+%\newcommand{\irabc}{\vec{i}_{\rm  r}^{\rm  abc}}
+%\newcommand{\ira}{\vec{i}_{\rm  r}^{\rm  a}}
+%\newcommand{\irb}{\vec{i}_{\rm  r}^{\rm  b}}
+%\newcommand{\irc}{\vec{i}_{\rm  r}^{\rm  c}}
+%
+%\newcommand{\irab}{\vec{i}_{\rm  r}^{\,\rm \alpha\beta}}
+%\newcommand{\iraa}{i_{\rm  r}^{\rm  \alpha}}
+%\newcommand{\irbb}{i_{\rm  r}^{\rm  \beta}}
+%
+%\newcommand{\irdq}{\vec{i}_{\rm  r}^{\rm  dq}}
+%\newcommand{\ird}{i_{\rm  r}^{\rm  d}}
+%\newcommand{\irq}{i_{\rm  r}^{\rm  q}}
+%
+%%	Net side current signals
+%
+%\newcommand{\igabc}{\vec{i}_{\rm  g}^{\rm  abc}}
+%\newcommand{\igabct}{\vec{i}_{\rm  g}^{\rm  abc\top}}
+%\newcommand{\iga}{{i}_{\rm  g}^{\rm  a}}
+%\newcommand{\igb}{{i}_{\rm  g}^{\rm  b}}
+%\newcommand{\igc}{{i}_{\rm  g}^{\rm  c}}
+%
+%\newcommand{\igabck}{\vec{i}_{\rm  g[k]}^{\rm  abc}}
+%\newcommand{\igabckt}{\vec{i}_{\rm  g[k]}^{\rm  abc\top}}
+%\newcommand{\igabcxk}{\vec{i}_{\rm  g[k+1]}^{\rm  abc[k]}}
+%
+%%{\vec{i}^{\,\dag}_{n[k]}
+%\newcommand{\igab}{\vec{i}_{\rm  g}^{\,\rm \alpha\beta}}
+%\newcommand{\igabd}{\vec{i}_{\rm  g}^{\,\rm \alpha\beta\,\dag}}
+%\newcommand{\igabdk}{\vec{i}_{\rm  g[k]}^{\rm  \,\alpha\beta\,\dag}}
+%\newcommand{\igabk}{\vec{i}_{\rm  g[k]}^{\,\rm \alpha\beta}}
+%\newcommand{\igabxk}{\vec{i}_{\rm  g[k+1]}^{\,\rm \alpha\beta}}
+%\newcommand{\igz}{\vec{i}_{\rm  g}^{\,0}}
+%\newcommand{\igaa}{i_{\rm  g}^{\rm  \alpha}}
+%\newcommand{\igbb}{i_{\rm  g}^{\rm \beta}}%i_{\rm n}^{\alpha\rm max}
+%\newcommand{\igaak}{i_{\rm  g[k]}^{\rm  \alpha}}
+%\newcommand{\igbbk}{i_{\rm  g[k]}^{\rm \beta}}%i_{\rm n}^{\alpha\rm max}
+%\newcommand{\igaaref}{i_{\rm  g}^{\rm  \alpha*}}
+%\newcommand{\igbbref}{i_{\rm  g}^{\rm \beta*}}%i_{\rm n}^{\alpha\rm max}
+%\newcommand{\igaamax}{i_{\rm  g}^{\rm  \alpha\, max}}
+%\newcommand{\igbbmax}{i_{\rm  g}^{\rm \beta\, max}}%i_{\rm n}^{\alpha\rm max}
+%\newcommand{\igaaxk}{i_{\rm  g[k+1]}^{\rm  \alpha}}
+%\newcommand{\igbbxk}{i_{\rm  g[k+1]}^{\rm \beta}}%i_{\rm n}^{\alpha\rm max}
+%
+%\newcommand{\igdq}{\vec{i}_{\rm  g}^{\rm  dq}}
+%\newcommand{\igdqk}{\vec{i}_{\rm  g[k]}^{\rm  dq}}
+%\newcommand{\igdk}{{i}_{\rm  g[k]}^{\rm  d}}
+%\newcommand{\igqk}{{i}_{\rm  g[k]}^{\rm  q}}
+%\newcommand{\igdxk}{{i}_{\rm  g[k+1]}^{\rm  d}}
+%\newcommand{\igqxk}{{i}_{\rm  g[k+1]}^{\rm  q}}
+%\newcommand{\igdqxk}{\vec{i}_{\rm  g[k+1]}^{\rm  dq}}
+%\newcommand{\igd}{i_{\rm  g}^{\rm  d}}
+%\newcommand{\igq}{i_{\rm  g}^{\rm  q}}
+%
+%\newcommand{\igdref}{i_{\rm  g}^{\rm  d*}}
+%\newcommand{\igqref}{i_{\rm  g}^{\rm  q*}}
+%
+%%	-> stator and rotor flux signals
+%\newcommand{\psisabc}{\vec{\psi}_{\rm  s}^{\rm  abc}}
+%\newcommand{\psisa}{{\psi}_{\rm  s}^{\rm  a}}
+%\newcommand{\psis}{\vec{\psi}_{\rm  s}}
+%\newcommand{\psisest}{\hat{\vec{\psi}}_{\rm  s}}
+%\newcommand{\psisb}{{\psi}_{\rm  s}^{\rm  b}}
+%\newcommand{\psisc}{{\psi}_{\rm  s}^{\rm  c}}
+%
+%\newcommand{\psisab}{\vec{\psi}_{\rm  s}^{\,\rm \alpha\beta}}
+%\newcommand{\psisabk}{\vec{\psi}_{\rm  s[k]}^{\,\rm \alpha\beta}}
+%\newcommand{\psisabxk}{\vec{\psi}_{\rm  s[k+1]}^{\,\rm \alpha\beta}}
+%\newcommand{\psisaa}{{\psi}_{\rm  s}^{\rm  \alpha}}
+%\newcommand{\psisbb}{{\psi}_{\rm  s}^{\rm \beta}}
+%\newcommand{\psisaaxk}{{\psi}_{\rm  s[k+1]}^{\rm  \alpha}}
+%\newcommand{\psisbbxk}{{\psi}_{\rm  s[k+1]}^{\rm \beta}}
+%\newcommand{\psisaak}{{\psi}_{\rm  s[k]}^{\rm  \alpha}}
+%\newcommand{\psisbbk}{{\psi}_{\rm  s[k]}^{\rm \beta}}
+%\newcommand{\psisaaest}{\hat{\psi}_{\rm  s}^{\rm  \alpha}}
+%\newcommand{\psisbbest}{\hat{\psi}_{\rm  s}^{\rm \beta}}
+%
+%\newcommand{\psisDQest}{\hat{\vec{\psi}}_{\rm  s}^{\rm  DQ}}
+%\newcommand{\psisDest}{\hat{\psi}_{\rm  s}^{\rm  D}}
+%\newcommand{\psisQest}{\hat{\psi}_{\rm  s}^{\rm Q}}
+%\newcommand{\psisQ}{{\psi}_{\rm  s}^{\rm Q}}
+%
+%\newcommand{\psiegab}{\vec{\psi}_{\rm  e_g}^{\,\rm \alpha\beta}}
+%\newcommand{\psiegaa}{{\psi}_{\rm  e_g}^{\,\rm \alpha}}
+%\newcommand{\psiegbb}{{\psi}_{\rm  e_g}^{\,\rm \beta}}
+%\newcommand{\psiegaaest}{\hat{\psi}_{\rm  e_g}^{\,\rm \alpha}}
+%\newcommand{\psiegbbest}{\hat{\psi}_{\rm  e_g}^{\,\rm \beta}}
+%\newcommand{\psivgab}{\vec{\psi}_{\rm  v_g}^{\,\rm \alpha\beta}}
+%\newcommand{\psivfab}{\vec{\psi}_{\rm  v_f}^{\,\rm \alpha\beta}}
+%
+%
+%
+%
+%\newcommand{\psisdq}{\vec{\psi}_{\rm  s}^{\rm  dq}}
+%\newcommand{\psisdqk}{\vec{\psi}_{\rm  s[k]}^{\rm  dq}}
+%\newcommand{\psisdqxk}{\vec{\psi}_{\rm  s[k+1]}^{\rm  dq}}
+%\newcommand{\psisd}{{\psi}_{\rm  s}^{\rm  d}}
+%\newcommand{\psisq}{{\psi}_{\rm  s}^{\rm  q}}
+%
+%\newcommand{\psirabc}{\vec{\psi}_{\rm  r}^{\rm  abc}}
+%\newcommand{\psira}{{\psi}_{\rm  r}^{\rm  a}}
+%\newcommand{\psirb}{{\psi}_{\rm  r}^{\rm  b}}
+%\newcommand{\psirc}{{\psi}_{\rm  r}^{\rm  c}}
+%
+%\newcommand{\psirab}{\vec{\psi}_{\rm  r}^{\,\rm \alpha\beta}}
+%\newcommand{\psiraa}{{\psi}_{\rm  r}^{\rm  \alpha}}
+%\newcommand{\psirbb}{{\psi}_{\rm  r}^{\rm \beta}}
+%
+%\newcommand{\psirdq}{\vec{\psi}_{\rm  r}^{\rm  dq}}
+%\newcommand{\psird}{{\psi}_{\rm  r}^{\rm  d}}
+%\newcommand{\psirq}{{\psi}_{\rm  r}^{\rm  q}}
+%
+%\newcommand{\psipmabc}{\boldsymbol{\psi}_{\rm  pm}^{\rm  abc}}
+%\newcommand{\psipma}{{\psi}_{\rm  pm}^{\rm  a}}
+%\newcommand{\psipmb}{{\psi}_{\rm  pm}^{\rm  b}}
+%\newcommand{\psipmc}{{\psi}_{\rm  pm}^{\rm  c}}
+%
+%\newcommand{\psipm}{\psi_{\rm  pm}}
+%\newcommand{\psipmab}{\boldsymbol{\psi}_{\rm  pm}^{\,\rm \alpha\beta}}
+%\newcommand{\psipmaa}{{\psi}_{\rm  pm}^{\rm  \alpha}}
+%\newcommand{\psipmbb}{{\psi}_{\rm  pm}^{\rm \beta}}
+%
+%\newcommand{\psipmdq}{\vec{\psi}_{\rm  pm}^{\rm  dq}}
+%\newcommand{\psisdqest}{\hat{\vec{\psi}}_{\rm  s}^{\rm  dq}}
+%
+%
+%\newcommand{\psipmd}{{\psi}_{\rm  pm}^{\rm  d}}
+%\newcommand{\psipmq}{{\psi}_{\rm  pm}^{\rm  q}}
+%\newcommand{\psisdest}{\hat{\psi}_{\rm  s}^{\rm  d}}
+%\newcommand{\psisqest}{\hat{\psi}_{\rm  s}^{\rm  q}}
+%
+%\newcommand{\psisabest}{\hat{\vec{\psi}}_{\rm  s}^{\,\rm \alpha\beta}}
+%\newcommand{\psisabkest}{\hat{\vec{\psi}}_{\rm  s[k]}^{\,\rm \alpha\beta}}
+%\newcommand{\psisaest}{\hat{\psi}_{\rm  s}^{\rm  \alpha}}
+%\newcommand{\psisbest}{\hat{\psi}_{\rm  s}^{\rm  \beta}}
+%\newcommand{\psisangle}{\angle{\hat{\psi}}_{\rm  s}}
+%\newcommand{\psisangleref}{\angle{\psi}_{\rm  s}^*}
+%\newcommand{\psisref}{|\psi_{\rm  s}^*|}
+%\newcommand{\psisvecref}{\vec{\psi}_{\rm  s}^*}
+%\newcommand{\psisveckref}{\vec{\psi}_{\rm  s[k]}^*}
+%
+%\newcommand{\phie}{{\phi}_{\rm e}}
+%\newcommand{\phig}{{\phi}_{\rm g}}
+%
+%
+%%	-> stator and rotor voltage signals
+%
+%\newcommand{\vmabc}{\vec{v}_{\rm  m}^{\rm  abc}}
+%\newcommand{\vma}{{v}_{\rm  m}^{\rm  a}}
+%\newcommand{\vmb}{{v}_{\rm  m}^{\rm  b}}
+%\newcommand{\vmc}{{v}_{\rm  m}^{\rm  c}}
+%
+%\newcommand{\vmab}{\vec{v}_{\rm  m}^{\,\rm \alpha\beta}}
+%\newcommand{\vmabk}{\vec{v}_{\rm  m[k]}^{\,\rm \alpha\beta}}
+%\newcommand{\vmabref}{\vec{v}_{\rm  m}^{\,\rm \alpha\beta*}}
+%\newcommand{\vmabkref}{\vec{v}_{\rm  m[k]}^{\,\rm \alpha\beta*}}
+%\newcommand{\vmabxkref}{\vec{v}_{\rm  m[k+1]}^{\,\rm \alpha\beta*}}
+%\newcommand{\vmaa}{v_{\rm  m}^{\rm  \alpha}}
+%\newcommand{\vmbb}{v_{\rm  m}^{\rm  \beta}}
+%\newcommand{\vmaak}{v_{\rm  m[k]}^{\rm  \alpha}}
+%\newcommand{\vmbbk}{v_{\rm  m[k]}^{\rm  \beta}}
+%
+%\newcommand{\vlab}{\vec{v}_{\rm  l}^{\,\rm \alpha\beta}}
+%\newcommand{\vlabk}{\vec{v}_{\rm  l[k]}^{\,\rm \alpha\beta}}
+%\newcommand{\vlabref}{\vec{v}_{\rm  l}^{\,\rm \alpha\beta*}}
+%\newcommand{\vlabkref}{\vec{v}_{\rm  l[k]}^{\,\rm \alpha\beta*}}
+%\newcommand{\vlabxkref}{\vec{v}_{\rm  l[k+1]}^{\,\rm \alpha\beta*}}
+%\newcommand{\vlaa}{v_{\rm  l}^{\rm  \alpha}}
+%\newcommand{\vlbb}{v_{\rm  l}^{\rm  \beta}}
+%\newcommand{\vlaak}{v_{\rm  l[k]}^{\rm  \alpha}}
+%\newcommand{\vlbbk}{v_{\rm  l[k]}^{\rm  \beta}}
+%\newcommand{\vlaakref}{v_{\rm  l[k]}^{\rm  \alpha*}}
+%\newcommand{\vlbbkref}{v_{\rm  l[k]}^{\rm  \beta*}}
+%
+%\newcommand{\vmdq}{\vec{v}_{\rm  m}^{\rm  dq}}
+%\newcommand{\vmdqk}{\vec{v}_{\rm  m[k]}^{\rm  dq}}
+%\newcommand{\vmdqkref}{\vec{v}_{\rm  m[k]}^{\rm  dq*}}
+%\newcommand{\vmdqxkref}{\vec{v}_{\rm  m[k+1]}^{\rm  dq*}}
+%\newcommand{\vmdkref}{{v}_{\rm  m[k]}^{\rm  d*}}
+%\newcommand{\vmqkref}{{v}_{\rm  m[k]}^{\rm  q*}}
+%\newcommand{\vmd}{v_{\rm  m}^{\rm  d}}%^{\vec{u}_{\rm i}}
+%%\newcommand{\vmd}{v_{\rm  m}^{\rm  d}}
+%\newcommand{\vmdkui}{v_{\rm  m[k]}^{{\rm  d},\vec{u}_{\rm i}}}%
+%\newcommand{\vmdeq}{v_{\rm  m}^{\rm d, eq}}
+%\newcommand{\vmq}{v_{\rm  m}^{\rm  q}}
+%\newcommand{\vmqkui}{v_{\rm  m[k]}^{{\rm  q},\vec{u}_{\rm i}}}%
+%\newcommand{\vmqk}{v_{\rm  m[k]}^{\rm  q}}%
+%\newcommand{\vmqeq}{v_{\rm  m}^{\rm  q,eq}}
+%
+%\newcommand{\vmdqcoup}{v_{\rm m}^{\rm d,q, coupling}}
+%\newcommand{\vmdcoup}{v_{\rm m}^{\rm d, coupling}}
+%\newcommand{\vmqcoup}{v_{\rm m}^{\rm q, coupling}}
+%
+%\newcommand{\vmdqeqref}{v_{\rm m}^{\rm d,q, eq*}}
+%\newcommand{\vmdeqref}{{v}_{\rm  m}^{\rm  d,eq*}}
+%\newcommand{\vmqeqref}{{v}_{\rm  m}^{\rm  q,eq*}}
+%\newcommand{\vmdqref}{v_{\rm m}^{\rm d,q *}}
+%\newcommand{\vmdref}{{v}_{\rm  m}^{\rm  d*}}
+%\newcommand{\vmqref}{{v}_{\rm  m}^{\rm  q*}}
+%\newcommand{\emab}{\vec{e}_{\rm  m}^{\rm \,\alpha\beta}}
+%\newcommand{\emabk}{\vec{e}_{\rm  m[k]}^{\rm \,\alpha\beta}}
+%\newcommand{\ema}{{e}_{\rm  m}^{\rm  \alpha}}
+%\newcommand{\emb}{{e}_{\rm  m}^{\rm  \beta}}
+%%	Net side inverter Voltage signals
+%
+%\newcommand{\vyabc}{\vec{v}_{\rm  y}^{\rm  abc}}
+%
+%\newcommand{\vgabc}{\vec{v}_{\rm  g}^{\rm  abc}}
+%\newcommand{\vga}{{v}_{\rm  g}^{\rm  a}}
+%\newcommand{\vgb}{{v}_{\rm  g}^{\rm  b}}
+%\newcommand{\vgc}{{v}_{\rm  g}^{\rm  c}}
+%
+%\newcommand{\vfab}{\vec{v}_{\rm  f}^{\,\rm \alpha\beta}}%\vgabest
+%
+%\newcommand{\vgab}{\vec{v}_{\rm  g}^{\,\rm \alpha\beta}}
+%\newcommand{\vgabest}{\hat{\vec{v}}_{\rm  g}^{\,\rm \alpha\beta}}
+%\newcommand{\vgabref}{\vec{v}_{\rm  g}^{\,\rm \alpha\beta*}}
+%\newcommand{\vgabkref}{\vec{v}_{\rm  g[k]}^{\,\rm \alpha\beta*}}
+%\newcommand{\vyab}{\vec{v}_{\rm  y}^{\,\rm \alpha\beta}}
+%\newcommand{\vgabk}{\vec{v}_{\rm  g[k]}^{\,\rm \alpha\beta}}
+%\newcommand{\vgaa}{v_{\rm  g}^{\rm  \alpha}}
+%\newcommand{\vgbb}{v_{\rm  g}^{\rm \beta}}
+%\newcommand{\vgaak}{v_{\rm  g[k]}^{\rm  \alpha}}
+%\newcommand{\vgbbk}{v_{\rm  g[k]}^{\rm \beta}}
+%\newcommand{\vgaakref}{v_{\rm  g[k]}^{\rm  \alpha*}}
+%\newcommand{\vgbbkref}{v_{\rm  g[k]}^{\rm \beta*}}
+%\newcommand{\vgaaxk}{v_{\rm  g[k+1]}^{\rm  \alpha}}
+%\newcommand{\vgbbxk}{v_{\rm  g[k+1]}^{\rm \beta}}
+%\newcommand{\vgaaxkref}{v_{\rm  g[k+1]}^{\rm  \alpha*}}
+%\newcommand{\vgbbxkref}{v_{\rm  g[k+1]}^{\rm \beta*}}
+%
+%\newcommand{\vgdq}{\vec{v}_{\rm  g}^{\,\rm  dq}}
+%\newcommand{\vgdqk}{\vec{v}_{\rm  g[k]}^{\,\rm  dq}}
+%\newcommand{\vgdk}{{v}_{\rm  g[k]}^{\,\rm  d}}
+%\newcommand{\vgqk}{{v}_{\rm  g[k]}^{\,\rm  q}}
+%\newcommand{\vgdqxk}{\vec{v}_{\rm  g[k+1]}^{\rm  dq}}
+%\newcommand{\vgd}{v_{\rm  g}^{\rm  d}}
+%\newcommand{\vgdqeqk}{\vec{v}_{\rm  g[k]}^{\rm  dq,eq}}
+%\newcommand{\vgdqeqkref}{\vec{v}_{\rm  g[k]}^{\rm  dq,eq*}}
+%\newcommand{\vgdeq}{v_{\rm  g}^{\rm  d,eq}}
+%\newcommand{\vgdeqk}{v_{\rm  g[k]}^{\rm  d,eq}}
+%\newcommand{\vgdkref}{v_{\rm  g[k]}^{\rm  d*}}
+%\newcommand{\vgqkref}{v_{\rm  g[k]}^{\rm  q*}}
+%\newcommand{\vgdeqkref}{v_{\rm  g[k]}^{\rm  d,eq*}}
+%\newcommand{\vgqeqkref}{v_{\rm  g[k]}^{\rm  q,eq*}}
+%\newcommand{\vgq}{v_{\rm  g}^{\rm  q}}
+%\newcommand{\vgqeq}{v_{\rm  g}^{\rm  q,eq}}
+%\newcommand{\vgqeqk}{v_{\rm  g[k]}^{\rm  q,eq}}
+%\newcommand{\vgdeqref}{v_{\rm  g}^{\rm  d,eq*}}
+%\newcommand{\vgqeqref}{v_{\rm  g}^{\rm  q,eq*}}
+%\newcommand{\vgqref}{v_{\rm  g}^{\rm  q*}}
+%\newcommand{\vgdref}{v_{\rm  g}^{\rm  d*}}
+%
+%%	Net side source voltage signals
+%
+%\newcommand{\egabc}{\vec{e}_{\rm  g}^{\rm  abc}}
+%\newcommand{\ega}{{e}_{\rm  g}^{\rm  a}}
+%\newcommand{\egb}{{e}_{\rm  g}^{\rm  b}}
+%\newcommand{\egc}{{e}_{\rm  g}^{\rm  c}}
+%
+%\newcommand{\egab}{\vec{e}_{\rm  g}^{\,\rm \alpha\beta}}
+%\newcommand{\egabk}{\vec{e}_{\rm  g[k]}^{\,\rm \alpha\beta}}
+%\newcommand{\egabxk}{\vec{e}_{\rm  g[k+1]}^{\,\rm \alpha\beta}}
+%\newcommand{\egaa}{e_{\rm  g}^{\rm  \alpha}}
+%\newcommand{\egbb}{e_{\rm  g}^{\rm \beta}}
+%\newcommand{\egaak}{e_{\rm  g[k]}^{\rm  \alpha}}
+%\newcommand{\egbbk}{e_{\rm  g[k]}^{\rm \beta}}
+%
+%\newcommand{\egdq}{\vec{e}_{\rm  g}^{\,\rm  dq}}
+%\newcommand{\egdqk}{\vec{e}_{\rm  g[k]}^{\,\rm  dq}}
+%\newcommand{\egdqrefk}{\vec{e}_{\rm  g[k]}^{\,\rm  dq*}}
+%\newcommand{\egdqeqk}{\vec{e}_{\rm  g[k]}^{\,\rm  dq,eq}}
+%\newcommand{\egdqeqrefk}{\vec{e}_{\rm  g[k]}^{\,\rm  dq,eq*}}
+%\newcommand{\egdqxk}{\vec{e}_{\rm  g[k+1]}^{\,\rm  dq}}
+%\newcommand{\egdk}{{e}_{\rm  g[k]}^{\,\rm  d}}
+%\newcommand{\egdxk}{{e}_{\rm  g[k+1]}^{\,\rm  d}}
+%\newcommand{\egqk}{{e}_{\rm  g[k]}^{\,\rm  q}}
+%\newcommand{\egqxk}{{e}_{\rm  g[k+1]}^{\,\rm  q}}
+%%spetial because \egd
+%\newcommand{\egd}{e_{\rm  g}^{\rm  d}}
+%\newcommand{\egq}{e_{\rm  g}^{\rm  q}}
+%\newcommand{\egdest}{\hat{e}_{\rm  g}^{\rm  d}}
+%\newcommand{\egqest}{\hat{e}_{\rm  g}^{\rm  q}}
+%
+%
+%%	Wind turbine and energy signals \Texkref%V_{\rm w[k]} \vwk
+%\newcommand{\Te}{T_{\rm  e}}
+%\newcommand{\Temax}{T_{\rm e}^{\rm max}}
+%\newcommand{\Teref}{T_{\rm  e}^{*}}
+%\newcommand{\Teest}{\hat{T}_{\rm  e}}
+%\newcommand{\Teestk}{\hat{T}_{\rm  e[k]}}
+%\newcommand{\Tekest}{\hat{T}_{\rm  e[k]}}
+%\newcommand{\Teestxk}{\hat{T}_{\rm  e[k+1]}}
+%\newcommand{\Tek}{{T}_{\rm  e[k]}}
+%\newcommand{\Tekref}{{T}_{\rm  e[k]}^{*}}
+%\newcommand{\Texk}{{T}_{\rm  e[k+1]}}
+%\newcommand{\Texkref}{{T}_{\rm  e[k+1]}^{*}}
+%
+%\newcommand{\vw}{v_{\rm  w}}
+%\newcommand{\vwk}{v_{\rm  w[k]}}
+%\newcommand{\pt}{P_{\rm  t}}
+%\newcommand{\Tt}{T_{\rm  t}}%\rt 
+%\newcommand{\rt}{R_{\rm  t}}%\rt 
+%\newcommand{\Ttk}{T_{\rm  t[k]}}
+%\newcommand{\pg}{P_{\rm  m}}
+%\newcommand{\pdc}{P_{\rm  d}}
+%\newcommand{\cplb}{C_{\rm  p}(\lambda, \beta)}
+%
+%
+%\newcommand{\Them}{\Theta_{\rm  m}}
+%\newcommand{\Themk}{\Theta_{\rm  m[k]}}
+%
+%%	load and net side filter signals
+%
+%\newcommand{\Lg}{L_{\rm  g}}
+%\newcommand{\Rg}{R_{\rm  g}}
+%\newcommand{\Lgest}{\hat{L}_{\rm  g}}
+%\newcommand{\Rgest}{\hat{R}_{\rm  g}}
+%\newcommand{\Ll}{L_{\rm  l}}
+%\newcommand{\Rl}{R_{\rm  l}}
+%
+%\newcommand{\Lghat}{\hat{L}_{\rm  g}}
+%\newcommand{\Rghat}{\hat{R}_{\rm  g}}
+%\newcommand{\Llhat}{\hat{L}_{\rm  l}}
+%\newcommand{\Rlhat}{\hat{R}_{\rm  l}}
+%
+%% DC-link signals
+%
+%\newcommand{\vdc}{V_{\rm  dc}}
+%\newcommand{\vdcref}{V_{\rm  d}^*}
+%\newcommand{\vdckref}{V_{\rm d[k]}^*}
+%\newcommand{\vcu}{V_{\rm  c1}}
+%\newcommand{\vcd}{V_{\rm  c2}}
+%\newcommand{\vcuk}{V_{\rm  c1[k]}}
+%\newcommand{\vcdk}{V_{\rm  c2[k]}}
+%\newcommand{\vdcxk}{V_{\rm  d[k+1]}}
+%\newcommand{\vdcxkref}{V_{\rm  d[k+1]}^*}
+%\newcommand{\vdck}{V_{\rm  d[k]}}
+%\newcommand{\voxk}{V_{\rm  o[k+1]}}
+%\newcommand{\vok}{V_{\rm  o[k]}}
+%\newcommand{\vo}{V_{\rm  o}}
+%\newcommand{\voref}{V_{\rm  o}^*}
+%
+%
+%\newcommand{\pd}{P_{\rm  d}}
+%\newcommand{\pdcref}{P_{\rm  d}^*}
+%\newcommand{\Sg}{\vec{S}}
+%\newcommand{\Sgmax}{\vec{\|S\|}^{\max}}
+%\newcommand{\Sls}{\vec{Sl}_{\rm  S}}
+%\newcommand{\Sgk}{\vec{S}_{\rm  [k]}}
+%\newcommand{\Sgxk}{\vec{S}_{\rm  [k+1]}}
+%\newcommand{\Slsk}{\vec{Sl}_{\rm  S[k]}}
+%\newcommand{\Slpk}{{Sl}_{\rm  P[k]}}
+%\newcommand{\Slqk}{{Sl}_{\rm  q[k]}}
+%
+%\newcommand{\Pgref}{P^{*}}
+%\newcommand{\Pgk}{P_{\rm [k]}}
+%\newcommand{\Pg}{P}%P_n^{\max}[k+1]
+%\newcommand{\Pgmax}{P^{\max}_{\rm g}}
+%\newcommand{\Qgmax}{Q^{\max}_{\rm g}}
+%\newcommand{\Pgxkcalcref}{P^{\rm calc*}_{\rm g[k+1]}}
+%\newcommand{\Pgxk}{P_{\rm [k+1]}}
+%\newcommand{\Pgkref}{P_{\rm [k]}^*}
+%\newcommand{\Pgxkref}{P_{\rm [k+1]}^*}
+%\newcommand{\Sgxkref}{\vec{S}_{\rm [k+1]}^*}
+%\newcommand{\Qgk}{Q_{\rm [k]}}
+%\newcommand{\Qg}{Q_{\rm}}
+%\newcommand{\Qgxk}{Q_{\rm [k+1]}}
+%\newcommand{\Qgref}{Q_{\rm}^*}
+%\newcommand{\Qgkref}{Q_{\rm [k]}^*}
+%\newcommand{\Qgxkref}{Q_{\rm [k+1]}^*}
+%
+%\newcommand{\Pl}{P_{\rm l}}%\Pgdcxkref
+%\newcommand{\Plxk}{P_{\rm l[k+1]}}
+%\newcommand{\Plkref}{P_{\rm l[k]}^*}
+%\newcommand{\Plxkref}{P_{\rm l[k+1]}^*}
+%\newcommand{\Plxkest}{\hat{P}_{\rm l[k+1]}^*}
+%\newcommand{\Plkest}{\hat{P}_{\rm l[k]}^*}
+%
+%\newcommand{\Pgdcxk}{P_{\rm g(dc)[k+1]}}
+%\newcommand{\Pgdcxkref}{P_{\rm g(dc)[k+1]}^*}
+%\newcommand{\Pgrgxk}{P_{\rm g(\Rg)[k+1]}}
+%\newcommand{\Pgrgxkref}{P_{\rm g(\Rg)[k+1]}^*}
+%
+%
+%\newcommand{\Imdc}{I_{\rm  m}}
+%\newcommand{\Igdc}{I_{\rm  g}}
+%\newcommand{\Idc}{I_{\rm  d}}
+%\newcommand{\Idck}{I_{\rm  d[k]}}
+%\newcommand{\Idcxk}{I_{\rm  d[k+1]}}
+%\newcommand{\Idcxkref}{I_{\rm  d[k+1]}^*}
+%
+%\newcommand{\Imdck}{I_{\rm  m[k]}}
+%\newcommand{\Ildck}{I_{\rm  l[k]}}
+%\newcommand{\Ildcxk}{I_{\rm  l[k+1]}}
+%\newcommand{\Ildcxkest}{\hat{I}_{\rm  l[k+1]}}
+%\newcommand{\Igdck}{I_{\rm  g[k]}}
+%\newcommand{\Igdcxk}{I_{\rm  g[k+1]}}
+%\newcommand{\Igdcxkref}{I_{\rm  g[k+1]}^*}
+%\newcommand{\Igdcxkest}{\hat{I}_{\rm  g[k+1]}}
+%
+%\newcommand{\Imk}{I_{\rm  m[k]}}
+%\newcommand{\Igk}{I_{\rm  g[k]}}
+%
+%
+%\newcommand{\Imp}{I_{\rm  m}^{\rm p}}
+%\newcommand{\Imn}{I_{\rm  m}^{\rm n}}
+%\newcommand{\Igp}{I_{\rm  g}^{\rm p}}
+%\newcommand{\Ign}{I_{\rm  g}^{\rm n}}
+%
+%\newcommand{\Impk}{I_{\rm  m[k]}^{\rm p}}
+%\newcommand{\Imnk}{I_{\rm  m[k]}^{\rm n}}
+%\newcommand{\Igpk}{I_{\rm  g[k]}^{\rm p}}
+%\newcommand{\Ignk}{I_{\rm  g[k]}^{\rm n}}
+%
+%% Mareixs and transformations
+%\newcommand{\Tc}{\boldsymbol{\rm  T}_{\rm C}} % Clarke-Transformation matrix
+%\newcommand{\Tp}{\boldsymbol{\rm  T}_{\rm P}} % Park-Transformation matrix
+%\newcommand{\Tsw}{\boldsymbol{\rm  T}_{\rm SW}} % Clarke-Transformation matrix
+%\newcommand{\dotTp}{\dot{\boldsymbol{\rm  T}}_{\rm P}} % time derivative of Park-Transformation matrix
+%\newcommand{\II}{\boldsymbol{\rm I}}
+%\newcommand{\JJ}{\boldsymbol{\rm J}}
+%\newcommand{\Mabc}{\boldsymbol{\rm  M}^{\rm  abc}}
+%\newcommand{\Mab}{\boldsymbol{\rm  M}^{\,\rm \alpha\beta}}
+%\newcommand{\Mdq}{\boldsymbol{\rm  M}^{\rm  dq}}
+%\newcommand{\Amab}{\boldsymbol{\rm  A}_{\rm  m}^{\rm \alpha\beta}}
+%\newcommand{\Amdq}{\boldsymbol{\rm  A}_{\rm  m}^{\rm  dq}}
+%\newcommand{\Hmdqk}{\boldsymbol{\rm  H}_{\rm  m[k]}}
+%\newcommand{\Amdqk}{\boldsymbol{\rm  A}_{\rm  m[k]}}
+%\newcommand{\Bmdq}{\boldsymbol{\rm  B}_{\rm  m}}
+%\newcommand{\Bmab}{\boldsymbol{\rm  B}_{\rm  m}^{\,\rm \alpha\beta}}
+%\newcommand{\Cmdq}{\boldsymbol{\rm  C}_{\rm  m}^{\rm  dq}}
+%\newcommand{\Amabhat}{\hat{\boldsymbol{\rm  A}}_{\rm  m}^{\,\rm \alpha\beta}}
+%\newcommand{\Amdqhat}{\hat{\boldsymbol{\rm  A}}_{\rm  m}^{\rm  dq}}
+%\newcommand{\Bmabhat}{\hat{\boldsymbol{\rm  B}}_{\rm  m}^{\,\rm \alpha\beta}}
+%\newcommand{\Bmdqhat}{\hat{\boldsymbol{\rm  B}}_{\rm  m}^{\rm  dq}}
+%\newcommand{\Cmdqhat}{\hat{\boldsymbol{\rm  C}}_{\rm  m}^{\rm  dq}}
+%
+%\newcommand{\Anab}{\boldsymbol{\rm  A}_{\rm  g}^{\,\rm \alpha\beta}}
+%\newcommand{\Andq}{\boldsymbol{\rm  A}_{\rm  g}^{\rm  dq}}
+%\newcommand{\Bnab}{\boldsymbol{\rm  B}_{\rm  g}^{\,\rm \alpha\beta}}
+%\newcommand{\Bndq}{\boldsymbol{\rm  B}_{\rm  g}^{\rm  dq}}
+%\newcommand{\Cndq}{\boldsymbol{\rm  C}_{\rm  g}^{\rm  dq}}
+%\newcommand{\Anabhat}{\hat{\boldsymbol{\rm  A}}_{\rm  g}^{\,\rm \alpha\beta}}
+%\newcommand{\Andqhat}{\hat{\boldsymbol{\rm  A}}_{\rm  g}^{\rm  dq}}
+%\newcommand{\Bnabhat}{\hat{\boldsymbol{\rm  B}}_{\rm  g}^{\,\rm \alpha\beta}}
+%\newcommand{\Bndqhat}{\hat{\boldsymbol{\rm  B}}_{\rm  g}^{\rm  dq}}
+%\newcommand{\Cndqhat}{\hat{\boldsymbol{\rm  C}}_{\rm  g}^{\rm  dq}}
+%
+%
+%\newcommand{\AAg}{\hat{\boldsymbol{\rm  A}}_{\rm  g}}
+%\newcommand{\BBg}{\hat{\boldsymbol{\rm  B}}_{\rm  g}}
+%%Swiching Signals and duty signals
+%
+%\newcommand{\umabc}{\vec{u}_{\rm  m}^{\rm  abc}}
+%\newcommand{\umabct}{\vec{u}_{\rm  m}^{\rm  abc\top}}
+%\newcommand{\umabck}{\vec{u}_{\rm  m[k]}^{\rm  abc}}
+%\newcommand{\umabckt}{\vec{u}_{\rm  m[k]}^{\rm  abc\top}}
+%\newcommand{\uma}{{u}_{\rm  m}^{\rm  a}}
+%\newcommand{\umb}{{u}_{\rm  m}^{\rm  b}}
+%\newcommand{\umc}{{u}_{\rm  m}^{\rm  c}}%\uyak u_{y[k]}^a-u_{y[k-1]}^a
+%%
+%\newcommand{\uyakx}{{u}_{\rm  y[k+1]}^{\rm  a}}
+%\newcommand{\uybkx}{{u}_{\rm  y[k+1]}^{\rm  b}}
+%\newcommand{\uyckx}{{u}_{\rm  y[k+1]}^{\rm  c}}
+%%
+%\newcommand{\uyak}{{u}_{\rm  y[k]}^{\rm  a}}
+%\newcommand{\uybk}{{u}_{\rm  y[k]}^{\rm  b}}
+%\newcommand{\uyck}{{u}_{\rm  y[k]}^{\rm  c}}
+%
+%\newcommand{\umab}{\vec{u}_{\rm  m}^{\,\rm \alpha\beta}}
+%\newcommand{\umaa}{u_{\rm  m}^{\rm  \alpha}}
+%\newcommand{\umbb}{u_{\rm  m}^{\rm \beta}}
+%\newcommand{\umdq}{\vec{u}_{\rm  m}^{\rm  dq}}
+%\newcommand{\umd}{u_{\rm  m}^{\rm  d}}
+%\newcommand{\umq}{u_{\rm  m}^{\rm  q}}
+%
+%\newcommand{\ulabc}{\vec{u}_{\rm  l}^{\rm  abc}}
+%\newcommand{\ula}{{u}_{\rm  l}^{\rm  a}}
+%\newcommand{\ulb}{{u}_{\rm  l}^{\rm  b}}
+%\newcommand{\ulc}{{u}_{\rm  l}^{\rm  c}}
+%
+%\newcommand{\ulab}{\vec{u}_{\rm  l}^{\,\rm \alpha\beta}}
+%\newcommand{\ulaa}{u_{\rm  l}^{\rm  \alpha}}
+%\newcommand{\ulbb}{u_{\rm  l}^{\rm \beta}}
+%\newcommand{\uldq}{\vec{u}_{\rm  l}^{\rm  dq}}
+%\newcommand{\uld}{u_{\rm  l}^{\rm  d}}
+%\newcommand{\ulq}{u_{\rm  l}^{\rm  q}}
+%
+%\newcommand{\uyabc}{\vec{u}_{\rm  y}^{\rm  abc}}
+%\newcommand{\uya}{{u}_{\rm  y}^{\rm  a}}
+%\newcommand{\uyb}{{u}_{\rm  y}^{\rm  b}}
+%\newcommand{\uyc}{{u}_{\rm  y}^{\rm  c}}
+%
+%\newcommand{\ugabc}{\vec{u}_{\rm  g}^{\rm  abc}}
+%\newcommand{\ugabct}{\vec{u}_{\rm  g}^{\rm  abc\top}}
+%\newcommand{\ugabck}{\vec{u}_{\rm  g[k]}^{\rm  abc}}
+%\newcommand{\ugabckt}{\vec{u}_{\rm  g[k]}^{\rm  abc\top}}
+%\newcommand{\uga}{{u}_{\rm  g}^{\rm  a}}
+%\newcommand{\ugb}{{u}_{\rm  g}^{\rm  b}}
+%\newcommand{\ugc}{{u}_{\rm  g}^{\rm  c}}
+%
+%\newcommand{\ugab}{\vec{u}_{\rm  g}^{\,\rm \alpha\beta}}
+%\newcommand{\ugaa}{u_{\rm  g}^{\rm  \alpha}}
+%\newcommand{\ugbb}{u_{\rm  g}^{\rm \beta}}
+%\newcommand{\ugdq}{\vec{u}_{\rm  g}^{\rm  dq}}
+%\newcommand{\ugd}{u_{\rm  g}^{\rm  d}}
+%\newcommand{\ugq}{u_{\rm  g}^{\rm  q}}
+%
+%\newcommand{\vecu}{\vec{u}}
+%\newcommand{\uxy}{u_{\rm  y}^{\rm x}}
+%\newcommand{\um}{\vec{u}_{\rm  m}}
+%\newcommand{\ug}{\vec{u}_{\rm  g}}
+%\newcommand{\Gm}{\vec{G}_{\rm  m}}
+%\newcommand{\Gg}{\vec{G}_{\rm  g}}
+%\newcommand{\gyx}{G_{\rm  y}^{\rm x}}
+%\newcommand{\gyxx}{G_{\rm  y}^{\rm x1}}
+%\newcommand{\gyxy}{G_{\rm  y}^{\rm x2}}
+%
+%
+%
+%
+%
+%% system variables  
+%\newcommand{\Ts}{T_{\rm  s}}%
+%\newcommand{\Tn}{T_{\rm  n}}%
+%\newcommand{\Tgabc}{\vec{T}_{\rm g}^{\rm abc}}%\vec{T}_n^{abc}
+%\newcommand{\Tga}{{T}_{\rm g}^{\rm a}}%\vec{T}_n^{abc}
+%\newcommand{\Tgb}{{T}_{\rm g}^{\rm b}}%\vec{T}_n^{abc}
+%\newcommand{\Tgc}{{T}_{\rm g}^{\rm c}}%\vec{T}_n^{abc}
+%%\newcommand{\fsig}{\boldsymbol{\rm  f}_{sig}}
+%
+%\newcommand{\np}{N_{\rm  p}}
+%%\newcommand{\cp}{C_{\rm  p}}
+%\newcommand{\cpx}{C_{\rm  p}^{\rm  I}}
+%\newcommand{\cpy}{C_{\rm  p}^{\rm  II}}
+%\newcommand{\cpopt}{C_{\rm  p}^{\rm  opt}}
+%\newcommand{\opt}{^{\rm  opt}}
+%\newcommand{\m}{_{\rm  m}}
+%\newcommand{\g}{_{\rm  g}}
+%\newcommand{\up}{^{\rm  p}}
+%\newcommand{\p}{_{\rm  p}}
+%\newcommand{\y}{_{\rm  y}}
+%\newcommand{\x}{_{\rm  x}}
+%\newcommand{\ssa}{^{\rm  a}}
+%\newcommand{\ssb}{^{\rm  b}}
+%\newcommand{\ssc}{^{\rm  c}}
+%\newcommand{\abc}{^{\rm abc}}
+%\newcommand{\xabc}{\vec{x}^{\rm abc}}
+%\newcommand{\xab}{\vec{x}^{\,\rm \alpha\beta}}
+%\newcommand{\xdq}{\vec{x}^{\rm dq}}
+%
+%\newcommand{\vxabc}{\vec{v}_{\rm y}^{\rm abc}}
+%\newcommand{\vxaabb}{\vec{v}_{\rm y}^{\,\rm \alpha\beta}}
+%\newcommand{\vxdq}{\vec{v}_{\rm y}^{\rm dq}}
+%
+%\newcommand{\vxabck}{\vec{v}_{\rm y[k]}^{\rm abc}}
+%\newcommand{\vxaabbk}{\vec{v}_{\rm y[k]}^{\,\rm \alpha\beta}}
+%\newcommand{\vxdqk}{\vec{v}_{\rm y[k]}^{\rm dq}}
+%
+%\newcommand{\uyk}{\vec{u}_{\rm y[k]}}
+%\newcommand{\uy}{\vec{u}_{\rm y}}
+%\newcommand{\uyx}{\vec{u}_{\rm y}^{\rm x}}
+%
+%\newcommand{\vya}{v_{\rm y}^{\rm a}}
+%\newcommand{\vyb}{v_{\rm y}^{\rm b}}
+%\newcommand{\vyc}{v_{\rm y}^{\rm c}}
+%%\newcommand{\tt}{_{\rm  t}}
+%\newcommand{\aabb}{^{\,\rm \alpha\beta}}
+%
+%% Transfer functions v_{\rm m}^{q,coupling}
+%\newcommand{\tfmomegam}{{\rm TF_{m}^{\omega_{\rm m}}(S)}}
+%\newcommand{\Gmomegam}{{\rm G_{m}^{\omega_{\rm m}}(S)}}
+%\newcommand{\omegamS}{{\rm \Omega_{m}(S)}}
+%\newcommand{\omegamrefS}{{\rm \omega_{m}^*(S)}}
+%\newcommand{\teS}{{\rm T_{e}(S)}}
+%\newcommand{\terefS}{{\rm T_{e}^*(S)}}
+%\newcommand{\ttS}{{\rm T_{t}(S)}}
+%
+%
+%\newcommand{\tfmi}{{\rm TF_{m}^i(S)}}
+%\newcommand{\Gmi}{{\rm G_{m}^i(S)}}
+%
+%\newcommand{\Ggi}{{\rm G_{g}^i(S)}}
+%\newcommand{\tfgp}{{\rm TF_{g}^{\rm p}(S)}}
+%\newcommand{\GPQ}{{\rm G_{g}^{\rm p,q}(S)}}
+%
+%\newcommand{\imdS}{{\rm I_{m}^d(S)}}
+%\newcommand{\imqS}{{\rm I_{m}^q(S)}}
+%\newcommand{\imdqS}{{\rm I_{m}^{d,q}(S)}}
+%\newcommand{\imdqrefS}{{\rm I_{m}^{d,q*}(S)}}
+%\newcommand{\imqrefS}{{\rm I_{m}^{q*}(S)}}
+%\newcommand{\vmdeqS}{{\rm V_{m}^{d,eq}(S)}}
+%\newcommand{\vmqeqS}{{\rm V_{m}^{q,eq}(S)}}
+%\newcommand{\vmdqeqS}{{\rm V_{m}^{d,q,eq}(S)}}
+%\newcommand{\vmdqeqrefS}{{\rm V_{m}^{d,q,eq*}(S)}}
+%
+%
+%
+%
+%\newcommand{\tfgi}{{\rm TF_{g}^i(S)}}
+%
+%\newcommand{\igdS}{{\rm I_{g}^d(S)}}
+%\newcommand{\igqS}{{\rm I_{g}^q(S)}}
+%\newcommand{\igdqS}{{\rm I_{g}^{d,q}(S)}}
+%\newcommand{\igdqrefS}{{\rm I_{g}^{d,q*}(S)}}
+%\newcommand{\igqrefS}{{\rm I_{g}^{q*}(S)}}
+%\newcommand{\vgdeqS}{{\rm V_{g}^{d,eq}(S)}}
+%\newcommand{\vgqeqS}{{\rm V_{g}^{q,eq}(S)}}
+%\newcommand{\vgdqeqS}{{\rm V_{g}^{d,q,eq}(S)}}
+%\newcommand{\vgdqeqrefS}{{\rm V_{g}^{d,q,eq*}(S)}}
+%\newcommand{\vgdeqrefS}{{\rm V_{g}^{d,eq*}(S)}}
+%\newcommand{\vgqeqrefS}{{\rm V_{g}^{q,eq*}(S)}}
+%
+%\newcommand{\vgdqcoup}{v_{\rm g}^{\rm d,q, coupling}}
+%\newcommand{\vgdcoup}{v_{\rm g}^{\rm d, coupling}}
+%\newcommand{\vgqcoup}{v_{\rm g}^{\rm q, coupling}}
+%
+%\newcommand{\vgdqeqref}{v_{\rm g}^{\rm d,q, eq*}}
+%\newcommand{\vgdqref}{v_{\rm g}^{\rm d,q *}}
+%
+%\newcommand{\pgS}{{\rm P(S)}}
+%\newcommand{\qgS}{{\rm Q(S)}}
+%
+%\newcommand{\prefS}{\rm P^{\rm *}(S)}
+%\newcommand{\qrefS}{\rm Q^{\rm *}(S)}
+%\newcommand{\pS}{\rm P(S)}
+%\newcommand{\qS}{\rm Q(S)}
+%
+%% cost function 
+%\newcommand{\Jmdmpc}{	J_{\rm DMPC}^{\rm m}}
+%\newcommand{\Jmte}{	J_{\rm T_e}}
+%\newcommand{\Jmimd}{	J_{\rm i_{\rm m}^d}} %J_{\rm TS_g}
+%\newcommand{\Jmts}{	J_{\rm TS_{\rm m}}} %J_{\rm TS_g}
+%\newcommand{\Jmcs}{	J_{\rm CS_{\rm m}}} %J_{\rm TS_g}
+%
+%\newcommand{\Jgdmpc}{	J_{\rm DMPC}^{\rm g}}
+%\newcommand{\Jgp}{	J_{\rm P}}
+%\newcommand{\Jgq}{	J_{\rm Q}} %J_{\rm TS_g}
+%\newcommand{\Jgts}{	J_{\rm TS_g}} %J_{\rm TS_g}
+%\newcommand{\Jgcs}{	J_{\rm CS_g}} %J_{\rm TS_g}
+%
+%\newcommand{\Zixk}{	Z_{\rm i[k+1]}} %J_{\rm TS_g}
+%\newcommand{\Zixtak}{	Z_{\rm i(1+\tfrac{t_1}{T_s})[k]}} %J_{\rm TS_g}
+%\newcommand{\Zik}{	Z_{\rm i[k]}} %J_{\rm TS_g}
+%\newcommand{\SlpjZi}{	Sl_{\rm Z_{i[k]}}^{\rm uj}} %J_{\rm TS_g}
+%\newcommand{\SlpkZi}{	Sl_{\rm Z_{i[k]}}^{\rm uk}} %J_{\rm TS_g}
+%\newcommand{\SlpjkZi}{	Sl_{\rm Z_{i[k]}}^{\rm vj,k}} %J_{\rm TS_g}
+%\newcommand{\SlpvjZi}{	Sl_{\rm Z_{i[k]}}^{\rm vj}(\vec{u}_{\rm j})} %J_{\rm TS_g}
+%\newcommand{\Ziref}{	Z_{\rm i}^{\rm *}} %J_{\rm TS_g}
+%\newcommand{\tj}{	t_{\rm j}} %J_{\rm TS_g}
+%\newcommand{\tk}{	t_{\rm k}} %J_{\rm TS_g}  \mathbb{R}^2
+%
+%\newcommand{\R}{\mathbb{R}}
+%\newcommand{\N}{\mathbb{N}}
+%\newcommand{\C}{\mathbb{C}}
+%\newcommand{\Nn}{\mathbb{N}_0}
+%
+%
+%
+      %
+      %\newcommand{\ddtt}{\frac{\textnormal{d}^2}{\textnormal{dt}^2}}
+    %% Macro für d/dt
+%\newcommand{\dt}{{\rm d}t}
+%\newcommand{\ddt}{\frac{{\rm d}}{{\rm d}t}}
+%\newcommand{\ddts}[1]{\frac{{\rm d} #1}{{\rm d}t}}
+%
+%\newcommand{\dddt}{\frac{{\rm d}^2}{{\rm d}t^2}}
+%\newcommand{\dtau}{\dx{\tau}}
+%\newcommand{\ddtau}{\frac{{\rm d}}{{\rm d}\tau}}
+%\newcommand{\ddtaus}[1]{\frac{{\rm d} #1}{{\rm d}\tau}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% some useful macros
+%\newcommand{\dx}[1]{{\rm \, d} #1 \,}
+%\newcommand{\fdiff}[2]{\frac{\textrm{d}^{#1}}{\textrm{d}#2^{#1}}\,}
+%
+%%%%%%%%%%%%for SMO paper
+%%	macros for James
+%
+%\newcommand{\vgabstar}{\mathbf{v}_g^{\alpha \beta\, *}}
+%\newcommand{\vgdqstar}{\mathbf{v}_g^{dq\, *}}
+%
+%\newcommand{\hategab}{\hat{\vec{e}}_m^{\,\alpha \beta}}
+%\newcommand{\hatega}{\hat{e}_m^{\alpha}}
+%\newcommand{\hategb}{\hat{e}_m^{\beta}}
+%
+%\newcommand{\vgabR}{\mathbf{v}_g^{\alpha \beta *}}
+%\newcommand{\vgnabc}{\mathbf{v}_{g-n}^{abc}}
+%\newcommand{\vgna}{v_{g-n}^{a}}
+%\newcommand{\vgnb}{v_{g-n}^{b}}
+%\newcommand{\vgnc}{v_{g-n}^{c}}
+%
+%\newcommand{\vnabc}{\mathbf{v}_n^{abc}}
+%\newcommand{\vnscabc}{\mathbf{v}_{nsc}^{abc}}
+%\newcommand{\vna}{v_n^{a}}
+%\newcommand{\vnb}{v_n^{b}}
+%\newcommand{\vnc}{v_n^{c}}
+%\newcommand{\vnab}{\mathbf{v}_n^{\alpha \beta}}
+%\newcommand{\vnscab}{\mathbf{v}_{nsc}^{\alpha \beta}}
+%
+%
+%
+%\newcommand{\igabstar}{\mathbf{i}_g^{\alpha \beta\, *}}
+%\newcommand{\igdqstar}{\mathbf{i}_g^{dq\,*}}
+%\newcommand{\igdstar}{i_g^{d\,*}}
+%\newcommand{\igqstar}{i_g^{q\,*}}
+%\newcommand{\ighatab}{\hat{\mathbf{i}}_g^{\alpha \beta}}
+%
+%\newcommand{\hatigab}{\hat{\mathbf{i}}_g^{\alpha \beta}}
+%\newcommand{\hatiga}{\hat{i}_g^{\alpha}}
+%\newcommand{\hatigb}{\hat{i}_g^{\beta}}
+%\newcommand{\inabc}{\mathbf{i}_n^{abc}}
+%\newcommand{\inab}{\mathbf{i}_n^{\alpha \beta}}
+%\newcommand{\inabhat}{\hat{\mathbf{i}}_n^{\alpha \beta}}
+%\newcommand{\barinab}{\bar{\mathbf{i}}_n^{\alpha \beta}}
+%\newcommand{\ina}{i_n^{\alpha}}
+%\newcommand{\inb}{i_n^{\beta}}
+%\newcommand{\vnsca}{v_{nsc}^{\alpha}}
+%\newcommand{\vnscb}{v_{nsc}^{\beta}}
+%
+%
+%
+%
+%
+%\newcommand{\psidq}{\boldsymbol{\psi}^{dq}}%
+%\newcommand{\psikeyab}{\vec{\psi}_{\rm key}^{\rm \alpha\beta}}
+%\newcommand{\psikeyabest}{\hat{\vec{\psi}}_{\rm key}^{\rm \alpha\beta}}
+%\newcommand{\psikeyabestk}{\hat{\vec{\psi}}_{\rm key[k]}^{\rm \alpha\beta}}
+%\newcommand{\psikeyaa}{{\psi}_{\rm key}^{\rm \alpha}}
+%\newcommand{\psikeybb}{{\psi}_{\rm key}^{\rm \beta}}
+%\newcommand{\psikeyaaest}{\hat{\psi}_{\rm key}^{\rm \alpha}}
+%\newcommand{\psikeybbest}{\hat{\psi}_{\rm key}^{\rm \beta}}
+%\newcommand{\psikeyaaestk}{\hat{\psi}_{\rm key[k]}^{\rm \alpha}}
+%\newcommand{\psikeybbestk}{\hat{\psi}_{\rm key[k]}^{\rm \beta}}
+%
+%\newcommand{\psibiasab}{\vec{\psi}_{\rm bias}^{\rm \alpha\beta}}
+%\newcommand{\psibiasabest}{\hat{\vec{\psi}}_{\rm bias}^{\rm \alpha\beta}}
+%\newcommand{\psibiasaa}{{\psi}_{\rm bias}^{\rm \alpha}}
+%\newcommand{\psibiasbb}{{\psi}_{\rm bias}^{\rm \beta}}
+%
+%\newcommand{\Ln}{L_n}
+%\newcommand{\Rn}{R_n}
+%\newcommand{\Lf}{L_f}
+%\newcommand{\Rf}{R_f}
+%\newcommand{\Lshat}{\hat{L}_s}
+%\newcommand{\Rshat}{\hat{R}_s}
+%\newcommand{\Lsest}{\hat{L}_s}
+%\newcommand{\Rsest}{\hat{R}_s}
+%\newcommand{\Lfhat}{\hat{L}_f}
+%\newcommand{\Rfhat}{\hat{R}_f}
+%
+%
+%\newcommand{\idc}{i_{DC}}
+%
+%%\newcommand{\Amab}{\mathbf{A}_{\rm m}^{\rm \alpha\beta}}
+%%\newcommand{\Amdq}{\mathbf{A}_{\rm m}^{dq}}
+%%\newcommand{\Bmab}{\mathbf{B}_{\rm m}^{\alpha \beta}}
+%%\newcommand{\Bmdq}{\mathbf{B}_{\rm m}^{dq}}
+%%\newcommand{\Cmdq}{\mathbf{C}_{\rm m}^{dq}}
+%%\newcommand{\Amabhat}{\hat{\mathbf{A}}_{\rm m}^{\alpha \beta}}
+%%\newcommand{\Amdqhat}{\hat{\mathbf{A}}_{\rm m}^{dq}}
+%%\newcommand{\Bmabhat}{\hat{\mathbf{B}}_{\rm m}^{\alpha \beta}}
+%%\newcommand{\Bmdqhat}{\hat{\mathbf{B}}_{\rm m}^{dq}}
+%%\newcommand{\Cmdqhat}{\hat{\mathbf{C}}_{\rm m}^{dq}}
+%
+%
+%
+%\newcommand{\Sgabc}{\mathbf{s}_g^{abc}}
+%\newcommand{\Sgab}{\mathbf{s}_g^{\alpha \beta}}
+%\newcommand{\Sga}{s_g^{\alpha}}
+%\newcommand{\Sgb}{s_g^{\beta}}
+%\newcommand{\Sgdq}{\mathbf{S}_g^{dq}}
+%\newcommand{\Sgd}{s_g^{d}}
+%\newcommand{\Sgq}{s_g^{q}}
+%\newcommand{\Snabc}{\mathbf{s}_n^{abc}}
+%\newcommand{\Snab}{\mathbf{s}_g^{\alpha \beta}}
+%\newcommand{\Sna}{s_n^{\alpha}}
+%\newcommand{\Snb}{s_n^{\beta}}
+%\newcommand{\Sndq}{\mathbf{s}_n^{dq}}
+%\newcommand{\Snd}{s_n^{d}}
+%\newcommand{\Snq}{s_n^{q}}
+%\newcommand{\zeq}{\mathbf{z}^{eq}}
+%
+%
+%\newcommand{\omegamstar}{\omega_{\rm m}^*}
+%
+%
+%\newcommand{\thetaehat}{\hat{\theta}_e}
+%
+%
+%\newcommand{\fsig}{\mathbf{f}_{sig}}
+%\newcommand{\eps}{\varepsilon}
+%\newcommand{\epsmab}{\vec{\eps}_{\rm m}^{\,\alpha\beta}}
+%\newcommand{\epsma}{{\eps}_{\rm m}^{\alpha}}
+%\newcommand{\epsmb}{{\eps}_{\rm m}^{\beta}}
+%
+%\newcommand{\xf}{\vec{x}_{\rm f}}
+%%\newcommand{\xabc}{\vec{x}^{\rm abc}}
+%%\newcommand{\xab}{\vec{x}^{\,\rm \alpha\beta}}
+%%\newcommand{\xdq}{\vec{x}^{\rm dq}}
+%
+%% electrical drives in Per-Unit frame
+%\newcommand{\LsdqPU}{\vec{L}_{\rm s}^{\rm dq'}} % Inductance PMSM in stator (alpha,beta)frame
+%\newcommand{\LsB}{L_{\rm s}^{\rm B}}
+%\newcommand{\LgB}{L_{\rm g}^{\rm B}}%\psimB
+%\newcommand{\psimB}{\psi_{\rm m}^{\rm B}}%
+%\newcommand{\LsdPU}{L_{\rm s}^{\rm d'}}
+%\newcommand{\LsqPU}{L_{\rm s}^{\rm q'}}
+%\newcommand{\LsPU}{L_{\rm s}^{\rm'}}
+%\newcommand{\RsPU}{{R'}_{\rm s}}
+%\newcommand{\RmB}{{R}_{\rm m}^{\rm B}}
+%\newcommand{\RgB}{{R}_{\rm g}^{\rm B}}
+%\newcommand{\omegammPU}{\omega_{\rm m}^{'}}
+%\newcommand{\omegamPUxk}{\omega_{\rm m[k+1]}^{'}}
+%\newcommand{\omegamPUk}{\omega_{\rm m[k]}^{'}}
+%\newcommand{\omegamm}{\omega_{\rm m}}
+%\newcommand{\OmegamB}{\Omega_{\rm m}^{\rm B}}
+%\newcommand{\Omegam}{\Omega_{\rm m}}
+%\newcommand{\omegamB}{\omega_{\rm m}^{\rm B}}
+%\newcommand{\omegaeB}{\omega_{\rm e}^{\rm B}}
+%\newcommand{\omegagB}{\omega_{\rm g}^{\rm B}}
+%\newcommand{\omegammhat}{\hat{\omega}_{\rm m}}
+%\newcommand{\omegammref}{{\omega}_{\rm m}^*}
+%\newcommand{\omegame}{\omega_{\rm m}^{\rm e}}
+%\newcommand{\omegamePU}{\omega_{\rm e}^{\rm '}}
+%\newcommand{\omegaePUk}{\omega_{\rm e[k]}^{\rm '}}
+%\newcommand{\omegamehat}{\hat{\omega}_{\rm e}}
+%\newcommand{\themehat}{\hat{\theta}_{\rm e}}
+%\newcommand{\theme}{\theta_{\rm e}}
+%\newcommand{\themm}{\theta_{\rm m}}
+%\newcommand{\themxk}{\theta_{\rm m[k+1]}}
+%\newcommand{\themk}{\theta_{\rm m[k]}}
+%\newcommand{\isdqPU}{\vec{i}_{\rm s}^{\rm dq'}}
+%\newcommand{\isdPU}{i_{\rm s}^{\rm d'}}
+%\newcommand{\isqPU}{i_{\rm s}^{\rm q'}}
+%\newcommand{\imdqPU}{\vec{i}_{\rm m}^{\rm dq'}}
+%%\newcommand{\imdqPUxk}{\vec{i}_{\rm m[k+1]}^{\rm dq'}}
+%\newcommand{\imdPUxk}{i_{\rm m[k+1]}^{\rm d'}}
+%\newcommand{\imdPU}{i_{\rm m}^{\rm d'}}
+%\newcommand{\imqPU}{i_{\rm m}^{\rm q'}}
+%\newcommand{\imdPUk}{i_{\rm m[k]}^{\rm d'}}
+%\newcommand{\imqPUk}{i_{\rm m[k]}^{\rm q'}}
+%\newcommand{\imqPUxk}{i_{\rm m[k+1]}^{\rm q'}}
+%
+%%\newcommand{\Tr}{T_{\rm r}}%\TePUxk
+%\newcommand{\TePUxk}{T'_{\rm e[k+1]}}%\TePUxk
+%\newcommand{\TePUk}{T'_{\rm e[k]}}%\TePUxk
+%\newcommand{\TmPUk}{T'_{\rm m[k]}}%\TePUxk
+%
+%\newcommand{\vmB}{{v}_{\rm m}^{\rm B}}
+%\newcommand{\vgB}{{v}_{\rm g}^{\rm B}}
+%\newcommand{\imB}{{i}_{\rm m}^{\rm B}}
+%\newcommand{\igB}{{i}_{\rm g}^{\rm B}}
+%\newcommand{\JB}{{J}_{\rm}^{\rm B}}%P_{\rm m}^{\rm B}
+%\newcommand{\PmB}{P_{\rm m}^{\rm B}}
+%\newcommand{\PgB}{P_{\rm g}^{\rm B}}
+%\newcommand{\vmabcPU}{\vec{v}_{\rm m}^{\rm abc'}}
+%\newcommand{\vgabcPU}{\vec{v}_{\rm g}^{\rm abc'}}
+%\newcommand{\vmabcPUk}{\vec{v}_{\rm m[k]}^{\rm abc'}}
+%\newcommand{\vgabcPUk}{\vec{v}_{\rm g[k]}^{\rm abc'}}
+%\newcommand{\vmdqPU}{\vec{v}_{\rm m}^{\rm dq'}}%\vmnom
+%\newcommand{\vmnom}{v_{\rm m}^{\rm n}}
+%\newcommand{\vgnom}{v_{\rm g}^{\rm n}}
+%\newcommand{\vmdPU}{v_{\rm m}^{\rm d'}}
+%\newcommand{\vmqPU}{v_{\rm m}^{\rm q'}}
+%\newcommand{\vmdPUk}{v_{\rm m[k]}^{\rm d'}}
+%\newcommand{\vmqPUk}{v_{\rm m[k]}^{\rm q'}}
+%\newcommand{\psiPMPU}{\psi'_{\rm M}}
+%\newcommand{\igpu}{i_{\rm g}^{\rm a,b,c'}}
+%\newcommand{\impu}{i_{\rm m}^{\rm a,b,c'}}
+%\newcommand{\vgpu}{v_{\rm g}^{\rm a,b,c'}}
+%\newcommand{\vmpu}{v_{\rm m}^{\rm a,b,c'}}
+%\newcommand{\vgaaPU}{v_{\rm g}^{\rm \alpha'}}
+%\newcommand{\vgbbPU}{v_{\rm g}^{\rm \beta'}}
+%\newcommand{\inabPU}{\vec{i}_{\rm n}^{\rm \alpha\beta'}}
+%\newcommand{\inaaPU}{i_{\rm g}^{\rm \alpha'}}%\inaaPU[k+1]
+%\newcommand{\inbbPU}{i_{\rm g}^{\rm \beta'}}
+%\newcommand{\igaaPUxk}{i_{\rm g[k+1]}^{\rm \alpha'}}%\inaaPU[k+1]
+%\newcommand{\igbbPUxk}{i_{\rm g[k+1]}^{\rm \beta'}}
+%\newcommand{\igaaPUk}{i_{\rm g[k]}^{\rm \alpha'}}%\inaaPU[k+1]
+%\newcommand{\igbbPUk}{i_{\rm g[k]}^{\rm \beta'}}
+%\newcommand{\enabPU}{\vec{e}_{\rm n}^{\rm \alpha\beta'}}
+%\newcommand{\enaaPU}{e_{\rm g}^{\rm \alpha'}}
+%\newcommand{\enbbPU}{e_{\rm g}^{\rm \beta'}}
+%\newcommand{\egaaPUk}{e_{\rm g[k]}^{\rm \alpha'}}
+%\newcommand{\egbbPUk}{e_{\rm g[k]}^{\rm \beta'}}
+%\newcommand{\vgaaPUk}{v_{\rm g[k]}^{\rm \alpha'}}
+%\newcommand{\vgbbPUk}{v_{\rm g[k]}^{\rm \beta'}}
+%\newcommand{\LnPU}{L'_{\rm g}}
+%\newcommand{\RnPU}{R'_{\rm g}}
+%\newcommand{\vdcPU}{V'_{\rm dc}}
+%\newcommand{\vdcPUxk}{V'_{\rm d[k+1]}}
+%\newcommand{\vdcPUk}{V'_{\rm d[k]}}
+%\newcommand{\vdcB}{V_{\rm d}^{\rm B}}
+%\newcommand{\idcPU}{I'_{\rm dc}}
+%\newcommand{\idcnPU}{I'_{\rm g}}
+%\newcommand{\idcmPU}{I'_{\rm m}}
+%\newcommand{\idcnPUk}{I'_{\rm g[k]}}
+%\newcommand{\idcmPUk}{I'_{\rm m[k]}}
+%
+%%Chapter Encoderless
+%\newcommand{\omegak}{\vec{\omega}_{\rm [k]}}
+%\newcommand{\omegafk}{{\omega}_{\rm 1[k]}}
+%\newcommand{\omegank}{{\omega}_{\rm n[k]}}
+%\newcommand{\vk}{\vec{v}_{\rm [k]}}
+%\newcommand{\vfk}{{v}_{\rm 1[k]}}
+%\newcommand{\vmk}{{v}_{\rm m[k]}}
+%\newcommand{\uk}{\vec{u}_{\rm [k]}}
+%\newcommand{\ukest}{\hat{\vec{u}}_{\rm [k]}}
+%\newcommand{\ufk}{{u}_{\rm 1[k]}}
+%\newcommand{\umk}{{u}_{\rm m[k]}}
+%\newcommand{\yk}{\vec{y}_{\rm [k]}}
+%\newcommand{\yfk}{{y}_{\rm 1[k]}}
+%\newcommand{\ymk}{{y}_{\rm m[k]}}
+%\newcommand{\xk}{\vec{x}_{\rm [k]}}
+%\newcommand{\xkest}{\hat{\vec{x}}_{\rm [k]}}
+%\newcommand{\xfk}{{x}_{\rm 1[k]}}
+%\newcommand{\xnk}{{x}_{\rm n[k]}}
+%\newcommand{\xxk}{\vec{x}_{\rm [k+1]}}
+%%
+%
+%\newcommand{\Lsk}{\boldsymbol{L}_{\rm s}^{\rm dq}}
+%\newcommand{\imk}{\vec{i}_{\rm m}^{\rm dq}}
+%\newcommand{\myumk}{\vec{v}_{\rm m}^{\rm dq}}
+%\newcommand{\myumd}{v_{\rm m}^{\rm d}}
+%\newcommand{\myumq}{v_{\rm m}^{\rm q}}
+%\newcommand{\psisk}{\vec{\psi}_{\rm s}^{\rm dq}}
+%\newcommand{\psisalbe}{\vec{\psi}_{\rm s}^{\alpha\beta}}
+%\newcommand{\imalbe}{\vec{i}_{\rm m}^{\alpha\beta}}
+%\newcommand{\umalbe}{\vec{v}_{\rm m}^{\alpha\beta}}
+%\newcommand{\psiPMk}{\vec{\psi}_{\rm pm}^{\rm dq}}
+%\newcommand{\myJ}{\boldsymbol{J}}
+%\newcommand{\myugk}{\vec{v}_{\rm g}^{\rm dq}}
+%\newcommand{\egk}{\vec{e}_{\rm g}^{\rm dq}}
+%\newcommand{\eghat}{\hat{e}_{\rm g}}
+%\newcommand{\myugd}{v_{\rm g}^{\rm d}}
+%\newcommand{\myugq}{v_{\rm g}^{\rm q}}
+%\newcommand{\igk}{\vec{i}_{\rm g}^{\rm dq}}
+%\newcommand{\psiskangle}{\angle{\hat{\psi}}_{\rm  s[k]}}
+%\newcommand{\psiskvecref}{\vec{\psi}_{\rm  s[k+1]}^*}
+%\newcommand{\psiskangleref}{\angle{\psi}_{\rm  s[k]}^*}
+%\newcommand{\psisakest}{\hat{\psi}_{\rm  s[k]}^{\alpha}}
+%\newcommand{\psisbkest}{\hat{\psi}_{\rm  s[k]}^{\beta}}
+%\newcommand{\deltakstar}{\delta_{\rm [k]}^*}
+%\renewcommand{\psisref}{\|\psi_{\rm s}^*\|}
+%\newcommand{\psiskref}{\|\psi_{\rm s[k]}^*\|}
+%\newcommand{\ddtsmall}{\tfrac{{\rm d}}{{\rm d}t}}
+%\renewcommand{\Teestk}{\hat{T}_{\rm e[k+1]}}
+%\newcommand{\Pkpo}{P_{\rm [k+1]}}
+%\newcommand{\Qkpo}{Q_{\rm [k+1]}}
+%
+%\newcommand{\gs}{\vec{G}_{\rm  S}}
+%\newcommand{\gp}{{g}_{\rm  P}}
+%\newcommand{\gq}{{g}_{\rm  Q}}
+%
+%\newcommand{\gsk}{\vec{G}_{\rm  S[k]}}
+%\newcommand{\gpk}{{g}_{\rm  P[k]}}
+%\newcommand{\gqk}{{g}_{\rm  Q[k]}}
+%
+%
+%\newcommand{\gskx}{\vec{g}_{\rm  S[k+1]}}
+%\newcommand{\gsrefkx}{\vec{S}_{\rm  [k+1]}^*}
+%\newcommand{\gpkx}{{g}_{\rm  P[k+1]}}
+%\newcommand{\gqkx}{{g}_{\rm  Q[k+1]}}
+%
+%\newcommand{\gid}{{g}_{\rm  i_d}}
+%\newcommand{\giq}{{g}_{\rm  i_q}}
+%\newcommand{\gte}{{g}_{\rm  T_e}}
+%
+%\newcommand{\gidk}{{g}_{\rm  i_d[k]}}
+%\newcommand{\giqk}{{g}_{\rm  i_q[k]}}
+%\newcommand{\gtek}{{g}_{\rm  T_e[k]}}
+%
+%\newcommand{\gidkx}{{g}_{\rm  i_d[k+1]}}
+%\newcommand{\giqkx}{{g}_{\rm  i_q[k+1]}}
+%\newcommand{\gtekx}{{g}_{\rm  T_e[k+1]}}
+%
+%\newcommand{\vgaaik}{{v}_{\rm  g[k]}^{\alpha,i}}
+%\newcommand{\vgaaixk}{{v}_{\rm  g[k]}^{\alpha,i+1}}
+%\newcommand{\vgbbik}{{v}_{\rm  g[k]}^{\beta,i}}
+%\newcommand{\vgbbixk}{{v}_{\rm  g[k]}^{\beta,i+1}}

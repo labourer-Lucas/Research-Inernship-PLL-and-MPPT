@@ -1,0 +1,59 @@
+\begin{tikzpicture}[scale = 1.15]
+%Angle delta between old and new stator flux
+\draw[fill = orange, draw = none] (0, 0) -- (15:3) arc(15:{15+atan(2/16)}:3) -- cycle;
+\node[] at ({15+0.5*atan(2/16)}:2.5) {$\delta$};
+\draw[-] (15:3) arc(15:{15+atan(2/16)}:3);
+
+%30 degree angle
+\draw[fill = lightgray, draw = none] (0, 0) -- (2, 0) arc(0:30:2);
+
+%Stator flux (sample k)
+%\draw[-triangle 45, color = blue] (0, 0) -- (15:10);
+\draw[color = blue] (0, 0) -- (15:5);
+\node[above, color = blue, rotate = 15] at (14.75:6) {$\bm{\psi}_\text{s}(k)$};
+
+%30 degree angle
+\draw[-triangle 45] (24:1.999) -- (30:2);
+\node[fill = lightgray] at (13:1.5) {$30$\textdegree};
+
+%Rotor flux
+\draw[-triangle 45, color = red] (0, 0) -- (6:12.5);
+\node[above, color = red, rotate = 6.5] at (5.5:6.5) {$\bm{\psi}_\text{r}(k+1) \approx \bm{\psi}_\text{r}(k)$};
+
+%Stator flux (sample k+1)
+\draw[-triangle 45, color = cyan] (0, 0) -- ($(15:10) + (60:2)$);
+\node[above, color = cyan, rotate = {15+atan(2/16)}] at ({14.75+atan(2/16)}:7) {$\bm{\psi}_\text{s}(k+1)$};
+
+%Angle delta arrow
+\draw[-triangle 45] ({10+atan(2/16)}:3) -- ({15+atan(2/16)}:3);
+
+%30 degree angle
+\draw[-] (2, 0) arc(0:30:2);
+
+%Coordinate system
+\draw[-triangle 45]  (0, 0) -- (0, 8);
+\draw[-triangle 45] (0, 0) -- (13, 0);
+\node[above] at (0, 8) {$\beta$};
+\node[right] at (13, 0) {$\alpha$};
+
+%Sector 1 limitation (30 degree angle)
+\draw[-] (0, 0) -- (30:13);
+
+%Hexagon with the voltage vectors
+%\node[align = center, font = \scriptsize] at (15:10) {ppp\\\\nnn};
+\draw[-triangle 45] (15:10) -- +(2, 0) node[right, font = \scriptsize] {pnn};
+\draw[-triangle 45] (15:10) -- +(-2, 0) node[left, font = \scriptsize] {npp};
+\draw[-triangle 45] (15:10) -- +(60:2);
+\node[font = \scriptsize] at ($(15:10) + (60:2.2)$) {ppn};
+\draw[-triangle 45] (15:10) -- +(120:2);
+\node[font = \scriptsize] at ($(15:10) + (120:2.2)$) {npn};
+\draw[-triangle 45] (15:10) -- +(-60:2);
+\node[font = \scriptsize] at ($(15:10) + (-60:2.25)$) {pnp};
+\draw[-triangle 45] (15:10) -- +(-120:2);
+\node[font = \scriptsize] at ($(15:10) + (-120:2.25)$) {nnp};
+\node[align = center, font = \scriptsize, fill = white, outer sep = 0pt, inner sep = 1.5pt] at (15:10) {ppp\\\\nnn};
+%\node[above, font = \scriptsize, fill = white, outer sep = 0pt] at (15:10) {ppp};
+%\node[below, font = \scriptsize, fill = white, outer sep = 0pt] at (15:10) {nnn};
+
+\draw[-triangle 45, color = blue] (15:5) -- (15:10);
+\end{tikzpicture}

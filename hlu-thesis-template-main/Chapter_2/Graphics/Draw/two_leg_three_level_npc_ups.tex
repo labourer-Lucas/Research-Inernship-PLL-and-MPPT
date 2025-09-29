@@ -1,0 +1,98 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols]
+%Phase 1
+\node[nigbt, name=igbt_11, scale=1] at (2, 0) {};
+\draw (igbt_11.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_11.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_11.B) {$S_{11}$};
+
+\node[nigbt, name=igbt_12, scale=1] at (2, -1.5) {};
+\draw (igbt_12.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_12.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_12.B) {$S_{12}$};
+
+\draw[-] (igbt_11.E) -- (igbt_12.C) node[contact, midway, name=npc1p] {};
+
+\node[nigbt, name=igbt_13, scale=1] at (2, -4) {};
+\draw (igbt_13.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_13.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_13.B) {$S_{13}$};
+
+\node[nigbt, name=igbt_14, scale=1] at (2, -5.5) {};
+\draw (igbt_14.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_14.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_14.B) {$S_{14}$};
+
+\draw[-] (igbt_13.E) -- (igbt_14.C) node[contact, midway, name=npc1n] {};
+
+\draw[-] (igbt_12.E) -- (igbt_13.C) node[contact, pos=0.75, name=out1] {};
+
+\draw[-] (npc1n) -- ($(npc1n) + (-1.75, 0)$) |- (npc1p) -- (npc1p);
+\path ($(npc1n) + (-1.75, 0)$) -- ($(npc1p) + (-1.75, 0)$) node[diode, name=npd1p, small circuit symbols, rotate = 90, pos = 0.75] {} node[diode, name=npd1n, small circuit symbols, rotate = 90, pos = 0.25] {} node[contact, name=npc_contact1, pos = 0.5] {};
+
+%Voltage sources
+\draw[-] (npc_contact1) -- ($(npc_contact1) + (-0.6, 0)$) node[contact, name = npc] {} |- ($(igbt_11.C) + (0, 0.1)$) node[contact, name = dcp1] {} -- (igbt_11.C);
+\path ($(npc_contact1) + (-0.6, 0)$) |- ($(igbt_11.C) + (0, 0.1)$) node[voltage source, small circuit symbols, name=Vplus, pos = 0.25] {};
+\draw[-triangle 45] ($(Vplus.north) + (-0.4, 0.2)$) -- ($(Vplus.south) + (-0.4, -0.2)$) node[midway, left] {$0.5 V_\text{dc}$};
+
+\draw[-] ($(npc_contact1) + (-0.6, 0)$) |- ($(igbt_14.E) + (0, -0.1)$) node[contact, name = dcm1] {} -- (igbt_14.E);
+\path ($(npc_contact1) + (-0.6, 0)$) |- ($(igbt_14.E) + (0, -0.1)$) node[voltage source, small circuit symbols, name=Vminus, pos = 0.25] {};
+\draw[-triangle 45] ($(Vminus.north) + (-0.4, 0.2)$) -- ($(Vminus.south) + (-0.4, -0.2)$) node[midway, left] {$0.5 V_\text{dc}$};
+
+%NPC (ground)
+\draw[-] (npc) -- ($(npc) + (-0.5, 0)$) -- ($(npc) + (-0.5, -0.25)$) node[ground, right, rotate=-90] {};
+
+%Phase 2
+\node[nigbt, name=igbt_21, scale=1] at (4.75, 0) {};
+\draw (igbt_21.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_21.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_21.B) {$S_{21}$};
+
+\node[nigbt, name=igbt_22, scale=1] at (4.75, -1.5) {};
+\draw (igbt_22.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_22.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_22.B) {$S_{22}$};
+
+\draw[-] (igbt_21.E) -- (igbt_22.C) node[contact, midway, name=npc2p] {};
+
+\node[nigbt, name=igbt_23, scale=1] at (4.75, -4) {};
+\draw (igbt_23.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_23.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_23.B) {$S_{23}$};
+
+\node[nigbt, name=igbt_24, scale=1] at (4.75, -5.5) {};
+\draw (igbt_24.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_24.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_24.B) {$S_{24}$};
+
+\draw[-] (igbt_23.E) -- (igbt_24.C) node[contact, midway, name=npc2n] {};
+
+\draw[-] (igbt_22.E) -- (igbt_23.C) node[contact, pos=0.5, name=out2] {};
+
+\draw[-] (npc2n) -- ($(npc2n) + (-1.75, 0)$) |- (npc2p) -- (npc2p);
+\path ($(npc2n) + (-1.75, 0)$) -- ($(npc2p) + (-1.75, 0)$) node[diode, name=npd2p, small circuit symbols, rotate = 90, pos = 0.75] {} node[diode, name=npd2n, small circuit symbols, rotate = 90, pos = 0.25] {} node[contact, name=npc_contact2, pos = 0.6] {};
+
+%Connection to DC link
+\draw[-] (dcm1) |- ($(igbt_24.E) + (0, -0.1)$) node[name = dcm2] {} -- (igbt_24.E);
+\draw[-] (dcp1) |- ($(igbt_21.C) + (0, 0.1)$) node[name = dcp2] {} -- (igbt_21.C);
+
+%NPC (ground)
+\draw[-] (npc_contact2) -- ($(npc_contact2) + (-0.5, 0)$) -- ($(npc_contact2) + (-0.5, -0.25)$) node[ground, right, rotate=-90] {};
+
+%Connection to DC link
+\draw[-] (dcm1) |- ($(igbt_24.E) + (0, -0.1)$) node[name = dcm2] {} -- (igbt_24.E);
+\draw[-] (dcp1) |- ($(igbt_21.C) + (0, 0.1)$) node[name = dcp2] {} -- (igbt_21.C);
+
+%Phase voltage clamps
+\draw[-] (out1) -- ++(0.65, 0) coordinate(upper_left) |- ++(0, -7.5) coordinate (conn_left);
+\draw[-] (out2) -- ++(0.65, 0) coordinate(upper_right) |- ++(0, -7.5) coordinate (conn_right);
+
+%Voltage and current arrows
+\draw[-triangle 45] ($(upper_left) + (0.15, -4.25)$) -- ($(upper_left) + (2.6, -4.25)$) node[midway, above] {$v_\text{o}$};
+\draw[-triangle 45] ($(upper_left) + (0, -2)$) -- ($(upper_left) + (0, -3.95)$);
+\node[above right] at ($(upper_left) + (0.05, -4.15)$) {$i_\text{o}$};
+
+%Inductor and capacitor
+\node[resistor={info=$L$}, small circuit symbols, name = L, circuit symbol size = width 3.5 height 1.5, fill = black, rotate = -90] at ($(upper_left) + (0, -5)$) {};
+\node[contact] (lc_contact_left) at ($(upper_left) + (0, -5.75)$) {};
+\node[contact] (lc_contact_right) at ($(lc_contact_left) + (2.75, 0)$) {};
+\path (lc_contact_left) -- (lc_contact_right) node[capacitor={info=$C$}, small circuit symbols, name = C, pos = 0.5] {};
+\draw[-] (lc_contact_left) -- (C.west) (C.east) -- (lc_contact_right);
+\draw[-triangle 45] ($(lc_contact_left) + (0.15, -1.15)$) -- ($(lc_contact_right) + (-0.15, -1.15)$) node[midway, above] {$v_\text{l}$};
+\draw[-triangle 45] (lc_contact_left) -- ($(lc_contact_left) + (0, -0.75)$);
+\node[above right] at ($(lc_contact_left) + (0.05, -0.95)$) {$i_\text{l}$};
+
+%Load
+\node[rectangle, fill = lightgray, draw = black, minimum width = 3cm, minimum height = 0.75cm] at ($(C) + (0, -1.75)$) {Load};
+\end{tikzpicture}

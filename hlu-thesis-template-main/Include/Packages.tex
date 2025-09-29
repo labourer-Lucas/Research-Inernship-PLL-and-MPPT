@@ -1,0 +1,111 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{times,amsbsy,graphics,float}
+\usepackage{graphicx, color}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{verbatim}
+\usepackage{amsmath}  
+\usepackage{bm}
+\usepackage{wasysym}
+\usepackage{dpfloat}
+\usepackage{placeins}
+%\usepackage[section,subsection,subsubsection]{extraplaceins}
+\usepackage{latexsym, theorem} %von JFS f�r Box
+\usepackage[ngerman, english]{babel}
+\usepackage{graphicx} % eps figures
+\usepackage{amssymb}  % symbol for R (real numbers) etc.
+\usepackage{theorem}  % propositions etc.
+\usepackage{bm}  % bold greek letters
+\usepackage{algorithmic}
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage{mdwmath}
+\usepackage{mdwtab}
+\usepackage{eqparbox}
+\usepackage{subfigure}
+\usepackage{titlesec}
+\usepackage{textcomp}
+%\usepackage[artemisia]{textgreek}
+%\usepackage{upgreek}
+\usepackage{datetime}
+\usepackage{footmisc}
+%\usepackage{draftwatermark}
+\usepackage{pgfplots}
+\usepackage{tikz}
+%%package{circuitikz} should be commented when the error "Tex capacity exceeded" comes out
+\usepackage[european,EFvoltages]{circuitikz}
+\usepackage{pgfplots}
+\usepackage{epigraph}
+\usepackage[pdftex,hidelinks,pdfpagelayout=TwoPageRight,bookmarks=true,pdfstartpage=1]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{units} %e.g. \unit[42]{\frac{m}{s}}
+% tables
+\usepackage{longtable}
+% source code listings
+\usepackage{listings}
+% enumerations extension
+\usepackage{enumitem}
+%\pdfminorversion=7
+
+%% TUM color package %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% {tumblue_dark, tumblue, tumblue_middle, tumblue_light, tumblue_superlight}
+%% {tumorange, tumgray, tumgreen, tumgreen_light, tumivory}
+\usepackage{TUM_color}
+
+%% TikZ and PGF library %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+\usetikzlibrary{intersections}
+\usetikzlibrary{shadows}
+\usetikzlibrary{shapes}
+\usetikzlibrary{circuits.ee.IEC}
+\usepgfplotslibrary{external}
+
+%% PGF plot setting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pgfplotsset{compat=newest}
+\pgfplotsset{every axis/.append style={font=\scriptsize}}
+\pgfplotsset{title style={yshift=-1.25ex}}
+\pgfplotsset{xlabel style={yshift=0.75ex}}
+\pgfplotsset{grid style={color=black, loosely dotted}}
+\pgfplotsset{tick style={color=black, thin}}
+\pgfplotsset{major tick length={0.75mm}}
+\pgfplotsset{minor tick length={0.75mm}}
+
+%% TikZ setting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tikzset{set voltage source graphic = voltage source IEC graphic}
+
+%% TikZ Styles setting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% new syntax: \tikzset{my style/.style={<tikz options>},...}
+%% old syntax: \tikzstyle{my style}=[<tikz options>]
+
+\tikzset{voltage source IEC graphic/.style={circuit symbol lines, circuit symbol size = width 3 height 3, shape = generic circle IEC, fill = white, /pgf/generic circle IEC/before background={\draw[-] (0, -1pt) -- (0, 1pt);}}}
+			
+\tikzstyle{vecArrow} = [thin, decoration={markings,mark=at position 1 with {\arrow[thin]{open triangle 45}}}, double distance=1.4pt, shorten >= 6pt, preaction = {decorate}, postaction = {draw, line width=1.4pt, white,shorten >= 5.5pt}]
+	
+\tikzstyle{innerWhite} = [thin, white, line width=1.4pt, shorten >= 5.5pt]
+
+\tikzstyle{sum} = [draw, circle, inner sep = 0pt, minimum width=0.2cm, fill = white]
+
+%% TikZ externalization (PDFLatex) %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\tikzset{external/system call={pdflatex \tikzexternalcheckshellescape -halt-on-error -interaction=batchmode -jobname "\image" "\texsource"}}
+%\tikzexternalize[system call={pdflatex \tikzexternalcheckshellescape -halt-on-error -interaction=batchmode -jobname "\image" "\texsource"}]{minimal}
+
+%% TikZ externalization (LuaLaTeX) %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\tikzset{external/system call={lualatex \tikzexternalcheckshellescape -halt-on-error -interaction=batchmode -jobname "\image" "\texsource"}}
+
+%% Setting for TikZ externalization %%%%%%%%%%%%%%%%%%%%%%%%%
+%% TexnicCenter->build->define outputfile: -synctex=-1 -max-print-line=120 -interaction=nonstopmode -shell-escape "%wm"%
+%\tikzexternalize[prefix=Graphics/,shell escape=-enable-write18]
+%\tikzexternalize[shell escape=-enable-write18]

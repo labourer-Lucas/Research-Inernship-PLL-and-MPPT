@@ -1,0 +1,19 @@
+\begin{tikzpicture}[scale = 0.25]
+%Alpha beta coordinate system
+\draw[-triangle 45] (-10, 0) -- (10, 0) node [right] {$\alpha = a$}; 	%Alpha axis
+\draw[-triangle 45] (0, -10) -- (0, 10) node [above] {$\beta$}; 			%Beta axis
+
+\draw[-triangle 45] (300:10) -- (120:10) node [above left] {$b$};				%b axis
+\draw[-triangle 45] (60:10) -- (240:10) node [below left] {$c$};		%c axis
+
+\draw[fill = lightgray] (0, 0) -- (3, 0) arc [radius = 3, start angle = 0, end angle = 120] -- cycle;			%120 degree angle
+%\draw[-] (0:3) arc (0:120:3);								%Only arc without arrowhead
+\draw[-triangle 45] (106:3) -- (120:3);			%Corrected arrowhead (otherwise it looks ugly)
+
+\draw[fill = lightgray] (0, 0) -- (3, 0) arc [radius = 3, start angle = 0, end angle = -120] -- cycle;			%-120 degree angle
+%\draw[-] (0:3) arc (0:120:3);								%Only arc without arrowhead
+\draw[-triangle 45] (-106:3) -- (-120:3);		%Corrected arrowhead (otherwise it looks ugly)
+
+\node at (60:1.5) {\scriptsize{\,\,\,$120$\textdegree}};
+\node at (-60:1.5) {\scriptsize{\,\,\,$-120$\textdegree}};
+\end{tikzpicture}

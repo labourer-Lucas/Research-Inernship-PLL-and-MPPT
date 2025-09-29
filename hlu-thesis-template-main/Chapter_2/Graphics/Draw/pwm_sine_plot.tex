@@ -1,0 +1,50 @@
+\begin{tikzpicture}[scale = 1.0]
+%Definitions
+\definecolor{matlabgreen}{rgb}{0, 0.5, 0}
+\def \amplitude {3}																			%Amplitude of the carrier signal
+\def \carrier {0.7}																			%Time duration of a full carrier signal (falling and rising edge)
+\def \gating {1}																				%Height of the gating signal (corresponds to "1")
+\def \gatezero {-\amplitude-0.5 - 0.5 - 0.5 - \gating}	%Origin for the gating signal coordinate system
+\def \gatezeroinv {\gatezero-0.5 -0.85 - \gating}				%Origin for the inverted gating signal
+\def \duration {14}																			%Time duration of the signal (10*carrier)
+
+%Coordinate system for the carrier and the reference
+\draw[-triangle 45] (0, -\amplitude-0.25) -- (0, \amplitude+0.5);
+\draw[-triangle 45] (-0.1, 0) -- (\duration+0.5, 0) node[right] {$t$};
+%\node[left] at (-0.1, 0) {0};
+%\draw[-] (-0.1, -\amplitude) node[left] {-1} -- (0.1, -\amplitude);
+%\draw[-] (-0.1, \amplitude) node[left] {1} -- (0.1, \amplitude);
+
+%Coordinate system for the gating signal
+\draw[-triangle 45] (0, \gatezero-0.1) -- (0, \gatezero + \gating + 0.5) node[above] {$s_1$};
+\draw[-triangle 45] (-0.1, \gatezero) node[left] {$0$} -- (\duration+0.5, \gatezero) node[right] {$t$};
+\draw[-] (-0.1, \gatezero + \gating) node[left] {$1$} -- (0.1, \gatezero + \gating);
+
+%Coordinate system for the invertedgating signal
+\draw[-triangle 45] (0, \gatezeroinv-0.1) -- (0, \gatezeroinv + \gating + 0.5) node[above] {$s_2$};
+\draw[-triangle 45] (-0.1, \gatezeroinv) node[left] {$0$} -- (\duration+0.5, \gatezeroinv) node[right] {$t$};
+\draw[-] (-0.1, \gatezeroinv + \gating) node[left] {$1$} -- (0.1, \gatezeroinv + \gating);
+
+%Plot the carrier
+\draw[-, color = blue] (0, \amplitude) \foreach \x in {0, ..., 19} {-- (\x*\carrier + 0.5*\carrier, -\amplitude) -- (\x*\carrier + \carrier, \amplitude)};
+
+%Plot the sine
+\draw[-, color = red, name path = sine, domain = 0:\duration, samples = 100] plot (\x, {0.9*\amplitude*sin(\x/\duration*360)});
+
+%Determine the intersections of the sine reference with the carrier and draw the gating signal
+\foreach \x in {0, ..., 19}
+{
+\path[name path = falling_carrier] (\x*\carrier, \amplitude) -- (\x*\carrier+0.5*\carrier, -\amplitude);
+\path[name path = rising_carrier] (\x*\carrier+0.5*\carrier, -\amplitude) -- (\x*\carrier+\carrier, \amplitude);
+
+%draw a dotted line down to the plot with the gating signal
+\draw[loosely dotted, name intersections={of=sine and falling_carrier, by=conn_falling}] (conn_falling) -- (conn_falling |- 0, {\gatezeroinv+\gating});
+\draw[loosely dotted, name intersections={of=sine and rising_carrier, by=conn_rising}] (conn_rising) -- (conn_rising |- 0, {\gatezeroinv+\gating});
+
+%Draw the gating signal
+\draw[-, matlabgreen] (\x*\carrier, \gatezero) -- (conn_falling |- 0, \gatezero) -- (conn_falling |- 0, \gatezero + \gating) -- (conn_rising |- 0, \gatezero + \gating) -- (conn_rising |- 0, \gatezero) -- (\x*\carrier+\carrier, \gatezero);
+
+%Draw the inverted gating signal
+\draw[-, orange] (\x*\carrier, \gatezeroinv + \gating) -- (conn_falling |- 0, \gatezeroinv + \gating) -- (conn_falling |- 0, \gatezeroinv) -- (conn_rising |- 0, \gatezeroinv) -- (conn_rising |- 0, \gatezeroinv + \gating) -- (\x*\carrier+\carrier, \gatezeroinv + \gating);
+}
+\end{tikzpicture}

@@ -1,0 +1,120 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols]
+%Phase 1
+\node[nigbt, name=igbt_11, scale=1] at (2, 0) {};
+\draw (igbt_11.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_11.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_11.B) {$S_{11}$};
+
+\node[nigbt, name=igbt_12, scale=1] at (2, -1.5) {};
+\draw (igbt_12.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_12.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_12.B) {$S_{12}$};
+
+\draw[-] (igbt_11.E) -- (igbt_12.C) node[contact, midway, name=fc1p] {};
+
+\node[nigbt, name=igbt_13, scale=1] at (2, -4) {};
+\draw (igbt_13.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_13.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_13.B) {$S_{13}$};
+
+\node[nigbt, name=igbt_14, scale=1] at (2, -5.5) {};
+\draw (igbt_14.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_14.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_14.B) {$S_{14}$};
+
+\draw[-] (igbt_13.E) -- (igbt_14.C) node[contact, midway, name=fc1n] {};
+
+\draw[-] (igbt_12.E) -- (igbt_13.C) node[contact, pos=0.9, name=out1] {};
+
+\path ($(fc1n) + (-2, 0)$) -- ($(fc1p) + (-2, 0)$) node[capacitor={info=$C_1$}, name=fc1, pos = 0.5, rotate = -90, small circuit symbols, right] {};
+\draw[-] (fc1n) -| (fc1.east) (fc1.west) |- (fc1p);
+
+%Voltage sources
+\draw[-] ($(fc1) + (-1, 0)$) node[contact, name = fc] {} |- ($(igbt_11.C) + (0, 0.1)$) node[contact, name = dcp1] {} -- (igbt_11.C);
+\path ($(fc1) + (-1, 0)$) |- ($(igbt_11.C) + (0, 0.1)$) node[voltage source, small circuit symbols, name=Vplus, pos = 0.25] {};
+\draw[-triangle 45] ($(Vplus.north) + (-0.4, 0.2)$) -- ($(Vplus.south) + (-0.4, -0.2)$) node[midway, left] {$0.5 V_\text{dc}$};
+
+\draw[-] ($(fc1) + (-1, 0)$) |- ($(igbt_14.E) + (0, -0.1)$) node[contact, name = dcm1] {} -- (igbt_14.E);
+\path ($(fc1) + (-1, 0)$) |- ($(igbt_14.E) + (0, -0.1)$) node[voltage source, small circuit symbols, name=Vminus, pos = 0.25] {};
+\draw[-triangle 45] ($(Vminus.north) + (-0.4, 0.2)$) -- ($(Vminus.south) + (-0.4, -0.2)$) node[midway, left] {$0.5 V_\text{dc}$};
+
+\coordinate (upper_lim) at ($(igbt_11.C) + (0, 0.1)$);
+\coordinate (bottom_lim) at ($(igbt_14.E) + (0, -0.1)$);
+
+\node[below right, color = red] at (Vplus.north |- upper_lim) {DC+};
+\node[above right, color = black] at (Vminus.south |- bottom_lim) {DC-};
+
+%fc (ground)
+\draw[-] (fc) node[above left, color = blue] {NP} -- ($(fc) + (-0.5, 0)$) -- ($(fc) + (-0.5, -0.25)$) node[ground, right, rotate=-90] {};
+
+%Phase 2
+\node[nigbt, name=igbt_21, scale=1] at (5.25, 0) {};
+\draw (igbt_21.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_21.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_21.B) {$S_{21}$};
+
+\node[nigbt, name=igbt_22, scale=1] at (5.25, -1.5) {};
+\draw (igbt_22.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_22.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_22.B) {$S_{22}$};
+
+\draw[-] (igbt_21.E) -- (igbt_22.C) node[contact, midway, name=fc2p] {};
+
+\node[nigbt, name=igbt_23, scale=1] at (5.25, -4) {};
+\draw (igbt_23.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_23.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_23.B) {$S_{23}$};
+
+\node[nigbt, name=igbt_24, scale=1] at (5.25, -5.5) {};
+\draw (igbt_24.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_24.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_24.B) {$S_{24}$};
+
+\draw[-] (igbt_23.E) -- (igbt_24.C) node[contact, midway, name=fc2n] {};
+
+\draw[-] (igbt_22.E) -- (igbt_23.C) node[contact, pos=0.3, name=out2] {};
+
+\path ($(fc2n) + (-2, 0)$) -- ($(fc2p) + (-2, 0)$) node[capacitor={info=$C_2$}, name=fc2, pos = 0.5, rotate = -90, small circuit symbols, right] {};
+\draw[-] (fc2n) -| (fc2.east) (fc2.west) |- (fc2p);
+
+%Connection to DC link
+\draw[-] (dcm1) |- ($(igbt_24.E) + (0, -0.1)$) node[contact, name = dcm2] {} -- (igbt_24.E);
+\draw[-] (dcp1) |- ($(igbt_21.C) + (0, 0.1)$) node[contact, name = dcp2] {} -- (igbt_21.C);
+
+%Phase 3
+\node[nigbt, name=igbt_31, scale=1] at (8.5, 0) {};
+\draw (igbt_31.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_31.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_31.B) {$S_{31}$};
+
+\node[nigbt, name=igbt_32, scale=1] at (8.5, -1.5) {};
+\draw (igbt_32.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_32.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_32.B) {$S_{32}$};
+
+\draw[-] (igbt_31.E) -- (igbt_32.C) node[contact, midway, name=fc3p] {};
+
+\node[nigbt, name=igbt_33, scale=1] at (8.5, -4) {};
+\draw (igbt_33.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_33.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_33.B) {$S_{33}$};
+
+\node[nigbt, name=igbt_34, scale=1] at (8.5, -5.5) {};
+\draw (igbt_34.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_34.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_34.B) {$S_{34}$};
+
+\draw[-] (igbt_33.E) -- (igbt_34.C) node[contact, midway, name=fc3n] {};
+
+\draw[-] (igbt_32.E) -- (igbt_33.C) node[contact, pos=0, name=out3] {};
+
+\path ($(fc3n) + (-2, 0)$) -- ($(fc3p) + (-2, 0)$) node[capacitor={info=$C_3$}, name=fc3, pos = 0.5, rotate = -90, small circuit symbols, right] {};
+\draw[-] (fc3n) -| (fc3.east) (fc3.west) |- (fc3p);
+
+%Connection to DC link
+\draw[-] (dcm2) |- ($(igbt_34.E) + (0, -0.1)$) -- (igbt_34.E);
+\draw[-] (dcp2) |- ($(igbt_31.C) + (0, 0.1)$) -- (igbt_31.C);
+
+%Phase voltage clamps
+\draw[-] (out3) -- ++(3, 0) node[draw, circle, inner sep = 1.25pt, fill = white] (out_contact_terminal3) {};
+\draw[-] (out2) -- ++(5.25, 0) node[draw, circle, inner sep = 1.25pt, fill = white] (out_contact_terminal2) {};
+\draw[-] (out1) -- ++(7.5, 0) node[draw, circle, inner sep = 1.25pt, fill = white] (out_contact_terminal1) {};
+
+\draw[-] ($(out_contact_terminal3) + (0, -3.25)$) node[draw, circle, inner sep = 1.25pt, fill = white, name = out_contact_gnd3] {} -- ++(0, -0.3) node[ground, right, rotate = -90] {};
+\draw[-] ($(out_contact_terminal3) + (-1, -3.25)$) node[draw, circle, inner sep = 1.25pt, fill = white, name = out_contact_gnd2] {} -- ++(0, -0.3) node[ground, right, rotate = -90] {};
+\draw[-] ($(out_contact_terminal3) + (-2, -3.25)$) node[draw, circle, inner sep = 1.25pt, fill = white, name = out_contact_gnd1] {} -- ++(0, -0.3) node[ground, right, rotate = -90] {};
+
+\draw[-triangle 45] ($(out_contact_terminal3) + (0, -0.15)$) -- ($(out_contact_gnd3) + (0, 0.15)$);
+\draw[-triangle 45] ($(out_contact_terminal2) + (0, -0.15)$) -- ($(out_contact_gnd2) + (0, 0.15)$) node[midway, right, name = vb] {$v_b$};
+\draw[-triangle 45] ($(out_contact_terminal1) + (0, -0.15)$) -- ($(out_contact_gnd1) + (0, 0.15)$);
+\node at ($(vb) + (-1, 0)$) {$v_a$};
+\node at ($(vb) + (1, 0)$) {$v_c$};
+\end{tikzpicture}

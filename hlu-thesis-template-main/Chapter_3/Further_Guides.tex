@@ -1,0 +1,149 @@
+\setcounter{equation}{0}
+
+\clearpage
+
+\chapter{Further Guides for Your Report or Thesis} \label{chapter:Further_Guides_for_Your_Report_or_Thesis}
+
+
+In the following, a few further guidelines (dos and don'ts) are given.
+
+\section{Guidelines for Your Presentation}
+
+
+
+\subsection{Template, Software and Language}
+
+For an Engineer's Internship Report, Seminar Paper, Researcher's Report, Bachelor Thesis and Master Thesis you are invited to use this \LaTeX\ template. You can also extract a few tips on writing in \LaTeX\ (e.g.\ the tilde in \texttt{Fig.$\sim$\textbackslash{}ref\{key\}} to avoid a line break).
+
+\LaTeX\ is highly (!) recommended, but any other software (e.g.\ Word, OpenOffice) may be used. TUM provides some templates (also for presentations) which may be used: \url{https://portal.mytum.de/corporatedesign}
+
+English is preferred, but depending on the topic, German is also fine.
+
+In any case, consult your supervisor for his/her specifications for your work.
+
+\subsection{Structure}
+
+A possible structure is given in the main part of this document. Generally, the motivation/introduction section usually has no subsections and may be up to two pages long (up to about three pages for a thesis). Limit the number of chapter levels/section levels (section, subsection, subsubsection) to three or four maximum.
+
+If your topic is different from a controller design, the structure of your report/thesis can be different from the here proposed one. However, the abstract, the motivation/introduction and the conclusions and outlook sections remain as presented. For the structure of other topics of reports/theses, have a look into published papers with similar topics to yours. If your topic is a literature review, have a look e.g.\ in~\cite{Cherubini2015Airborne}.
+
+\subsection{Page Count}
+
+For a bachelor or master thesis, the page count should be below 100 or maximum 150. In any case, be concise. Usually, it is not hard to write many pages, but to write few concise pages. It would be ideal if you can write as concise as 5 pages for a report or 50 pages for a thesis.
+
+\subsection{Style of Writing: Equations}
+
+It is a good style to handle any equation as part of a sentence. Instead of writing: “The gravitational force depends on the mass.
+\begin{align}
+	F = m g" 
+\end{align}
+You should write: “The gravitation force depends on the mass and is given by
+\begin{align}
+	F = m g." 
+\end{align}
+As the equation is at the end of the sentence, it ends with a period. Here is another example with an accessory sentence (usage of a comma in the equation): “The gravitational force is
+\begin{align}
+	F = m g,
+\end{align}
+where $m$ is the mass.”
+
+Derive all your equations with symbols first. Afterwards and if appropriate, you can calculate numerical results or just list parameters and results in a table.
+
+\subsection{Style of Writing: Math Symbols}
+
+Use common math symbols and try to reduce the amount of used symbols if possible, but do not let room for ambiguity. A good practice is to write scalars normal $s$, vectors bold $\v{v}$, matrices bold and capitalized $\M{M}$ and nature constants normal and non-italic $\c{c}$. Use consistent multiplication symbols. A good practice is to use no multiplication symbol for variables, $F = mg$ and a centered dot for numbers, $F = \unit[1]{kg} \cdot \unit[9.81]{m/s^2}$. Do not use $F = \unit[1]{kg} * \unit[9.81]{m/s^2}$ or $F = \unit[1]{kg} \times \unit[9.81]{m/s^2}$ or $F = \unit[1]{kg} . \unit[9.81]{m/s^2}$. These three symbols are reserved for convolution, cross product and point-separator. Function names are written normal, i.e.\ write $\sin(x)$ (i.e.\ \texttt{\$\textbackslash{}sin(x)\$}) instead of $sin(x)$. You can also define your own function names with \texttt{\$\textbackslash{}operatorname\{myFunc\}(x)\$} which becomes $\operatorname{myFunc}(x)$.
+
+Every symbol needs to be explained at its first use, even if it is somewhat obvious such as mass $m$: The symbol $m$ could have also been used for an amount as in $\sum_{i=1}^m x_i$.
+
+Use appropriate braces in equations and make use of \texttt{\textbackslash{}left} and \texttt{\textbackslash{}right}.
+
+\subsection{Style of Writing: Braces and Footnotes}
+
+Reduce the usage of (braces) in the text and footnotes to a minimum. Either a statement is relevant and it could be in the normal text, or it is not so important and might be not written at all.
+
+\subsection{Style of Writing: Sentence Length, Adjectives, Superlatives, Assessments}
+
+Write short and concise sentences, best just in the form noun, verb, object, e.g.\ “Fig.~x shows a block diagram of the controller.” Avoid assessing adjectives/superlatives and the word “very”, e.g.\ do not write “Kite power has enormous advantages and the proposed controller achieves a very high efficiency.” Generally, only use statements that cannot be argued. The example sentence can be improved e.g.\ as follows: “Kite power has some advantages compared to conventional wind turbines, such as a lower material demand. The proposed controller achieved an efficiency of $\unit[x]{\%}$.” In that example, there is little to no room for arguments against the statements. You may let the reader assess your results, as in the last sentence of that example. Note that this is the difference of a scientific style of writing compared to the style usually used in marketing or journalism.
+
+Before submitting a revision to your supervisor, it is a good idea to read your report/thesis aloud. Try to identify sentences, that can be shorter or divided into two (or more). Try to identify arguable statements, and remove them if they are not required. Find any other possibilities for improvements. Your goal is to submit a perfect report without any mistakes (in your eyes).
+
+\subsection{Style of Writing: Explanations}
+
+Write your findings/proposals as easy to read as possible. Write for someone who has not dealt in detail with your topic for months, but has a basic knowledge of your topic. For a controller implementation or a simulation model, it might be a good idea to ask yourself the following question: Is it possible to replicate your controller/model just with the information given in the text? For a thesis, you might give all the source codes and screenshots of simulation models, but already the mathematical equations and explanations should be enough for the reader to replicate your results. Generally it is a good idea to start your explanation/modeling with an axiom or with key assumption(s), e.g.\ “according to Newton's axioms, the dynamics of the kite is given by $\v{\dot{p}} = \v{F}_\Sigma, \v{\dot{r}} = m^{-1} \v{p}$, where \dots”, or for an electrical problem, “according to Kirchhoff's current law, the capacitor current is given by \dots” Another start could be an equation based on conservation of power, energy or momentum. This is a point, where you can “pick up” an engineer/researcher of your field. From that point on, develop your model step-by-step. Use a similar step-by-step-approach for any other derivation such as your control method. You may also cite specific references to keep your derivation and page count short or to start your derivation from a more advanced “pick-up”-point. Your goal is to help the reader to understand your ideas and steps as easy as possible, without reading many other publications.
+
+Write either in passive, e.g.\ “a current of $\unit[10]{A}$ was measured”, or in the first person, e.g.\ “we/I measured a current of $\unit[10]{A}$”. Use the present tense for explanations which have no time dependence, e.g.\ “the induced voltage is a function of the speed”, and use the simple past tense for past actions, e.g.\ “the stability of the controller was proven” or “an efficiency of $\unit[x]{\%}$ was measured”. Other tenses are rare in a scientific report, see e.g.\ \url{https://www.ef.com/wwen/english-resources/english-grammar/verbs/} for the correct usage.
+
+Use figures for your explanations. “An image can tell more than thousand words.” Ideally, important parts of your mathematical derivation can be “seen” already in the figures, e.g.\ a vector diagram supports a trigonometric equation of your derivation. Create high quality vector images e.g.\ with Inkscape and its \LaTeX\ export and create plots e.g.\ with matlab2tikz or Pgfplots \url{https://de.overleaf.com/learn/latex/Pgfplots_package}. Tip: use your favorite search engine and look for “latex drawing software”. Generally, labels should have the same (or similar) font and font size as the text of the template. It can take a lot of time to create a good/professional image or a good/professional plot, but it is worth it. A reader would usually first scan images, as they can summarize the most important parts of your work.
+
+Push the figures/tables to appropriate locations in the text. A (sub)section title cannot be followed by a figure/table. Do not start a sentence with “But”. Do not use short forms such as “can't” or “don't”. Write it out, “cannot” and “do not”.
+
+\subsection{Style of Writing: Paragraphs}
+
+Not every sentence is a paragraph, and a long section should have several paragraphs. Usually, the first sentence in a paragraph states a main point. Remaining sentences of the paragraph present information related to that main point.
+
+\subsection{Style of Writing: Abbreviations}
+
+Only use very common abbreviations, do not invent your own. Keep the usage of abbreviations at a minimum. A common abbreviation is PID controller which does not need further explanations. Another one would be PMSM for permanent magnet synchronous machine, which is often used by electrical engineers, but might be unknown by others. The first usage of such an abbreviation should be in the form “the abbreviation (TA)”. Avoid abbreviations in the title of the report and in the abstract if possible.
+
+\subsection{Style of Writing: References, Citations}
+
+Reference to all figures and all tables at least once with “see Fig.~x” and “see Tab.~y” or “as shown in Figs.~x--y” or similar (in \LaTeX\ with \texttt{as shown in Figs.$\sim$\textbackslash{}ref\{tag1\}--\textbackslash{}ref\{tag2\}}). Reference equations with “solve~(x) for $m$” (in \LaTeX\ with \texttt{solve$\sim$\textbackslash{}eqref\{tag3\} for \$m\$}).
+
+Keep references to later sections of your report at a minimum, the only exception is the last part of the introduction to draw an outline. Do not write in future tense like “xy will be shown later”. Also avoid to write “xy was shown in the equations earlier” or “above”. Instead, always refer to specific sections, equations or figures.
+
+Every statement or information from another source requires a reference to that source. This particularly also includes images. For images, the citation mark can be placed in the caption.
+
+Do not start a sentence with a pure reference such as “(x) computes the force \dots” or “[y] discussed MPC \dots”. Instead write “Eq.~(x) computes the force \dots” or “In~[y] MPC was discussed \dots”. At the beginning of a sentence, you may also write out Equation, Figure or Table. In all other cases, use the short form Eq.\ (or just the equation number in braces, be consistent), Fig.\ or Tab. Do not alter the word for “Figure”, i.e.\ do not write “see Image~x” or “see Picture~y”. Always use “Fig.~z”. An equation number is always in braces, a reference is always in square braces and all other numbers are in no braces.
+
+\subsection{Style of Writing: Report Title}
+
+Keep the title short and concise. A good title is only one line, or maximum two lines. Do not use a title with more than three lines.
+
+\subsection{Style of Writing: Captions}
+
+Keep captions (e.g.\ of figures and tables) concise. They only describe what is shown. Discussions and interpretations are in the main text. The first letter of the first word of the caption is capitalized. The caption ends with a period.
+
+\subsection{Style of Writing: Lists}
+
+Lists should be used if appropriate. In a paper, you should use inline lists, e.g.: “The advantages of a PID controller are (i)~the simplicity, (ii)~the low computational demands and (iii)~the stability.” In a thesis, you might use bullet points instead. Each item should sound similar, i.e.\ if the first item starts with a noun, all other items should also start with a noun. If the first item is a sentence, all other items should be a sentence, etc.
+
+\subsection{Spelling}
+
+Before you submit a revision to your supervisor, always use a spell checker for the complete document. Check for the correct use of “a”, “an”, “the” and plural.
+
+\subsection{Quotation Marks in \LaTeX}
+
+The quotation mark symbol in \LaTeX\ is not \texttt{"}. It is \texttt{``quoted''} or the respective UTF-8 symbols “quoted” (you might have shortcuts on your operating system).
+
+Use bibtex (or alternatively biber) for the bibliography in \LaTeX{}. For many publication databases you find the bibtex entry of a paper online (e.g.\ google books or IEEExplore) which just needs to be copied and pasted into your bib file: Fig.~\ref{IEEExplore.png} shows a screenshot from IEEExplore. After clicking on “Download Citation”, copy the text and paste it into your “.bib” file.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=8cm]{Chapter_3/Graphics/IEEExplore.png}
+	\caption{Downloading a bibtex entry from IEEExplore.}
+	\label{IEEExplore.png}
+\end{figure}
+
+
+\subsection{Further Reading}
+
+Please also read “How to write for Technical Periodicals \& conferences” by IEEE, \url{https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/How-to-Write-for-Technical-Periodicals-and-Conferences.pdf}, at least Secs.~6--7. Another guide is \url{http://journals.aps.org/files/rmpguide.pdf}.
+
+
+\section{Guidelines for Your Presentation}
+
+In the following, a few guidelines (dos and don'ts) for your presentations are given:
+
+\begin{itemize}
+	\item Do not create a bullet point-“standard” Power Point presentation.
+	\item Place almost no math on the slides, except one can understand quickly, and if it helps to illustrate your idea.
+	\item Instead,  use images and graphs, with which you tell a story and sketch your idea. A story teller does not need to draw an outline at the beginning of the story.
+	\item Place affiliation, dates, logos etc.\ only on the first slide (title slide). On all other slides, place only a slide number and do note place other boarders. Use a single color background, e.g.\ just black or white.
+	\item Do not overload your slides.
+	\item Use a similar structure as in your report/thesis: title, motivation incl.\ previous/related works, your approach/idea, your results, conclusions, outlook.
+	\item Rehearse your presentation several times. Make sure, you are $\unit[\pm 3]{min}$ maximum within the set time limit. You usually need about $\unit[1]{min}$ per slide.
+	\item Create your presentation with only one target: The audience shall understand your key idea. Mathematical details etc.\ can be found in your report/thesis.
+\end{itemize}
+
+
+\cleardoublepage

@@ -1,0 +1,62 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Main File
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[a4paper, twoside, openright,12pt]{report}
+
+%% Include packages and layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{Include/Packages}
+\input{Include/Layout}
+\input{Include/Nomenclature}
+
+%% Beginning of the document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\include{Cover/first_pages}
+
+\pdfbookmark{\contentsname}{Table of Contents}
+
+\tableofcontents
+
+\cleardoublepage
+
+\pagenumbering{arabic}  
+
+%% Include the chapters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{Chapter_1/Introduction}
+
+\include{Chapter_2/Background}
+
+\include{Chapter_3/Further_Guides}
+%
+%\include{Chapter_4/xxx}
+%
+%\include{Chapter_5/xxx}
+%
+%\include{Chapter_6/xxx}
+
+\include{Chapter_7/Conclusion}
+
+\include{Appendix/appendix}
+
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+
+\cleardoublepage
+
+\phantomsection
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables
+
+\cleardoublepage
+
+\phantomsection
+\addcontentsline{toc}{chapter}{\bibname}
+\bibliographystyle{IEEEtran}
+\bibliography{./Bibliography/References}
+
+\end{document}

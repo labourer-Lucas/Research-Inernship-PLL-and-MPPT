@@ -1,0 +1,29 @@
+\begin{tikzpicture}[scale = 1]
+%Definitions
+\def \width {10}															%Width of the time axis
+\def \sample {8}															%Length of the sample
+\def \samplestart{0.5*\width-0.5*\sample}			%Beginning of the sample
+\def \sampleend{\samplestart+\sample}					%End of the sample
+\def \calctime {0.67}													%End of the calculation time relative to the sample length
+
+%Draw the x axis
+\draw[-triangle 45] (0, 0) -- (\width, 0) node [right] {$t$};
+
+%Draw the sample
+\draw[-] (\samplestart, 0.1) -- (\samplestart, -0.1) node [below] {$k$};
+\draw[-, blue] (\sampleend, 0.1) -- (\sampleend, -0.1) node [below, blue] {$k+1$};
+
+%Draw the calculation time
+\draw[-, fill = lightgray] (\samplestart, 0.75) rectangle (\samplestart+\calctime*\sample, 0);
+\node at (\samplestart+0.5*\calctime*\sample, 0.375) {Calculation time};
+\draw[-, red] (\samplestart+\calctime*\sample, 0.1) -- (\samplestart+\calctime*\sample, -0.1) node[below, red] {$t_\text{calc}$};
+
+%Start of the sample
+\draw[-triangle 45] (\samplestart, 1.25) node[above, align=center] {Measure $\bm{x}(k)$\\Apply $\bm{u}(k-1)$} -- (\samplestart, 0.75);
+
+%End of the calculation time
+\draw[-triangle 45, red] (\samplestart+\calctime*\sample, 1.25) node[above, red, align=center] {~~~~~~~~~~$\bm{x}(k+1)$ predicted based on $\bm{u}(k-1)$ and $\bm{x}(k)$\\$\bm{u}(k)$ calculated based on $\bm{x}(k+1)$} -- (\samplestart+\calctime*\sample, 0.75);
+
+%End of the sample
+\draw[-triangle 45, blue] (\sampleend, 0.6) node[above, blue, align=center] {Apply $\bm{u}(k)$} -- (\sampleend, 0.1);
+\end{tikzpicture}

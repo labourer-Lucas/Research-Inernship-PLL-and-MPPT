@@ -1,0 +1,146 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols]
+%Definitions
+\definecolor{matlabgreen}{rgb}{0, 0.5, 0}
+
+%Speed PID controller
+\node[rectangle, fill = blue!20, draw = black, minimum height = 0.5cm, minimum width = 0.75cm, inner sep = 0pt, name = speed_pid, drop shadow, font = \scriptsize] at (0, 0) {PID};
+\node[above right] at (speed_pid.east) {\scriptsize{$T_\text{m}^*$}};
+\node[sum, left of = speed_pid, node distance = 1cm, name = speed_pid_sum]{};
+\node[below right] at (speed_pid_sum) {\scriptsize{$-$}};
+
+%Torque to isq conversion
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 1cm, minimum width = 1cm, inner sep = 0pt, name = torque_conversion, node distance = 1.625cm, right of = speed_pid, drop shadow] {};
+\begin{scope}
+\clip (torque_conversion.south west) rectangle (torque_conversion.north east);
+\draw[-] (torque_conversion.south west) -- (torque_conversion.north east);
+\end{scope}
+\path (torque_conversion.north west) -- (torque_conversion.south east) node[pos = 0.3, font = \scriptsize] {$T_\text{m}$} node[pos = 0.7, font = \scriptsize] {$i_{\text{s}q}$};
+
+%Speed reference
+\node[left, name = speed_reference, left of = speed_pid_sum, node distance = 1cm, font = \scriptsize] {$\omega_\text{m}^*$};
+
+%Flux to isd conversion
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 1cm, minimum width = 1cm, inner sep = 0pt, name = flux_conversion, node distance = 1.25cm, below of = torque_conversion, drop shadow] {};
+\begin{scope}
+\clip (flux_conversion.south west) rectangle (flux_conversion.north east);
+\draw[-] (flux_conversion.south west) -- (flux_conversion.north east);
+\end{scope}
+\path (flux_conversion.north west) -- (flux_conversion.south east) node[pos = 0.3, font = \scriptsize] {$\left | \bm{\psi}_\text{r} \right |$} node[pos = 0.7, font = \scriptsize] {$i_{\text{s}d}$};
+
+%Flux reference
+\node[left, name = flux_reference, font = \scriptsize] at ($(flux_conversion.west) + (-0.75, 0)$) {$\left | \bm{\psi}_\text{r} \right |^*$};
+\draw[-triangle 45] (flux_reference) -- (flux_conversion.west);
+
+%Flux PID controller
+\node[sum, right of = flux_conversion, node distance = 1.35cm, name = flux_pid_sum]{};
+\node[below right] at (flux_pid_sum) {\scriptsize{$-$}};
+\node[rectangle, fill = blue!20, draw = black, minimum height = 0.5cm, minimum width = 0.75cm, inner sep = 0pt, name = flux_pid, node distance = 1.375cm, right of = flux_pid_sum, drop shadow, font = \scriptsize] {PID};
+\node[above right, font = \scriptsize] at (flux_pid.east) {$v_d^*$};
+
+%Torque PID controller
+\node[sum, right of = torque_conversion, node distance = 1.75cm, name = torque_pid_sum]{};
+\node[below right, font = \scriptsize] at (torque_pid_sum) {$-$};
+\node[rectangle, fill = blue!20, draw = black, minimum height = 0.5cm, minimum width = 0.75cm, inner sep = 0pt, name = torque_pid, drop shadow, font = \scriptsize] at (torque_conversion -| flux_pid) {PID};
+\node[above right, font = \scriptsize] at (torque_pid.east) {$v_q^*$};
+
+%Park transformation
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 1.25cm, minimum width = 1.25cm, inner sep = 0pt, name = park_transformation, drop shadow] at ($(flux_pid.east) + (-0.1, -1.5)$) {};
+\begin{scope}
+\clip (park_transformation.south west) rectangle (park_transformation.north east);
+\draw[-] (park_transformation.south west) -- (park_transformation.north east);
+\end{scope}
+\path (park_transformation.north west) -- (park_transformation.south east) node[pos = 0.3, font = \scriptsize] {$dq$} node[pos = 0.7, font = \scriptsize] {$\alpha \beta$};
+
+%Inverse Park transformation
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 2cm, minimum width = 0.75cm, inner sep = 0pt, name = inverse_park_transformation, drop shadow] at ($(flux_pid) + (1.5, 0.625)$) {};
+\begin{scope}
+\clip (inverse_park_transformation.south west) rectangle (inverse_park_transformation.north east);
+\draw[-] (inverse_park_transformation.south west) -- (inverse_park_transformation.north east);
+\end{scope}
+
+%Inverse Clarke transformation
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 2cm, minimum width = 0.75cm, inner sep = 0pt, name = inverse_clarke_transformation, node distance = 1.5cm, right of = inverse_park_transformation, drop shadow] {};
+\begin{scope}
+\clip (inverse_clarke_transformation.south west) rectangle (inverse_clarke_transformation.north east);
+\draw[-] (inverse_clarke_transformation.south west) -- (inverse_clarke_transformation.north east);
+\end{scope}
+
+%PWM
+\node[rectangle, fill = red!20, draw = black, minimum height = 2cm, minimum width = 1cm, inner sep = 0pt, name = pwm, node distance = 1.625cm, right of = inverse_clarke_transformation, drop shadow] {\scriptsize{PWM}};
+
+%Inverter
+\node[rectangle, fill = lightgray, draw = black, minimum height = 1.75cm, minimum width = 1.5cm, inner sep = 0pt, name = pe, right of = pwm, node distance = 2cm, drop shadow] {};
+\node[nigbt, name=igbt, scale=1] at ($(pe) + (0.2, 0)$) {};
+\draw (igbt.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+
+%Induction machine
+\node[circle, fill =  lightgray, draw = black, minimum width = 1cm, name = im, node distance = 1.75cm, right of = pe, drop shadow, font = \scriptsize] {IM};
+\path (im.east) -- ++(0.15, 0);
+
+%Clarke transformation
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 1.25cm, minimum width = 1.25cm, inner sep = 0pt, name = clarke_transformation, node distance = 3.5cm, below of = pe, drop shadow] {};
+\begin{scope}
+\clip (clarke_transformation.south west) rectangle (clarke_transformation.north east);
+\draw[-] (clarke_transformation.south west) -- (clarke_transformation.north east);
+\end{scope}
+\path (clarke_transformation.north west) -- (clarke_transformation.south east) node[pos = 0.3] {\scriptsize{$\alpha \beta$}} node[pos = 0.7] {\scriptsize{$abc$\phantom{i}}};
+
+%Rotor flux estimation
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 1.25cm, minimum width = 1.75cm, inner sep = 0pt, name = estimator, align = center, node distance = 3.25cm, left of = clarke_transformation, drop shadow, font = \scriptsize] {Rotor flux\\estimation};
+
+%Connections of the nodes
+\draw[-triangle 45] ($(im.center) + (-125:0.5)$) |- ($(clarke_transformation.north east) + (0, -0.3)$);
+\draw[-triangle 45] (im.south) |- ($(clarke_transformation.south east) + (0, 0.3)$);
+\node[above, font = \scriptsize] at ($(clarke_transformation.north east) + (0.5, -0.3)$) {$i_{\text{s} a}$};
+\node[above, font = \scriptsize] at ($(clarke_transformation.south east) + (0.5, 0.3)$) {$i_{\text{s}b}$};
+
+\draw[-] ($(im.center) + (145:0.5)$) -- ($(pe.east) + (0, {0.5*sin(145)})$);
+\draw[-] (im) to (pe);
+\draw[-] ($(im.center) + (215:0.5)$) -- ($(pe.east) + (0, {0.5*sin(215)})$);
+
+\draw[-triangle 45] ($(im.center) + (-55:0.5)$) |- ($(estimator.south) + (0, -0.75)$) coordinate (omega_bottom) -| (speed_pid_sum.south);
+\draw[-triangle 45] ($(estimator.south) + (0, -0.75)$) node[contact] {} node[above right, font = \scriptsize] {$\omega_\text{m}$} -- (estimator.south);
+
+\draw[-triangle 45] (speed_reference) to (speed_pid_sum);
+\draw[-triangle 45] (speed_pid_sum) to (speed_pid);
+\draw[-triangle 45] (speed_pid.east) -- (torque_conversion.west);
+
+\draw[-triangle 45] ($(clarke_transformation.north west) + (0, -0.3)$) coordinate (marker1) node[above left, font = \scriptsize] {$i_{\text{s} \alpha}$} -- (marker1 -| estimator.east) node[contact, name = alpha_contact, pos = 0.75] {};
+\draw[-triangle 45] ($(clarke_transformation.south west) + (0, 0.3)$) coordinate (marker2) node[above left, font = \scriptsize] {$i_{\text{s} \beta}$} -- (marker2 -| estimator.east) node[contact, name = beta_contact, pos = 0.5] {};
+
+\draw[-triangle 45] ($(pwm.east) + (0, 0.65)$) -- ($(pe.west) + (0, 0.65)$);
+\node[above, font = \scriptsize] at ($(pwm.east) + (0.35, 0.65)$) {$s_a$};
+\draw[-triangle 45] (pwm.east) -- (pe.west);
+\node[above, font = \scriptsize] at ($(pwm.east) + (0.35, 0)$) {$s_b$};
+\draw[-triangle 45] ($(pwm.east) + (0, -0.65)$) -- ($(pe.west) + (0, -0.65)$);
+\node[above, font = \scriptsize] at ($(pwm.east) + (0.35, -0.65)$) {$s_c$};
+
+\draw[-triangle 45] ($(inverse_clarke_transformation.east) + (0, 0.65)$) -- ($(pwm.west) + (0, 0.65)$);
+\node[above, font = \scriptsize] at ($(inverse_clarke_transformation.east) + (0.35, 0.65)$) {$v_a^*$};
+\draw[-triangle 45] (inverse_clarke_transformation.east) -- (pwm.west);
+\node[above, font = \scriptsize] at ($(inverse_clarke_transformation.east) + (0.35, 0)$) {$v_b^*$};
+\draw[-triangle 45] ($(inverse_clarke_transformation.east) + (0, -0.65)$) -- ($(pwm.west) + (0, -0.65)$);
+\node[above, font = \scriptsize] at ($(inverse_clarke_transformation.east) + (0.35, -0.65)$) {$v_c^*$};
+
+\draw[-triangle 45] (estimator.west) node[above left, font = \scriptsize] {$\varphi$} -| (park_transformation.south);
+\draw[-triangle 45] (estimator.west -| inverse_park_transformation.south) node[contact] {} -- (inverse_park_transformation.south);
+
+\draw[-triangle 45] (torque_conversion.east) node[above right, font = \scriptsize] {$i_{\text{s}q}^*$} -- (torque_pid_sum.west);
+\draw[-triangle 45] (torque_pid_sum.east) -- (torque_pid.west);
+\draw[-triangle 45] (flux_conversion.east) node[above right, font = \scriptsize] {$i_{\text{s}d}^*$} -- (flux_pid_sum.west);
+\draw[-triangle 45] (flux_pid_sum.east) -- (flux_pid.west);
+
+\draw[-triangle 45] (torque_pid.east) -- (torque_pid.east -| inverse_park_transformation.west) node[right, font = \scriptsize] {$dq$};
+\draw[-triangle 45] (flux_pid.east) -- (flux_pid.east -| inverse_park_transformation.west);
+
+\draw[-triangle 45] (torque_pid.east -| inverse_park_transformation.east) node[above right, font = \scriptsize] {$v_\alpha^*$} -- (torque_pid.east -| inverse_clarke_transformation.west) node[right, font = \scriptsize] {$\alpha \beta$};
+\draw[-triangle 45] (flux_pid.east -| inverse_park_transformation.east) node[above right, font = \scriptsize] {$v_\beta^*$} node[left, font = \scriptsize] {$\alpha \beta$} -- (flux_pid.east -| inverse_clarke_transformation.west) node[right, font = \scriptsize] {\,\,$abc$};
+
+\draw[-triangle 45] ($(park_transformation.north west) + (0, -0.3)$) -| (torque_pid_sum.south);
+\node[above, font = \scriptsize] at ($(park_transformation.north west) + (-0.3, -0.3)$) {$i_{\text{s} q}$};
+\draw[-triangle 45] ($(park_transformation.south west) + (0, 0.3)$) -| (flux_pid_sum.south);
+\node[above, font = \scriptsize] at ($(park_transformation.south west) + (-0.3, 0.3)$) {$i_{\text{s} d}$};
+
+\draw[-triangle 45] (alpha_contact) |- ($(park_transformation.south east) + (0, 0.3)$);
+\draw[-triangle 45] (beta_contact) |- ($(park_transformation.north east) + (0, -0.3)$);
+\end{tikzpicture}

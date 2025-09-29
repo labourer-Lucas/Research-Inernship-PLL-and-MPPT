@@ -1,0 +1,35 @@
+\setcounter{equation}{0}
+
+\clearpage
+
+\chapter{Introduction} \label{chapter:introduction}
+
+The first section is always titled “Introduction” or alternatively “Motivation”. In this first section, you briefly introduce your topic and motivate why it is interesting/important to actually think about it. E.g.\ in the first one or two paragraphs of a work related to kite power, you briefly introduce the idea/technology of kite power, also with a figure.
+
+In the next one or two paragraphs, you describe the specific problem you are dealing with in your work, e.g.\ the control of the kite. You specifically state solutions other researchers published (with reference, about three to ten relevant/important references, depending on the problem/research field) and their shortcomings, you are trying to improve with your proposed solution, e.g.: “Musterfrau proposed in~[42] to use model predictive control (MPC) to control all states of the kite. Musterdame improved the control scheme for real time execution in~[43]. However, one shortcoming in these solutions is the complexity of the optimization algorithm of MPC. In this paper, a different approach is proposed, by using set of cascaded PID controllers and a switching logic. As a result, a relatively simple control structure which is executable in real time on low cost micro controllers is used to control the kite.” Give a few important/interesting details, what is different (or better) on your approach, but keep these statements short: Details follow in the main part. If a longer literature review is required, you can also have a section after the motivation titled “Related Works” or “Literature Review” or similar. You usually receive a few literature reference from your supervisor as a general starting point of your work. For more literature, have a look into the literature references of those literature references. Google Scholar or IEEExplore with the extended search are further sources for your literature review. At the end, you should have at least ten papers, theses or dissertations in your literature list. This does not mean, that you have read and understood completely all these publications. However, you should have understood the key ideas, methods and results of a cited publication.
+
+At the end of your literature review and introduction to your approach, state the specific new contributions of your work, e.g.: “The contributions of this study can be summarized as follows: (i)~Proposal of cascaded PID controllers to control the kite. (ii)~Derivation of the PID parameters and switching scheme for the different flight phases. (iii)~Formal stability proof of the controllers for all flight phases. (iv)~Verification of the effectiveness of the control method through simulations and experiments with a small scale demonstrator.”
+
+In the last paragraph, you briefly state how you organized your report by referring to specific sections, e.g.: “This paper is organized as follows: The next section gives a brief introduction to PID controllers. Sec.~x derives the model equations with important assumptions and formulates the control problem. Sec.~y proposes the solution and gives a formal stability proof. Secs.~z--z2 show simulation and experimental results. Finally, conclusions and an outlook are given in Sec.~z3.”
+
+
+\begin{figure}[htbp]
+\centering
+\input{Chapter_1/Graphics/Draw/control_structure.tex}
+\caption{An example for TikZ picture} \label{fig:pe_drives_control_structure}
+\end{figure}
+
+
+% Example for TikZ Externalization Library: https://tikz.dev/library-external
+% Before use TikZ Externalization, add "-shell-escape" arguments to the compiler pdflatex
+% and uncomment "\tikzset{external/system call={pdflatex \tikzexternalcheckshellescape -halt-on-error -interaction=batchmode -jobname "\image" "\texsource"}}" and
+% "\tikzexternalize[shell escape=-enable-write18]" in the Packages.tex
+%\begin{figure}[htbp]
+%\centering
+%\tikzsetnextfilename{Chapter_1/Graphics/Draw/Build/control_structure}
+%\input{Chapter_1/Graphics/Draw/control_structure.tex}
+%\caption{Typical control structure in the field of power electronics and electrical drives} \label{fig:pe_drives_control_structure}
+%\end{figure}
+
+
+\cleardoublepage

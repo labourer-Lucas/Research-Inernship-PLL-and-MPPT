@@ -1,0 +1,20 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic = var diode IEC graphic, tiny circuit symbols, scale = 1]
+%Definitions
+\definecolor{matlabgreen}{rgb}{0, 0.5, 0}
+
+\node[left, name = start] at (-0.5, 0) {$\bm{y}^*$};
+
+\node[rectangle, minimum width = 2.5cm, minimum height = 1.5cm, inner sep = 0pt, drop shadow, fill = yellow!50, draw = black, align = center, name = controller] at (1.75,-0.25) {Controller};
+
+\draw[-triangle 45] (3, 0) -- (4, 0);
+
+\node[rectangle, minimum width = 2cm, minimum height = 1cm, inner sep = 0pt, drop shadow, fill = lightgray, draw = black, align = center, name = actuator] at (5, 0) {Actuator};
+\node[rectangle, minimum width = 2cm, minimum height = 1cm, inner sep = 0pt, drop shadow, fill = lightgray, draw = black, align = center, name = plant] at (8, 0) {Plant};
+
+\draw[-triangle 45] (start) -- (start -| controller.west);
+\draw[-triangle 45] (controller.east|- 0, 0) to (actuator);
+\draw[-triangle 45] (actuator) to (plant);
+
+\draw[-triangle 45] (plant.east) -- ++(1.5, 0) node[contact, pos = 0.45, name = out_contact] {} node[right] {$\bm{y}$};
+\draw[-triangle 45] (out_contact) |- ($(controller.south) + (0, -0.5)$)  -| (0, -0.5) -- (controller.west |- 0, -0.5);
+\end{tikzpicture}

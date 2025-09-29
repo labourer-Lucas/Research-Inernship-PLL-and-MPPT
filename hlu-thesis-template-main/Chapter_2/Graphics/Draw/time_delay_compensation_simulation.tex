@@ -1,0 +1,20 @@
+\begin{tikzpicture}[scale = 1]
+%Definitions
+\def \width {10}															%Width of the time axis
+\def \sample {4}															%Length of the sample
+\def \samplestart {0.5*\width-\sample}				%Sample k-1 (left)
+\def \samplemid {\samplestart+\sample}				%Sample k (in the middle)
+\def \sampleend {\samplestart+2*\sample}			%Sample k+1 (right)
+
+
+%Draw the x axis
+\draw[-triangle 45] (0, 0) -- (\width, 0) node [right] {$t$};
+
+%Draw the samples
+\draw[-] (\samplestart, 0.1) -- (\samplestart, -0.1) node [below] {$k-1$};
+\draw[-] (\samplemid, 0.1) -- (\samplemid, -0.1) node [below] {$k$};
+\draw[-] (\sampleend, 0.1) -- (\sampleend, -0.1) node [below] {$k+1$};
+
+%Arrow and text for the sample k (in the middle)
+\draw[-triangle 45] (\samplemid, 0.6) node[above, align = center] {Measure $\bm{x}(k)$\\Calculate $\bm{u}(k)$ based on $\bm{x}(k)$\\Apply $\bm{u}(k)$} -- (\samplemid, 0.1);
+\end{tikzpicture}

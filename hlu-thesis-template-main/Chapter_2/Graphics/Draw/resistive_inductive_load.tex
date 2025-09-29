@@ -1,0 +1,18 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols]
+%Resistor and inductor
+\node[resistor={info=$R$}, rotate = -90, small circuit symbols, name = R, circuit symbol size = width 3.5 height 1.5] at (0, 0) {};
+\node[resistor={info=$L$}, rotate = -90, fill = black, small circuit symbols, name = L, circuit symbol size = width 3.5 height 1.5] at (0, -1.5) {};
+
+\draw[-] (R) to (L);
+
+%Terminals
+\draw[-] (R.west) -- ++(0, 0.5) -- ++(-2, 0) node[draw, circle, inner sep = 1.25pt, fill = white] (in_plus) {};
+\draw[-] (L.east) -- ++(0, -0.5) -- ++(-2, 0) node[draw, circle, inner sep = 1.25pt, fill = white] (in_minus) {};
+
+%Current arrow
+\draw[-triangle 45] (in_plus) -- ($(in_plus) + (1.1, 0)$);
+\node[above left] at ($(in_plus) + (1.25, 0.05)$) {$i_\text{o}$};
+
+%Input voltage
+\draw[-triangle 45] ($(in_plus) + (0, -0.15)$) -- ($(in_minus) + (0, 0.15)$) node[midway, left] {$v_\text{o}$};
+\end{tikzpicture}

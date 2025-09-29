@@ -1,0 +1,56 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols]
+
+%Voltage vector selection
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 2cm, minimum width = 2cm, inner sep = 0pt, name = voltage_vector_selection, align = center, drop shadow] at (0, 0) {Voltage\\vector\\selection};
+
+%Switching state selection
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 5cm, minimum width = 2cm, inner sep = 0pt, name = switching_state_selection, align = center, drop shadow] at ($(voltage_vector_selection.east) + (3, -1.5)$) {Switching\\state\\selection};
+
+%Inverter
+\node[rectangle, fill = lightgray, draw = black, minimum height = 1.75cm, minimum width = 1.5cm, inner sep = 0pt, name = pe, right of = voltage_vector_selection, node distance = 6.75cm, drop shadow] {};
+\node[nigbt, name=igbt, scale=1] at ($(pe) + (0.2, 0)$) {};
+\draw (igbt.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+
+%Load
+\node[rectangle, fill = lightgray, draw = black, minimum height = 1.75cm, minimum width = 1.25cm, inner sep = 0pt, name = load, right of = pe, node distance = 2.25cm, drop shadow] {Load};
+\path (load.east) -- ++(0.15, 0);
+
+%Connections of the nodes etc.
+%\draw[-triangle 45] ($(voltage_vector_selection.west) + (-1, 0.5)$) node[left] {$\bm{y}^*$} -- ($(voltage_vector_selection.west) + (0, 0.5)$);
+\draw[vecArrow] ($(voltage_vector_selection.west) + (-1, 0.5)$) node[left] {$\bm{y}^*$} -- ($(voltage_vector_selection.west) + (0, 0.5)$);
+\draw[innerWhite] ($(voltage_vector_selection.west) + (-1, 0.5)$) -- ($(voltage_vector_selection.west) + (0, 0.5)$);
+
+\draw[-triangle 45] ($(voltage_vector_selection.east) + (0, 0.5)$)  coordinate (v_alpha) -- (v_alpha -| switching_state_selection.west);
+\draw[-triangle 45] ($(voltage_vector_selection.east) + (0, -0.5)$)  coordinate (v_beta) -- (v_beta -| switching_state_selection.west);
+
+\draw[-triangle 45] ($(switching_state_selection.east) + (0, 2.05)$)  coordinate (s_a) node[above right] {$s_a$} -- (s_a -| pe.west);
+\draw[-triangle 45] ($(switching_state_selection.east) + (0, 1.5)$)  coordinate (s_b) node[above right] {$s_b$} -- (s_b -| pe.west);
+\draw[-triangle 45] ($(switching_state_selection.east) + (0, 0.95)$)  coordinate (s_c) node[above right] {$s_c$} -- (s_c -| pe.west);
+
+\draw[-triangle 45] (s_a -| pe.east) -- (s_a -| load.west);
+\draw[-triangle 45] (s_b -| pe.east) -- (s_b -| load.west);
+\draw[-triangle 45] (s_c -| pe.east) -- (s_c -| load.west);
+
+%\draw[-triangle 45] ($(pe.south) + (-0.5, 0)$) |- ($(switching_state_selection.south) + (0, -0.5)$) -| ($(voltage_vector_selection.south east) + (1, -2.5)$) coordinate (turn1) -- (turn1 -| switching_state_selection.west);
+\draw[vecArrow] ($(pe.south) + (-0.5, 0)$) |- ($(switching_state_selection.south) + (0, -0.5)$) -| ($(voltage_vector_selection.south east) + (1, -2.5)$) coordinate (turn1) -- (turn1 -| switching_state_selection.west);
+\draw[innerWhite] ($(pe.south) + (-0.5, 0)$) |- ($(switching_state_selection.south) + (0, -0.5)$) -| ($(voltage_vector_selection.south east) + (1, -2.5)$) coordinate (turn1) -- (turn1 -| switching_state_selection.west);
+
+%\draw[-triangle 45] (pe.south) |- ($(switching_state_selection.south) + (0, -1)$) -| ($(voltage_vector_selection.south east) + (0.5, -1.5)$) coordinate (turn2) -- (turn2 -| switching_state_selection.west);
+\draw[vecArrow] (pe.south) |- ($(switching_state_selection.south) + (0, -1)$) -| ($(voltage_vector_selection.south east) + (0.5, -1.5)$) coordinate (turn2) -- (turn2 -| switching_state_selection.west);
+\draw[innerWhite] (pe.south) |- ($(switching_state_selection.south) + (0, -1)$) -| ($(voltage_vector_selection.south east) + (0.5, -1.5)$) coordinate (turn2) -- (turn2 -| switching_state_selection.west);
+
+%\draw[-triangle 45] ($(pe.south) + (0.5, 0)$) |- ($(switching_state_selection.south) + (0, -1.5)$) -| ($(voltage_vector_selection.south east) + (0, -0.5)$) coordinate (turn3) -- (turn3 -| switching_state_selection.west);
+\draw[vecArrow] ($(pe.south) + (0.5, 0)$) |- ($(switching_state_selection.south) + (0, -1.5)$) -| ($(voltage_vector_selection.south east) + (0, -0.5)$) coordinate (turn3) -- (turn3 -| switching_state_selection.west);
+\draw[innerWhite] ($(pe.south) + (0.5, 0)$) |- ($(switching_state_selection.south) + (0, -1.5)$) -| ($(voltage_vector_selection.south east) + (0, -0.5)$) coordinate (turn3) -- (turn3 -| switching_state_selection.west);
+
+\path (turn1) -- (turn1 -| switching_state_selection.west) node[pos = 0.3, above, name = current] {$\bm{i}$};
+\node at ($(current) + (0, 1)$) {$\bm{v}_\text{c}$};
+\node at ($(current) + (0, 2)$) {$\bm{s}_\text{old}$};
+\node at ($(current) + (0, 4)$) {$v_\alpha$};
+\node at ($(current) + (0, 3)$) {$v_\beta$};
+
+%\draw[-triangle 45] (load.south) |- ($(switching_state_selection.south) + (0, -2)$) -| ($(voltage_vector_selection.west) + (-1, -0.5)$) -- ($(voltage_vector_selection.west) + (0, -0.5)$);
+\draw[vecArrow] (load.south) |- ($(switching_state_selection.south) + (0, -2)$) -| ($(voltage_vector_selection.west) + (-1, -0.5)$) -- ($(voltage_vector_selection.west) + (0, -0.5)$);
+\draw[innerWhite] (load.south) |- ($(switching_state_selection.south) + (0, -2)$) -| ($(voltage_vector_selection.west) + (-1, -0.5)$) -- ($(voltage_vector_selection.west) + (0, -0.5)$);
+\path ($(voltage_vector_selection.west) + (-1, -0.5)$) -- ($(voltage_vector_selection.west) + (0, -0.5)$) node[pos = 0.4, above] {$\bm{y}$};
+\end{tikzpicture}

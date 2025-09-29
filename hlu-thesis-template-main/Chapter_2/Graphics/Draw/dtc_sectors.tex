@@ -1,0 +1,28 @@
+\begin{tikzpicture}[scale = 0.3]
+
+\draw[-triangle 45] (-10, 0) -- (10, 0) node [right] {$\alpha$};
+
+\draw[fill = lightgray, draw = lightgray] (0, 0) -- (-30:9) -- (30:9) -- cycle;
+\draw[fill = darkgray, draw = darkgray] (0, 0) -- (30:9) -- (90:4.5) -- cycle;
+\draw[fill = lightgray, draw = lightgray] (0, 0) -- (90:4.5) -- (150:9) -- cycle;
+\draw[fill = darkgray, draw = darkgray] (0, 0) -- (150:9) -- (210:9) -- cycle;
+\draw[fill = lightgray, draw = lightgray] (0, 0) -- (210:9) -- (-90:4.5) -- cycle;
+\draw[fill = darkgray, draw = darkgray] (0, 0) -- (-90:4.5) -- (-30:9) -- cycle;
+   
+\draw[-triangle 45] (0, -7) -- (0, 7) node [above] {$\beta$};
+\draw[-] (30:10) -- (210:10);
+\draw[-] (-30:10) -- (150:10);
+   
+\draw[fill = white] (0, 0) -- (-30:4) arc (-30:30:4) -- cycle;
+\draw[-triangle 45] (25:3.98) -- (30:4);
+   
+\node at (0:2.5) {$60$\textdegree};
+   
+\node at (0:5.8) {I};
+\node[white] at (58:3.5) {II};
+\node at (122:3.5) {III};
+\node[white] at (180:5.5) {IV};
+\node at (-122:3.5) {V};
+\node[white] at (-58:3.5) {VI};
+
+\end{tikzpicture}

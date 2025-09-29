@@ -1,0 +1,36 @@
+\begin{tikzpicture}[scale = 1]
+%Definitions
+\def \sample {7}				%Length of the sample
+\def \maxtorque {5}			%Maximum torque (at t_sw)
+\def \starttorque {1} 	%Torque at the beginning (k)
+\def \reftorque{4}		%Torque reference
+\def \tsw{0.35}					%[0...1]*sample	
+
+%Coordinate system for the carrier and the reference
+\draw[-triangle 45] (0, -0.1) node[below] {$k$} -- (0, \maxtorque+0.5) node[above] {$T_\text{m}$};
+\draw[-triangle 45] (-0.1, 0) -- (\sample+1, 0) node[right] {$t$};
+\draw[-] (\sample, 0.1) -- (\sample, -0.1) node[below] {$k+1$};
+
+%Draw t_sw and the start torque, torque reference and maximum torque
+\draw[-] (\tsw*\sample, 0.1) -- (\tsw*\sample, -0.1) node[below] {$t_\text{sw}$};
+\draw[-] (0.1, \starttorque) -- (-0.1, \starttorque) node[left] {$T_\text{m}(k)$};
+\draw[-] (0.1, \reftorque) -- (-0.1, \reftorque) node[left] {$T_\text{m}^*$};
+\draw[-] (0.1, \maxtorque) -- (-0.1, \maxtorque) node[left] {$T_\text{m}(t_\text{sw})$};
+
+%Coordinates of the torque values
+\coordinate (start_torque) at (0, \starttorque);
+\coordinate (tsw_torque) at (\tsw*\sample, \maxtorque);
+\coordinate (ref_torque) at (\sample, \reftorque);
+
+%Torque at the k+1
+\node[right] at (ref_torque) {$T_\text{m}(k+1)$};
+
+%Dotted helper lines
+\draw[dotted] (tsw_torque) -- (tsw_torque |- 0, 0);
+\draw[dotted] (ref_torque) -- (ref_torque |- 0, 0);
+\draw[dotted] (tsw_torque) -- (tsw_torque -| 0, 0);
+\draw[dotted] (ref_torque) -- (ref_torque -| 0, 0);
+
+%Plot the torque
+\draw[-, color = red] (start_torque) -- (tsw_torque) node[midway, above, sloped] {$m_1$} -- (ref_torque) node[midway, above, sloped] {$m_2$};
+\end{tikzpicture}

@@ -1,0 +1,78 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols]
+
+%Induction machine
+\node[circle, fill =  lightgray, draw = black, minimum width = 1cm, name = im, drop shadow] at (0, 0) {IM};
+\path (im.east) -- ++(0.15, 0);
+
+%Inverter
+\node[rectangle, fill = lightgray, draw = black, minimum height = 1.75cm, minimum width = 1.5cm, inner sep = 0pt, name = pe, left of = im, node distance = 2cm, drop shadow] {};
+\node[nigbt, name=igbt, scale=1] at ($(pe) + (0.2, 0)$) {};
+\draw (igbt.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+
+%PTC algorithm
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 4cm, minimum width = 2.25cm, inner sep = 0pt, name = ptc_algorithm, left of = pe, node distance = 3cm, align = center, drop shadow] {FS-MPC\\PTC\\algorithm};
+
+%Stator flux and torque estimation
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 2cm, minimum width = 2.25cm, inner sep = 0pt, name = estimator, align = center, drop shadow] at ($(ptc_algorithm.south west) + (0.25, -2.5)$) {Stator and\\rotor flux\\estimation};
+
+%abc to alpha beta conversion (Clarke transformation)
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 1.25cm, minimum width = 1.25cm, inner sep = 0pt, name = conversion, node distance = 2.75cm, drop shadow] at (estimator -| pe)  {};
+\begin{scope}
+\clip (conversion.south west) rectangle (conversion.north east);
+\draw[-] (conversion.south west) -- (conversion.north east);
+\end{scope}
+\path (conversion.north west) -- (conversion.south east) node[pos = 0.3] {$\alpha \beta$} node[pos = 0.7] {$abc$\,};
+
+%Speed PID controller
+\node[rectangle, fill = blue!20, draw = black, minimum height = 0.75cm, minimum width = 1cm, inner sep = 0pt, name = speed_pid, drop shadow] at ($(ptc_algorithm) + (-5.5, 1.5)$) {PID};
+\node[above right] at (speed_pid.east) {$T_\text{m}^*$};
+\node[sum, left of = speed_pid, node distance = 1.5cm, name = speed_pid_sum]{};
+\node[below right] at (speed_pid_sum) {$-$};
+
+%Speed reference
+\node[left, name = speed_reference, left of = speed_pid_sum, node distance = 1.25cm] {$\omega_\text{m}^*$};
+
+%Connections of the nodes
+\draw[-triangle 45] (speed_reference) to (speed_pid_sum);
+\draw[-triangle 45] (speed_pid_sum) to (speed_pid);
+\draw[-triangle 45] (speed_pid.east) -- ($(ptc_algorithm.west) + (0, 1.5)$);
+
+%Flux reference
+\node[left, name = flux_reference] at ($(ptc_algorithm.west) + (-2, 1)$) {$\left | \bm{\psi}_\text{s} \right |^*$};
+\draw[-triangle 45] (flux_reference) -- ($(ptc_algorithm.west) + (0, 1)$);
+
+\draw[-triangle 45] ($(ptc_algorithm.east) + (0, 0.65)$) -- ($(pe.west) + (0, 0.65)$);
+\node[above] at ($(ptc_algorithm.east) + (0.35, 0.65)$) {$s_a$};
+\draw[-triangle 45] (ptc_algorithm.east) -- (pe.west);
+\node[above] at ($(ptc_algorithm.east) + (0.35, 0)$) {$s_b$};
+\draw[-triangle 45] ($(ptc_algorithm.east) + (0, -0.65)$) -- ($(pe.west) + (0, -0.65)$);
+\node[above] at ($(ptc_algorithm.east) + (0.35, -0.65)$) {$s_c$};
+
+\draw[-] ($(im.center) + (145:0.5)$) -- ($(pe.east) + (0, {0.5*sin(145)})$);
+\draw[-] (im) to (pe);
+\draw[-] ($(im.center) + (215:0.5)$) -- ($(pe.east) + (0, {0.5*sin(215)})$);
+
+\draw[-triangle 45] ($(im.center) + (-125:0.5)$) |- ($(conversion.north east) + (0, -0.3)$);
+\draw[-triangle 45] (im.south) |- ($(conversion.south east) + (0, 0.3)$);
+\node[above] at ($(conversion.north east) + (0.6, -0.3)$) {$i_{\text{s} a}$};
+\node[above] at ($(conversion.south east) + (0.6, 0.3)$) {$i_{\text{s} b}$};
+
+\draw[-triangle 45] ($(conversion.north west) + (0, -0.3)$) coordinate (marker1) node[above left] {$i_{\text{s} \alpha}$} -- (marker1 -| estimator.east) node[contact, name = alpha_contact, pos = 0.75] {};
+\draw[-triangle 45] ($(conversion.south west) + (0, 0.3)$) coordinate (marker2) node[above left] {$i_{\text{s} \beta}$} -- (marker2 -| estimator.east) node[contact, name = beta_contact, pos = 0.5] {};
+
+\draw[-triangle 45] ($(im.center) + (-55:0.5)$) |- ($(estimator.south) + (0, -0.5)$) coordinate (omega_bottom) -| (speed_pid_sum.south);
+\coordinate (omega_contact) at ($(ptc_algorithm.west) + (-3, 0.5)$);
+\draw[-triangle 45] (omega_bottom -| omega_contact) node[contact] {} node[above right] {$\omega_\text{m}$} |- ($(omega_contact) + (3, 0)$);
+
+%\draw[-triangle 45] ($(estimator.north west) + (0, -0.6)$) coordinate (stator_flux_est)  -| ($(ptc_algorithm.west) + (-2, -0.5)$) -- ($(ptc_algorithm.west) + (0, -0.5)$);
+\draw[vecArrow] ($(estimator.north west) + (0, -0.6)$) coordinate (stator_flux_est)  -| ($(ptc_algorithm.west) + (-2, -0.5)$) -- ($(ptc_algorithm.west) + (0, -0.5)$);
+\draw[innerWhite] ($(estimator.north west) + (0, -0.6)$) coordinate (stator_flux_est)  -| ($(ptc_algorithm.west) + (-2, -0.5)$) -- ($(ptc_algorithm.west) + (0, -0.5)$);
+\node[above] at ($(stator_flux_est) + (-0.5, 0)$) {$\bm{\psi}_\text{s}$};
+%\draw[-triangle 45] ($(estimator.south west) + (0, 0.6)$) coordinate (rotor_flux_est)  -| ($(ptc_algorithm.west) + (-2.5, 0)$) -- (ptc_algorithm.west);
+\draw[vecArrow] ($(estimator.south west) + (0, 0.6)$) coordinate (rotor_flux_est)  -| ($(ptc_algorithm.west) + (-2.5, 0)$) -- (ptc_algorithm.west);
+\draw[innerWhite] ($(estimator.south west) + (0, 0.6)$) coordinate (rotor_flux_est)  -| ($(ptc_algorithm.west) + (-2.5, 0)$) -- (ptc_algorithm.west);
+\node[above] at ($(rotor_flux_est) + (-0.5, 0)$) {$\bm{\psi}_\text{r}$};
+
+\draw[-triangle 45] (alpha_contact) |- ($(estimator.north east) + (0, 0.5)$) -| ($(ptc_algorithm.west) + (-1.5, -1)$) -- ($(ptc_algorithm.west) + (0, -1)$);
+\draw[-triangle 45] (beta_contact) |- ($(ptc_algorithm.south) + (0, -0.5)$) -| ($(ptc_algorithm.west) + (-1, -1.5)$) -- ($(ptc_algorithm.west) + (0, -1.5)$);
+\end{tikzpicture}

@@ -1,0 +1,118 @@
+\setcounter{equation}{0}
+
+\clearpage
+
+\chapter{Background and motivation} \label{chapter:background_motivation}
+
+
+Example for the beginning of each chapter: 
+
+This chapter gives a brief overview of the used physical systems, their working principles and explains all necessary details which are needed to understand the systems which are used within this work.
+Furthermore, this chapter gives a short overview of the state of the art in control of electrical drive systems and highlights known problems in these methods. It is followed by a general introduction to Model Predictive Control (MPC) techniques with special focus on Finite-Set MPC (FS\mbox{-}MPC). Finally, the two major drawbacks of FS\mbox{-}MPC methods, the high calculation effort and the low time resolution compared to modulation-based methods, are explained in detail in order to clarify the motivation for this work.
+
+\section{Introduction to PID controllers}
+
+Depending on the topic, you might want to give a more detailed introduction of the problem (e.g.\ kite power) or the controller approach (e.g.\ the general control method). This section can be one to two pages long (for a thesis five to ten pages) and can be divided in subsections. If no further explanation is required, this section may be dropped: PID controllers probably do not need any further explanations.
+
+
+
+\section{Problem Description}
+
+Any new section should start with a brief introduction of the section, before a new subsection starts. Here, you could give a brief introduction (a few sentences) about your general modeling approach, e.g.: “In the following, a mathematical model of the kite is derived. Based on Newton's mechanics, the dynamic equations and equations for each force component are given.” The title of this section can also be changed e.g.\ to “System Description” or “Model Equations” or similar.
+
+\subsection{Dynamic Equations}
+
+Newton's mechanics and the following assumptions are implied:
+%\Assumption{All speeds are below the speed of light, i.e.\ $v \ll \c{c}$ where $v$ is a speed (e.g.\ the speed of the kite) and $\c{c}$ is the speed of light.}
+\Assumption{The kite is assumed as point mass with mass $m_\t{k}$.}
+\Assumption{The flat earth is assumed as inertial (unaccelerated), cartesian reference frame, in which the kite's position is described by position vector $\v{r}_\t{k}^\t{i}$.}
+\Assumption{\dots}
+For describing your model, highlight important assumptions with which the real world is abstracted in math. Thereby, it becomes clearer for which cases the model (and controller) is valid, or which limitations must be implied. You may use such assumption boxes in the text as you develop your model/controller step-by-step, or you list all implied assumptions at the beginning of the problem description.
+
+\dots\ text \dots
+
+\subsection{Gravitational Force}
+
+Text, math, assumptions, etc.
+
+\subsection{Further Subsections \dots}
+
+Text, math, assumptions, etc.
+
+\subsection{Control Problem Formulation}
+
+Now you have transformed the real world into a simplified (based on assumptions) mathematical model. In the last subsection of the problem description, you could explicitly state the control problem you are trying to solve, e.g.: “The control problem can be formulated as follows: Find a controller, that stabilizes the system~(x)--(y), i.e.\ all eigenvalues of the closed loop system have negative real parts,
+\begin{align}
+	\forall i \in [1, n]: \Re\{\lambda_i\} < 0,
+\end{align}
+where $\lambda_i$ is an eigenvalue.”
+
+
+\section{Proposed Solution}
+
+In this section, you describe your proposed solution. The title can also be changed to “Control Design” or “Design of a Control Method” or similar. Here you can also proof the stability, or formulate a theorem and push its proof to the appendix. Several subsections may be used.
+
+
+\section{Implementation and Results}
+
+Briefly describe how you verified your solution, e.g.\ describe the employed simulation software or the built demonstrator. State relevant parameters in a table, as in Tab.~\ref{SimulationParameters}. Note also the correct use of indices of variables to be non-italic.
+
+\begin{table}[h!]
+		\setlength{\tabcolsep}{1pt}
+		\centering
+		\caption{Relevant Simulation Parameters.}
+		\label{SimulationParameters}
+		\begin{tabular}{lrl}
+				\\\hline
+								\textbf{Parameter}
+						&
+								\multicolumn{2}{l}{\textbf{Symbol \& Value}}
+				\\\hline
+								tether voltage
+						&
+								$U_\t{te}$
+						&
+								$= \unit[8]{kV}$
+				\\
+								tether current
+						&
+								$I_\t{te}$
+						&
+								$= \unit[100]{A}$
+				\\
+								controller parameters \,
+						&
+								$(K_\t{P}, K_\t{I})$
+						&
+								$= \big(\unit[-0.5]{A/V}, \unit[-3.5]{A/(Vs)}\big)$
+				\\\hline
+		\end{tabular}
+\end{table}
+
+Show and describe relevant simulated or measured data to give proof of the validity of the assumptions and proposed solution. Use matlab2tikz (\url{https://github.com/matlab2tikz/matlab2tikz}) for high quality plots as in Fig.~\ref{Matlab2TikzExample.tikz}. Note that the legend is placed in the caption as an elegant way to avoid a legend box on top of the plotted data or to avoid repetitions (e.g.\ blue is always phase $\alpha$). Use appropriate axis scalings and dimensions, and keep them consistent if you compare different results. Note also that only the last plot has labels on the x-axis. Have a look into the Matlab script \texttt{Matlab2TikzExample.m} with which the figure was generated.
+
+\begin{figure}[h!]
+    \centering
+	  %\setlength\figureheight{4cm}
+	  %\setlength\figurewidth{7cm}
+	\input{Chapter_2/Graphics/Matlab2TikzExample.tikz}
+    \caption{Measurement results: From top to bottom, voltage $u_{\{\cdot\}}$ and current $i_{\{\cdot\}}$ of the machine, with blue line for phase $\alpha$ and red line for phase $\beta$.}
+    \label{Matlab2TikzExample.tikz}
+\end{figure}
+
+
+
+
+\section{Discussion}
+
+Results can be discussed and interpreted already in the results section. However, you can also just present the results there, and discuss and interpret them a special discussion section. Here you can also compare two possible variants of your controller or give a more thorough comparison of your approach to an earlier published approach.
+
+
+
+
+
+\section{Conclusions and Outlook}
+
+Every paper ends with the section “Conclusion(s)” or “Conclusion(s) and Outlook”. Briefly summarized your work including motivation and general problem, your proposed approach and a summary of important/relevant results. The latter can have qualitative and quantitative statements, e.g.\ “The system showed stable behavior in experiments. An efficiency of up to $\unit[x]{\%}$ was achieved.” You may also give a short outlook on possible further steps or plans. However, the outlook should be relatively short---your work should be considered as finished.
+
+\cleardoublepage

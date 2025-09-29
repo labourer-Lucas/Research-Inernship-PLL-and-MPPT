@@ -1,0 +1,48 @@
+\begin{tikzpicture}[scale = 1]
+%Definitions
+\def \sample {8}								%Length of the sample
+\def \maxcurrent {6}						%Maximum current
+\def \startcurrentalpha {6} 		%Alpha current at the beginning of the sample (k)
+\def \refcurrentalpha {4.5}			%Alpha current reference
+\def \startcurrentbeta {1} 			%Beta current at the beginning of the sample (k)
+\def \refcurrentbeta {1.75}			%Beta current reference
+\def \tsw{0.3248}								%[0...1]*sample	
+\def \slopealphaone {-7}				%Slope of the alpha current, first part
+\def \slopealphatwo {3}					%Slope of the alpha current, second part
+\def \slopebetaone {5}					%Slope of the beta current, first part
+\def \slopebetatwo {-1.5}				%Slope of the beta current, second part
+
+%Coordinate system for the carrier and the reference
+\draw[-triangle 45] (0, -0.1) node[below] {$k$} -- (0, \maxcurrent+0.5) node[above] {$i_{\text{s} \alpha}$, $i_{\text{s} \beta}$};
+\draw[-triangle 45] (-0.1, 0) -- (\sample+1, 0) node[right] {$t$};
+\draw[-] (\sample, 0.1) -- (\sample, -0.1) node[below] {$k+1$};
+
+%Draw start and reference currents
+\draw[-, color = red] (0.1, \startcurrentalpha) -- (-0.1, \startcurrentalpha) node[left] {$i_{\text{s} \alpha 0}$};
+\draw[-, color = blue] (0.1, \startcurrentbeta) -- (-0.1, \startcurrentbeta) node[left] {$i_{\text{s} \beta 0}$};
+\draw[-, color = red] (0.1, \refcurrentalpha) -- (-0.1, \refcurrentalpha) node[left] {$i_{\text{s} \alpha}^*$};
+\draw[-, color = blue] (0.1, \refcurrentbeta) -- (-0.1, \refcurrentbeta) node[left] {$i_{\text{s} \beta}^*$};
+
+%Draw the current references over the time (dotted)
+\draw[dotted, color = red] (0, \refcurrentalpha) -- (\sample, \refcurrentalpha);
+\draw[dotted, color = blue] (0, \refcurrentbeta) -- (\sample, \refcurrentbeta);
+
+%Draw t_sw
+\draw[-] (\tsw*\sample, 0.1) -- (\tsw*\sample, -0.1) node[below] {$t_\text{sw}$};
+
+%Coordinates of the currents
+\coordinate (start_current_alpha) at (0, \startcurrentalpha);
+\coordinate (start_current_beta) at (0, \startcurrentbeta);
+\coordinate (tsw_current_alpha) at (\tsw*\sample, \startcurrentalpha+\slopealphaone*\tsw);
+\coordinate (tsw_current_beta) at (\tsw*\sample, \startcurrentbeta+\slopebetaone*\tsw);
+\coordinate (final_current_alpha) at (\sample, \startcurrentalpha+\slopealphaone*\tsw + \slopealphatwo-\slopealphatwo*\tsw);
+\coordinate (final_current_beta) at (\sample, \startcurrentbeta+\slopebetaone*\tsw + \slopebetatwo-\slopebetatwo*\tsw);
+
+%Dotted helper lines
+\draw[dotted] (tsw_current_alpha) -- (tsw_current_alpha |- 0, 0);
+\draw[dotted] (final_current_alpha) -- (final_current_alpha |- 0, 0);
+
+%Plot the currents
+\draw[-, color = red] (start_current_alpha) -- (tsw_current_alpha) node[midway, above, sloped] {$m_{1 \alpha}$} -- (final_current_alpha) node[midway, above, sloped] {$m_{2 \alpha}$};
+\draw[-, color = blue] (start_current_beta) -- (tsw_current_beta) node[midway, above, sloped] {$m_{1 \beta}$} -- (final_current_beta) node[midway, above, sloped] {$m_{2 \beta}$};
+\end{tikzpicture}

@@ -1,0 +1,24 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic = var diode IEC graphic, tiny circuit symbols, scale = 1]
+%Definitions
+\definecolor{matlabgreen}{rgb}{0, 0.5, 0}
+
+\node[left, name = start] at (-1, -10) {$y^*$};
+
+\node[sum, name = ctrl_diff] at (0, -10) {};
+\node[below right] at (0, -10) {$-$};
+\node[above right] at (0, -10) {$e$};
+
+\node[rectangle, minimum width = 2.5cm, minimum height = 1cm, inner sep = 0pt, drop shadow, fill = yellow!50, draw = black, align = center, name = control_system] at (2.25, -10) {Controller};
+\node[rectangle, minimum width = 2.5cm, minimum height = 1cm, inner sep = 0pt, drop shadow, fill = lightgray, draw = black, align = center, name = actuator] at (5.75, -10) {Actuator};
+\node[rectangle, minimum width = 2.5cm, minimum height = 1cm, inner sep = 0pt, drop shadow, fill = lightgray, draw = black, align = center, name = plant] at (9.25, -10) {Plant};
+\node[rectangle, minimum width = 2.5cm, minimum height = 1cm, inner sep = 0pt, node distance = 2cm, below of = actuator, drop shadow, fill = matlabgreen!20, draw = black, align = center, name = sensor] {Sensor};
+
+\draw[-triangle 45] (start) to (ctrl_diff);
+\draw[-triangle 45] (ctrl_diff) to (control_system);
+\draw[-triangle 45] (control_system) to (actuator);
+\draw[-triangle 45] (actuator) to (plant);
+
+\draw[-triangle 45] (plant.east) -- ++(1.5, 0) node[contact, pos = 0.45, name = out_contact] {} node[right] {$y$};
+\draw[-triangle 45] (out_contact) |- (sensor.east);
+\draw[-triangle 45] (sensor.west) -| (ctrl_diff.south);
+\end{tikzpicture}

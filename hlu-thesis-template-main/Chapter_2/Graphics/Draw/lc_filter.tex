@@ -1,0 +1,34 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols]
+%Inductor
+\node[resistor={info=$L$}, fill = black, small circuit symbols, name = L, circuit symbol size = width 3.5 height 1.5] at (0, 0) {};
+
+\node[contact, name = l_contact] at ($(L) + (1, 0)$) {};
+\node[draw, circle, inner sep = 1.25pt, fill = white] (in_plus) at ($(L) + (-2, 0)$) {};
+\draw[-] (in_plus) -- (l_contact);
+
+%Capacitor
+\node[capacitor={info=$C$}, small circuit symbols, name = C, rotate = 90] at ($(l_contact) + (0, -1.5)$) {};
+\node[contact, name = bottom_contact] at ($(C) + (0, -1.5)$) {};
+
+\draw[-] (l_contact) -- (C.east) (C.west) -- (bottom_contact);
+
+\draw[-] (bottom_contact) -- ($(bottom_contact) + (-3, 0)$) node[draw, circle, inner sep = 1.25pt, fill = white] (in_minus) {};
+
+%Input voltage
+\draw[-triangle 45] ($(in_plus) + (0, -0.15)$) -- ($(in_minus) + (0, 0.15)$) node[midway, left] {$v_\text{o}$};
+
+%Output terminals
+\draw[-] (l_contact) -- +(2, 0) node[draw, circle, inner sep = 1.25pt, fill = white] (out_plus) {};
+\draw[-] (bottom_contact) -- +(2, 0) node[draw, circle, inner sep = 1.25pt, fill = white] (out_minus) {};
+
+%Output voltage
+\draw[-triangle 45] ($(out_plus) + (0, -0.15)$) -- ($(out_minus) + (0, 0.15)$) node[midway, right] {$v_\text{l}$};
+
+%Currents
+\draw[-triangle 45] (l_contact) -- +(0, -0.85);
+\node[above right] at ($(l_contact) + (0.05, -1)$) {$i_\text{c}$};
+\draw[-triangle 45] (in_plus) -- +(0.95, 0);
+\node[above left] at ($(in_plus) + (1.1, 0.05)$) {$i_\text{o}$};
+\draw[-triangle 45] (l_contact) -- +(1.1, 0);
+\node[above left] at ($(l_contact) + (1.25, 0.05)$) {$i_\text{l}$};
+\end{tikzpicture}

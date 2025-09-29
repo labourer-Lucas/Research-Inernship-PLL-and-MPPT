@@ -1,0 +1,37 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols]
+\node[voltage source, small circuit symbols] (Vplus) at (0, -3.05) {};
+\draw[-triangle 45] ($(Vplus.north) + (-0.4, 0.2)$) -- ($(Vplus.south) + (-0.4, -0.2)$) node[midway, left] {$0.5 V_\text{dc}$};
+
+\node[voltage source, small circuit symbols] (Vminus) at (0, -4.95) {};
+\draw[-triangle 45] ($(Vminus.north) + (-0.4, 0.2)$) -- ($(Vminus.south) + (-0.4, -0.2)$) node[midway, left] {$0.5 V_\text{dc}$};
+
+\draw[-] (Vplus) -- (Vminus) node[midway, contact] (ground_contact) {};
+\node[left, color = tumblue] at (ground_contact) {NP};
+
+\draw[-] (ground_contact) -- ($(ground_contact) + (0.5, 0)$) -- ($(ground_contact) + (0.5, -0.25)$) node[ground,right, rotate=-90] {};
+
+\node[nigbt, name=igbt_1, scale=1] at (3, -3) {};
+\draw (igbt_1.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_1.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_1.B) {$S_{11}$};
+
+\node[nigbt, name=igbt_2, scale=1] at (3, -5) {};
+\draw (igbt_2.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_2.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_2.B) {$S_{12}$};
+
+\draw[-] (igbt_2.C) -- (igbt_1.E) node[midway, contact] (out_contact) {};
+
+\draw[-] (Vplus.north) |- ($(igbt_1.C) + (0, 0.1)$) -- (igbt_1.C);
+\draw[-] (Vminus.south) |- ($(igbt_2.E) + (0, -0.1)$) -- (igbt_2.E);
+
+\coordinate (upper_lim) at ($(igbt_1.C) + (0, 0.1)$);
+\coordinate (bottom_lim) at ($(igbt_2.E) + (0, -0.1)$);
+
+\node[below right, color = red] at (Vplus.north |- upper_lim) {DC+};
+\node[above right, color = black] at (Vminus.south |- bottom_lim) {DC-};
+
+\draw[-] (out_contact) -- ($(out_contact) + (1, 0)$) node[draw, circle, inner sep = 1.25pt, fill = white] (out_contact_terminal) {};
+
+\draw[-] ($(igbt_2.E) + (1, 0.05)$) node[ground, right, rotate=-90] (contact_ground) {} -- ($(contact_ground) + (0, 0.5)$) node[draw, circle, inner sep = 1.25pt, fill = white] (out_ground) {};
+
+\draw[-triangle 45] ($(out_contact_terminal) + (0, -0.15)$) -- ($(out_ground) + (0, 0.15)$) node[midway, right] {$v_\text{out}$};
+\end{tikzpicture}

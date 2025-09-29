@@ -1,0 +1,212 @@
+\appendix
+
+\newpage
+
+\chapter{List of symbols and abbreviations} \label{chapter:appendix_symbols_abbreviations}
+
+\section{List of symbols}
+
+\paragraph{General remark:} $\;$ \\
+The following convention was used for variables:
+
+\vspace{2mm}
+\begin{tabular}{l l}
+Scalars are italic letters: & $x$ \\
+Vectors are bold lower case letters: &$\bm{x}$ \\
+Matrices are bold upper case letters: & $\bm{X}$ \\
+References are marked with a star superscript: & $x^*$\\
+\end{tabular}
+
+\paragraph{Used symbols:} $\;$ \\
+In the following the most important symbols are listed which are used within this work.
+
+\vspace{3mm}
+\noindent General symbols:\\
+\begin{tabular}{l l}
+$\bm{x}$ & State vector\\
+$\bm{u}$ & Input vector\\
+$\bm{y}$ & Output vector\\
+$\bm{A}$ & State matrix\\
+$\bm{B}$ & Input matrix\\
+$\bm{C}$ & Output matrix\\
+$\bm{D}$ & Feedthrough matrix\\
+$t$ & Time (continuous)\\
+$k$ & Time (discrete, current sample)\\
+$\frac{\text{d}}{\text{d} t}$ & Time derivation\\
+$T_\text{s}$ & Sampling time\\
+$t_\text{sw}$ & Variable switching time point (VSP)\\
+$\Delta$ & Difference\\
+$J$ & Inertia\\
+\end{tabular}
+\clearpage
+
+\noindent General electrical variables:
+
+\begin{tabular}{l l}
+$a$, $b$, $c$ & Phases\\
+$\alpha$, $\beta$ & Equivalent two-phase coordinates\\
+$j$ & $\sqrt{-1}$\\
+$v$ & Voltage\\
+$i$ & Current\\
+$R$ & Resistor\\
+$C$ & Capacitor\\
+$L$ & Inductor\\
+\end{tabular}
+
+\vspace{3mm}
+\noindent Induction machine parameters:
+
+\begin{tabular}{l l}
+$\bm{v}_\text{s}$, $\bm{v}_\text{r}$ & Stator and rotor voltage\\
+$\bm{i}_\text{s}$, $\bm{i}_\text{r}$ & Stator and rotor current\\
+$\bm{\psi}_\text{s}$, $\bm{\psi}_\text{r}$ & Stator and rotor flux\\
+$\omega_\text{m}$ & Mechanical machine speed\\
+$\omega_\text{el}$ & Electrical machine speed\\
+$T_\text{m}$ & Mechanical machine torque\\
+$T_\text{l}$ & Mechanical load torque\\
+$P$ & Machine power\\
+$p$ & Number of pole pairs\\
+$R_\text{s}$, $R_\text{r}$ & Stator and rotor resistance\\
+$L_\text{s}$, $L_\text{r}$ & Stator and rotor inductance\\
+$L_\text{m}$ & Mutual inductance\\
+\end{tabular}
+
+\vspace{3mm}
+\noindent Further variables and parameters:
+
+\begin{tabular}{l l}
+$S_{xi}$ & Switch $i$ in phase $x$\\
+$s_{xi}$ & Gating signal for switch $i$ in phase $x$\\
+$j$ & Cost function value\\
+$w$ & Weighting factor\\
+$v_\text{o}$, $i_\text{o}$ & Inverter output voltage and current (UPS)\\
+$v_\text{l}$, $i_\text{l}$ & LC lowpass-filter output voltage and current (UPS)\\
+\end{tabular}\clearpage
+
+\section{List of abbreviations}
+
+\vspace{2mm}
+\begin{tabular}{l l}
+AC & Alternating Current\\
+AD & Analog to Digital (converter)\\
+CPLD & Complex Programmable Logic Device\\
+CPU & Central Processing Unit\\
+DA & Digital to Analog (converter)\\
+DC & Direct Current\\
+DMTC & Direct Mean Torque Control\\
+DSC & Direct Self Control\\
+DSP & Digital Signal Processor\\
+DTC & Direct Torque Control\\
+EMI & Electromagnetic Interference\\
+FC & Flying Capacitor\\
+FIFO & First In First Out (buffer)\\
+FOC & Field Oriented Control\\
+FPGA & Field Programmable Gate Array\\
+FS & Finite-Set\\
+FS-MPC & Finite-Set Model Predictive Control\\
+GPC & Generalized Predictive Control\\
+HDL & Hardware Description Language\\
+IGBT & Insulated Gate Bipolar Transistor\\
+IM & Induction Machine, Induction Motor\\
+ISA & Industry Standard Architecture (bus)\\
+LCD & Liquid Crystal Display\\
+LP & Linear Program\\
+LTI & Linear Time-Invariant\\
+MILP & Mixed Integer Linear Program\\
+MIQP & Mixed Integer Quadratic Program\\
+MPC & Model Predictive Control\\
+MPDTC & Model Predictive Direct Torque Control\\
+mpLP & Multiparametric Linear Program\\
+mpQP & Multiparametric Quadratic Program\\
+MPT & Multiparametric Toolbox\\
+NP & Neutral Point\\
+NPC & Neutral Point Clamped\\
+PCC & Predictive Current Control\\
+PTC & Predictive Torque Control\\
+PWM & Pulse Width Modulation\\
+QP & Quadratic Program\\
+RAM & Random Access Memory\\
+RMS & Root Mean Square\\
+RPM & Revolutions Per Minute\\
+RTAI & Real-Time Application Interface\\
+\end{tabular}
+\clearpage
+\begin{tabular}{l l}
+SI & International System of Units\\
+SVM & Space Vector Modulation\\
+THD & Total Harmonic Distortion\\
+UPS & Uninterruptible Power Supply\\
+VHDL & Very High Speed Integrated Circuit Hardware Description Language\\
+VSP & Variable Switching Point\\
+VSP2CC & Variable Switching Point Predictive Current Control\\
+VSP2TC & Variable Switching Point Predictive Torque Control\\
+\end{tabular}
+\clearpage
+
+\chapter{Test bench data} \label{chapter:appendix_test_benches}
+
+\section{Two-level inverter test bench} \label{section:appendix_two_level_inverter_test_bench}
+A quick overview of the two-level inverter test bench has already been given in chapter~X. The complete test bench consists of a real-time computer system, two squirrel-cage induction motors, two two-level inverters and measurement devices. It is to be noted that for this test bench no DC link voltage measurement is possible.
+
+\subsection{Real-time computer system}
+The real-time computer system consists of a PC104 module with a $1.4$\,GHz Pentium M CPU, $1$\,GB RAM and a $60$\,GB hard disk. All components are mounted into a $19$\,inch rack. The system is running an Arch Linux distribution with an RTAI (real-time application interface) kernel patch. This RTAI kernel patch allows to program kernel modules which can be executed in real-time. The real-time control algorithm can be conveniently programmed in \emph{C}.
+
+The necessary peripheral hardware for analog and digital in- and outputs is connected via the $16$ bit ISA bus. The used $19$\,inch rack has space for up to twelve extension boards. In order to measure the signal from the current transducers, an AD card with two channels is used. The encoder signal can be read via a special encoder board. The most important extension card is responsible for the inverter gating (PWM) signals: In order to synchronize the generation of these gating signals with the control algorithm which is running on the real-time computer, this card also generates an interrupt for the real-time computer. Every time when such an interrupt occurs, the control algorithm is executed. Thus, the whole control algorithm is triggered by this extension card. As this board contains an FPGA, it is possible to modify the existing implementations for the generation of the gating signals according to the user's needs. The current implementation allows of course the generation of PWM signals but direct switching and switching at a VSP is also possible. Furthermore, the interrupt for the control algorithm also triggers the measurements of the AD converters such that it is possible to trigger the measurements at the beginning of a sample. In order to conveniently output measured values, DA cards can be inserted into the system as well: Then, variables can be easily visualized and recorded with an oscilloscope. Another extension board with a four digit hexadecimal ($16$ bit) display and four hexadecimal switches can be used for status notifications and user interaction (start and stop of the control algorithm, reference value changes etc.). Further information about this system can be found in \cite{Ameen11PC104}.
+
+\subsection{Inverters}
+As already mentioned, the test bench consists of two inverters. Both inverters are supplied from a three-phase voltage source with an RMS phase to phase voltage of $400$\,V. Since the inverters cannot feed back energy to the three-phase grid, the DC link voltage will rise if a connected machine is operated in generator mode. In order to avoid damages of the system, a break chopper resistor can be connected to discharge the DC link such that the voltage level does not become critical. Since both machines are connected to each other, one drive is normally operated as motor while the other one works as generator. Thus, in order to avoid a frequent use of the break chopper resistor, the DC links of both drives are coupled together.
+
+The controlled inverter is a modified Seidel/Kollmorgen~Servostar~600~$14$\,kVA inverter. It allows the user to directly command the IGBT gating signals from the real-time computer system. This inverter is connected to the working machine which is also controlled by the user. Consequently, the load inverter (Danfoss VLT~FC-302~$3.0$\,kW) is connected to the load machine. This inverter allows to perform speed and torque control of different machines. Furthermore, it can also be used to measure machine parameters.
+
+\subsection{Induction machines}
+\begin{table}[htbp]
+\centering
+\caption{Parameters for the working machine of the two-level inverter test bench} \label{table:two_level_test_bench_im_parameters}
+\begin{center}
+\begin{tabular}{|c||c|}
+\hline
+Parameter & Value\\
+\hline
+\hline
+Nominal power $P_\text{nom}$ & $2.2$\,kW\\
+\hline
+Synchronous frequency $f_\text{syn}$ & $50$\,Hz\\
+\hline
+Nominal current $\left | \bm{i}_\text{s, nom} \right |$ & $8.02$\,A\\
+\hline
+Power factor $\cos (\varphi)$ & $0.85$\\
+\hline
+Nominal speed $\omega_\text{nom}$ & $2772$\,rpm\\
+\hline
+Number of pole pairs $p$ & $1$\\
+\hline
+Stator resistance $R_\text{s}$ & $2.6827$\,$\mathrm{\Omega}$\\
+\hline
+Rotor resistance $R_\text{r}$ & $2.1290$\,$\mathrm{\Omega}$\\
+\hline
+Stator inductance $L_\text{s}$ & $283.4$\,mH\\
+\hline
+Rotor inductance $L_\text{r}$ & $283.4$\,mH\\
+\hline
+Mutual inductance $L_\text{m}$ & $275.1$\,mH\\
+\hline
+Inertia $J$ & $0.005$\,kg\,m$^\text{2}$\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+The two-level inverter test bench consists of two $2.2$\,kW squirrel-cage induction machines which are coupled to each other. The parameters of the working machine (driven by the controlled inverter) are given in Table~\ref{table:two_level_test_bench_im_parameters}. The load machine is completeley operated by the load inverter and hence, its parameters are not shown. The parameters were measured with the Danfoss load inverter. On both machines incremental encoders with $1024$ points are mounted.
+
+\section{FPGA-based test bench} \label{section:fpga_based_test_bench}
+In chapter~X a quick overview of the FPGA-based test bench has already been given. It consists of the FPGA board which is shown in Figure~X. The FPGA board is connected to an optics board which allows to transmit the IGBT gating signals optically to the inverter. Furthermore, one current measurement board and one board for voltage measurements are connected to the FPGA board. The two-phase three-level inverter just consists of two phase legs.
+
+\subsection{FPGA board}
+The FPGA board which is shown in Figure~X is used for the real-time computer system for the three-level inverter test bench. As the board uses an Altera Cyclone III FPGA with $40{,}000$ logic elements, it is also possible to directly implement control algorithms on the FPGA which is clocked with $20$\,MHz. The board also has a very fast $12$ bit AD converter. It allows to measure all eight different channels simultaneously with up to $65$ megasamples per second. Because of this it is also possible to implement highly oversampled control algorithms and safety routines. The measurement boards can be connected to the FPGA board with RJ45 plugs. In order to deliver good measurement results and in order to have less EMI sensitivity, analog differential signalling is used for the measurements.
+
+\subsection{Two-leg three-level inverter}
+As already mentioned, the two-leg three-level inverter uses the same design as the version with three phase legs. Another difference is that in this case the complete DC link capacitance is $500$\,\textmu F and the two flying capacitors both have a size of $500$\,\textmu F, too. For this inverter also a $12$\,V power supply is used for the optical interface for the gating signals and to provide auxiliary voltages for the gate drivers.
+
+\subsection{Loads}
+As mentioned in chapter~X, experimental results were conducted with a resistive-inductive load and for a UPS application. The loads were simply made of discrete components (resistors, inductors, capacitors and diodes for the nonlinear load in UPS configuration).
+
+\cleardoublepage

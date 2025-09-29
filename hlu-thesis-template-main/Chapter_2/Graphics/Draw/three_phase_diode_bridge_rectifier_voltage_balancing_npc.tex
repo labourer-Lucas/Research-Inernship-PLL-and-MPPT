@@ -1,0 +1,42 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols]
+%Diodes
+\node[diode, small circuit symbols, rotate = 90, name = d1] at (0, 0) {} ++(1, 0) node[diode, small circuit symbols, rotate = 90, name = d2] {} ++(1, 0) node[diode, small circuit symbols, rotate = 90, name = d3] {} ++(0, -2) node[diode, small circuit symbols, rotate = 90, name = d6] {} ++ (-1, 0) node[diode, small circuit symbols, rotate = 90, name = d5] {} ++ (-1, 0) node[diode, small circuit symbols, rotate = 90, name = d4] {};
+
+%Connections of the diodes
+\draw[-] (d4) -- (d1) node[contact, pos=0.75, name = l1_contact] {} -- ($(d1) + (0, 0.6)$) -- ($(d2) + (0, 0.6)$) node[contact, name = d2_contact] {} -- (d2) (d2_contact) -- ($(d3) + (0, 0.6)$) node[contact, name = d3_contact] {} -- (d3);
+\draw[-] (d5) -- (d2) node[contact, pos=0.5, name = l2_contact] {};
+\draw[-] (d3) -- (d6) node[contact, pos=0.75, name = l3_contact] {} -- ($(d6) + (0, -0.6)$) node[contact, name = d6_contact] {} -- ($(d5) + (0, -0.6)$) node[contact, name = d5_contact] {} -- (d5) (d5_contact) -- ($(d4) + (0, -0.6)$) -- (d4);
+
+%Phase connections
+\draw[-] (l1_contact) -- +(-1, 0) node[left] {$L_1$};
+\draw[-] (l2_contact) -- +(-2, 0) node[left] {$L_2$};
+\draw[-] (l3_contact) -- +(-3, 0) node[left] {$L_3$};
+
+%DC link voltage
+\draw[-triangle 45] ($(d3_contact) + (0.5, -0.15)$) -- ($(d6_contact) + (0.5, 0.15)$) node[midway, right] {$V_\text{dc}$};
+
+%Capacitors
+\node[capacitor={info=$C_1$}, name=c1, rotate = 90, small circuit symbols] at ($(d3) + (2.5, 0)$) {};
+\draw[-triangle 45] ($(c1.east) + (0.4, 0.35)$) -- ($(c1.west) + (0.4, -0.35)$) node[midway, right] {$v_\text{c1}$};
+\node[capacitor={info=$C_2$}, name=c2, rotate = 90, small circuit symbols] at ($(d6) + (2.5, 0)$) {};
+\draw[-triangle 45] ($(c2.east) + (0.4, 0.35)$) -- ($(c2.west) + (0.4, -0.35)$) node[midway, right] {$v_\text{c2}$};
+
+\draw[-] (d3_contact) -| (c1.east) (c1.west) -- (c2.east) node[contact, pos = 0.25, name = np1] {} node[contact, pos = 0.5, name = np2] {} node[contact, pos = 0.75, name = np3] {};
+\draw[-] (d6_contact) -| (c2.west);
+
+\node[contact, name = dc_plus_contact] at (d3_contact -| c1.east) {};
+\node[contact, name = dc_minus_contact] at (d6_contact -| c2.west) {};
+
+\draw[-] (dc_plus_contact) -- ++(1.25, 0) node[sum, name = dc_plus_terminal] {};
+\draw[-] (dc_minus_contact) -- ++(1.25, 0) node[sum, name = dc_minus_terminal] {};
+\node[right, color = red] at ($(dc_plus_terminal) + (0.1, 0)$) {DC+};
+\node[right, color = black] at ($(dc_minus_terminal) + (0.1, 0)$) {DC-};
+
+%Neutral point currents
+\draw[-triangle 45] (np1) -- ++(1, 0);
+\draw[-] (np1) ++(0.9, 0) -- ++(0.75, 0) node[right] {$i_{\text{n}1}$};
+\draw[-triangle 45] (np2) -- ++(1, 0);
+\draw[-] (np2) node[left, color = blue] {NP} ++(0.9, 0) -- ++(0.75, 0) node[right] {$i_{\text{n}2}$};
+\draw[-triangle 45] (np3) -- ++(1, 0);
+\draw[-] (np3) ++(0.9, 0) -- ++(0.75, 0) node[right] {$i_{\text{n}3}$};
+\end{tikzpicture}

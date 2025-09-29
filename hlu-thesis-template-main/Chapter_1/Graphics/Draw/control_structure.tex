@@ -1,0 +1,20 @@
+%\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols, scale=1]
+\begin{tikzpicture}
+\node[left, name = start] at (-1.125, 0) {$\bm{y}^*$};
+
+\node[sum, name = ctrl_diff] at (0, 0) {};
+
+\node[below right] at (0, 0) {$-$};
+
+\node[rectangle, minimum width = 2.5cm, minimum height = 2cm, inner sep = 0pt, drop shadow, fill = tumblue_light, draw = black, align = center, name = control_system] at (2.5, 0) {Real-time\\control\\system};
+\node[rectangle, minimum width = 2.5cm, minimum height = 2cm, inner sep = 0pt, drop shadow, fill = lightgray, draw = black, align = center, name = actuator] at (6.25, 0) {Discrete\\actuator\\(inverter)};
+\node[rectangle, minimum width = 2.5cm, minimum height = 2cm, inner sep = 0pt, drop shadow, fill = lightgray, draw = black, align = center, name = plant] at (10, 0) {Plant\\(drive)};
+
+\draw[-triangle 45] (start) to (ctrl_diff);
+\draw[-triangle 45] (ctrl_diff) to (control_system);
+\draw[-triangle 45] (control_system) to (actuator);
+\draw[-triangle 45] (actuator) to (plant);
+
+\draw[-triangle 45] (plant.east) -- ++(2.25, 0) node[contact, pos = 0.5, name = out_contact] {} node[right] {$\bm{y}$};
+\draw[-triangle 45] (out_contact) |- ($(plant.south) + (0, -1.125)$) -| (ctrl_diff.south);
+\end{tikzpicture}

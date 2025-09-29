@@ -1,0 +1,75 @@
+\begin{tikzpicture}[scale = 1.1]
+%Definitions
+\def \sample {0.4}					%Length of a sample ("normal" sampling time Ts)
+\def \numsamples {30}				%Number of samples (sampling time Ts)
+\def \osfactor {5}					%Oversampling factor: Number of samples Tsos per Ts
+\def \ref {2.5}							%Reference value
+\def \risingslope {1}				%Delta y per one sample Tsos
+
+\pgfmathsetmacro\numnormalsamples {\numsamples/\osfactor}
+\pgfmathsetmacro\fallingslope {\risingslope/5}
+
+\tikzstyle{circle_marker} = [circle, draw=black, fill=none, minimum size = 0.2cm, inner sep = 0pt]
+
+%Oversampling helper lines
+\foreach \x in {1, ..., \numsamples} { \draw[loosely dotted, gray] (\x*\sample, 0) -- (\x*\sample, 2*\ref); }
+
+%Normal sampling helper lines
+\foreach \x in {1, ..., \numnormalsamples}
+{
+\draw[white] (\osfactor*\x*\sample, 0) -- (\osfactor*\x*\sample, 2*\ref);		%To shade the oversampling helper lines
+\draw[dashed] (\osfactor*\x*\sample, 0) -- (\osfactor*\x*\sample, 2*\ref);
+\draw[] (\osfactor*\x*\sample, 0.1) -- (\osfactor*\x*\sample, -0.1);
+}
+
+%Number of samples
+\foreach \x in {0, ..., \numnormalsamples}
+{
+\pgfmathtruncatemacro\xlabel{\osfactor*\x}
+\node[below] at (\osfactor*\x*\sample, -0.1) {$\xlabel$};
+}
+
+%Coordinate system
+\draw[-triangle 45] (0, -0.1) -- (0, 2*\ref+0.5) node[above] {$y$};
+\draw[-triangle 45] (-0.1, 0) -- (\numsamples*\sample+0.75, 0) node[right] {$\frac{t}{T_\text{s, os}}$};
+
+%Reference value
+\draw[-] (-0.1, \ref -0.5*\risingslope+3*\fallingslope) node[left] {$y^*$} -- (\numsamples*\sample+0.1, \ref -0.5*\risingslope+3*\fallingslope);
+
+%Draw the result without constraints
+\begin{scope}
+\clip (0, -\ref+\risingslope-0.1) rectangle (\numsamples*\sample+0.1, \ref+\risingslope+0.1);
+\draw[-, ultra thick, matlabgreen] ($(0, \ref) + (-0.55*\pgflinewidth, 0)$) -- ++(2*\sample, -2*\fallingslope) \foreach \x in {0, ..., 4} {-- ++(\sample, \risingslope) -- ++(5*\sample, -5*\fallingslope)};
+\end{scope}
+
+%Draw the result when only hard constraints are active
+\begin{scope}
+\clip (0, 0) rectangle (\numsamples*\sample+0.1, 2*\ref);
+\draw[-, ultra thick, red] ($(0, \ref) + (0, -1.45*\pgflinewidth)$) -- ++(2*\sample, -2*\fallingslope) -- ++(\sample, \risingslope) -- ++(9*\sample, -9*\fallingslope) coordinate(marker0) -- ++(\sample, \risingslope) coordinate(marker1) -- ++(9*\sample, -9*\fallingslope) -- ++(2*\sample, 2*\risingslope) coordinate(marker2)-- ++(7*\sample, -7*\fallingslope);
+\end{scope}
+
+%Draw the optimal result with constraints
+\begin{scope}
+\clip (0, 0) rectangle (\numsamples*\sample+0.1, 2*\ref);
+\draw[-, ultra thick, blue] ($(0, \ref) + (0, 0.9*\pgflinewidth)$) -- ++(5*\sample, -5*\fallingslope) -- ++(2*\sample, 2*\risingslope) -- ++(10*\sample, -10*\fallingslope) -- ++(2*\sample, 2*\risingslope) -- ++(10*\sample, -10*\fallingslope) -- ++(2*\sample, 2*\risingslope);
+\end{scope}
+
+%Mark important points and draw the corresponding lines
+\node[circle_marker, very thick] at ($(marker1) + (\sample, -\fallingslope)$) {};
+\draw[dashed, ultra thick, red] (marker1) -- ($(marker1) + (\sample, \risingslope)$) node[circle_marker, very thick, solid] {};
+\node[circle_marker, very thick] at (marker1) {};
+\node[circle_marker, very thick] at ($(marker2) + (\sample, -\fallingslope)$) {};
+\draw[dashed, ultra thick, red] (marker2) -- ($(marker2) + (\sample, \risingslope)$) node[circle_marker, very thick, solid] {};
+\node[circle_marker, very thick] at (marker2) {};
+
+%Label hard constraints
+\path[name path = hard_constraints] (marker0) -- (marker1);
+\path[name path=arrow_hard_constraints] (12.5*\sample, 0) -- (12.5*\sample, \ref);
+\draw[red, -triangle 45, name intersections={of=hard_constraints and arrow_hard_constraints, by=conn_hard_constraints}] (14.5*\sample, \ref-1.65) node[below, fill = white, align = center] {Only hard constraints} -- (conn_hard_constraints);
+
+%Label without constraints
+\draw[matlabgreen, -triangle 45] (18*\sample, \ref+1.5) node[above, fill = white, align = center] {Without constraints} -- ($(16*\sample, \ref-3*\fallingslope+\risingslope) + (-0.55*\pgflinewidth, 0)$);
+
+%Label optimal, with constraints
+\draw[blue, -triangle 45] (7.5*\sample, \ref+1.43) node[above, fill = white, align = center] {Optimal, with constraints} -- ($(7.5*\sample, \ref-5.5*\fallingslope+2*\risingslope) + (0, 4*\pgflinewidth)$);
+\end{tikzpicture}

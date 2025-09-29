@@ -1,0 +1,46 @@
+\setcounter{equation}{0}
+
+\clearpage
+
+\chapter{Conclusion} \label{chapter:conclusion}
+%
+%ToDo:
+%- Vergleich PWM/FS-MPC: Bei FS-MPC wird immer der Ripple gemessen, bei VSP-Methoden nicht unbedingt. Bei PWM wird immer bei Nullspannungsvektor gemessen => Ergebnisse nicht unbedingt vergleichbar mit PWM
+%- Evtl. THD: Hierfür Messung der Phasenströme mit Strommesszange nötig, durch Messung mit Echtzeitrechner-System enstehen weitaus mehr Fehler
+%- Noch genauer eingehen auf "Penalty on Control Action": Macht bei FS-MPC und kleinen Antrieben nicht so viel Sinn (für Strom- bzw. T_m/|Psi|-Regelung), weil die Rippel so groß sind. Für PWM-basierte Methoden aber möglicherweise sinnvoll
+%- Klare Aussage: FS-MPC macht definitiv Sinn für Antriebssysteme mittlerer und großer Leistung, bei denen die Schaltverluste minimiert werden sollen (das Hauptziel hierbei). Bei kleineren Antrieben nicht
+%=> Evtl. auch schon in Introduction- oder Background-Kapitel
+%
+An example for conclusion chapter.
+
+\section{Summary}
+The goals of this work were
+\begin{enumerate}
+\item to find solutions to reduce the calculation effort for FS-MPC methods,
+\item to increase the time resolution of FS-MPC methods in order to reduce ripples on the controlled variables and
+\item a combination of the two last points, i.e.\ to find methods to reduce ripples on the controlled variables with less calculation effort.
+\end{enumerate}
+Within this work solutions for all three items have been proposed and were proven experimentally.
+
+It was also verified that FS-MPC methods offer several advantages over conventional PID controllers:
+\begin{enumerate}
+\item Multivariable control is easily possible (control of two currents, both flux and torque, and also the voltage balancing can be performed by one single FS-MPC controller).
+\item Constraints can be considered without problems and nonlinearities can also be included.
+\item FS-MPC controllers can easily operate the system at its physical limits. Conventional controllers mostly need additional (adaptive) schemes and feed forward controllers to achieve the same or similar dynamics.
+\item FS-MPC controllers do normally not produce an overshoot which is usual for conventional controllers.
+\end{enumerate}
+
+\section{Final evaluation}
+As already mentioned, the applicability of direct switching strategies is highly dependent on the power range of the system: For medium- and high-voltage systems the system losses are dominated by the inverter switching losses. In this case switching frequencies of only a few hundred Hz per device are desired. For that reason industrial applications of FS-MPC methods have been reported mainly for high-power systems (MPDTC which was developed by ABB). Compared to classical DTC, MPDTC can lead to a further reduction of the switching frequency while maintaining at the same time the same quality of the control result. Sophisticated \mbox{FS-MPC} methods can partly even outperform Optimized Pulse Patterns for these types of drive systems~\cite{Geyer2011PCPWMComparison}.
+
+In contrast to this, the presented work deals with low-voltage and smaller systems which are in the range of a few kW. For these applications a good quality of the controlled variables is usually much more important than a low switching frequency as in this case the inverter losses are less dominant. For these applications switching frequencies of $10$--$20$\,kHz per device can be easily handled. The conventional FS-MPC approach only allows to change an inverter switching state at the \emph{beginning} of a sample which is the reason for undesired high ripples. Another very important drawback of FS-MPC is the high calculation effort which rises exponentially with the prediction horizon. Thus, in this work several extensions to FS-MPC in order to reduce the calculation effort and to reduce ripples on the controlled variables were presented. As the shown experimental results clearly verify, the proposed extensions can effectively reduce these two drawbacks of FS-MPC methods. These extensions could even be successfully implemented for more sophisticated inverter topologies (three-level NPC and FC) where several tasks have to be performed by one single FS-MPC (e.g.\ control of two currents and three FC voltages). Even despite the high number of possible switching states ($27$ for an NPC and $64$ for an FC inverter), up to three prediction steps could be realized in real-time with sampling rates up to $16$\,kHz. For the proposed methods only one or two weighting factors have to be tuned (if any at all). Compared to linear controllers where parameter tuning is a work-intensive and crucial task, the proposed algorithms just need to be implemented and the weighting factors can be tuned quickly.
+
+Although the methods presented within this work can enable FS-MPC strategies to become more attractive also for smaller and low-power (drive) systems, it is still questionable whether \mbox{FS-MPC} can outperform PWM-based MPC methods: For continuous-valued optimization tasks and linear systems the optimization problem can be solved analytically (e.g.\ with the MPT toolbox) which drastically reduces the calculation effort. PWM distributes the switching time points over the whole sample which leads to excellent control results in terms of ripples. Compared to the calculation of a VSP or to the implementation of an oversampled FS-MPC in hardware, the basic idea of PWM is ingeniously simple and has been proven to work well within the last decades. For multilevel inverters it is also possible to include a voltage balancing algorithm into the PWM which means that the overlaying controller only needs to calculate the voltages which should be applied---then it is not necessary to handle the voltage balancing within the control algorithm itself. Another drawback of FS-MPC is the varying switching frequency: Compared to PWM, FS-MPC methods produce an undesired audible noise which is much more annoying than the sound of PWM. Of course, it is also possible to modify the cost function such that a more or less constant switching frequency per device can be obtained. However, this can only be achieved at the expense of a deteriorated result regarding the main control objective (to minimize the control deviation). Thus, in order to achieve the same control result in terms of ripples as without forcing a constant switching frequency, the sampling frequency and with it the time resolution of FS-MPC has to be drastically increased.
+
+\section{Outlook}
+There are several possibilities to extend and to modify the strategies which were presented in this work: One promising extension could be a method to calculate not only one but two or even more VSPs. If e.g.\ only one IGBT is allowed to switch at a time and if two VSPs are calculated within one sample, ``online optimized'' pulse patterns and a constant switching frequency could be obtained. Such an FS-MPC method would then be fully comparable to PWM in terms of ripples on the controlled variables. Another possibility would also be to increase the prediction horizon for VSP methods.
+
+Another very promising application for (FS-)MPC is to perform direct speed or even position control for electrical drives. In this way all disadvantages which result from cascaded control loops could be overcome. Furthermore, it would then also be possible to operate the drive at its physical limits while still keeping all controlled variables within their allowed range.
+
+\cleardoublepage
+

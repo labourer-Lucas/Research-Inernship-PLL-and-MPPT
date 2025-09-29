@@ -1,0 +1,39 @@
+\begin{tikzpicture}[scale = 0.35]
+\draw[-triangle 45] (-12, 0) -- (12, 0) node[right] {$\alpha$};
+\draw[-triangle 45] (0, -10) -- (0, 10) node[above] {$\beta$};
+
+\draw[fill = lightgray] (0, 0) -- (8, 0) -- (60:8) -- cycle;
+\draw[fill = white] (0, 0) -- (60:8) -- (120:8) -- cycle;
+\draw[fill = lightgray] (0, 0) -- (120:8) -- (-8, 0) -- cycle;
+\draw[fill = white] (0, 0) -- (-8, 0) -- (-120:8) -- cycle;
+\draw[fill = lightgray] (0, 0) -- (-120:8) -- (-60:8) -- cycle;
+\draw[fill = white] (0, 0) -- (-60:8) -- (8, 0) -- cycle;
+
+\draw[-, fill = white] (0, 0) circle [radius = 1.75];
+\node[align = center] at (0, 0) {ppp\\nnn};
+
+\draw[-, fill = white] (8, 0) circle [radius = 1.5];
+\node[align = center] at (8, 0) {pnn};
+
+\draw[-, fill = white] (-8, 0) circle [radius = 1.5];
+\node[align = center] at (-8, 0) {npp};
+
+\draw[-, fill = white] (60:8) circle [radius = 1.5];
+\node[align = center] at (60:8) {ppn};
+
+\draw[-, fill = white] (120:8) circle [radius = 1.5];
+\node[align = center] at (120:8) {npn};
+
+\draw[-, fill = white] (-120:8) circle [radius = 1.5];
+\node[align = center] at (-120:8) {nnp};
+
+\draw[-, fill = white] (-60:8) circle [radius = 1.5];
+\node[align = center] at (-60:8) {pnp};
+
+\node[align = center] at (30:4.5) {I};
+\node[align = center] at (90:4.5) {II};
+\node[align = center] at (150:4.5) {III};
+\node[align = center] at (-150:4.5) {IV};
+\node[align = center] at (-90:4.5) {V};
+\node[align = center] at (-30:4.5) {VI};
+\end{tikzpicture}

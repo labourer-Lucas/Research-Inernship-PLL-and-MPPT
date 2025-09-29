@@ -1,0 +1,57 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols]
+%Make contacs and break contacts
+\node[make contact, name = s1, huge circuit symbols, rotate = -90, dotted] at (0, 0) {};
+\node[left] at (0, 0) {$S_{x1}$};
+\node[break contact, name = s2, huge circuit symbols, rotate = -90, color = red] at (0, -1.5) {};
+\node[left, color = red] at (0, -1.5) {$S_{x2}$};
+\node[make contact, name = s3, huge circuit symbols, rotate = -90, dotted] at (0, -3.5) {};
+\node[left] at (0, -3.5) {$S_{x3}$};
+\node[break contact, name = s4, huge circuit symbols, rotate = -90, color = red] at (0, -5) {};
+\node[left, color = red] at (0, -5) {$S_{x4}$};
+
+%Capacitor connections
+\path (s1) -- (s2) node[contact, midway, color = red] (ccp) {};
+\path (s3) -- (s4) node[contact, midway, color = red] (ccm) {};
+
+%Phase current
+\path (s2) -- (s3) node[contact, midway, color = red] (out_connector) {};
+\draw[-triangle 45, color = red] (out_connector) -- +(1, 0);
+\node[above, color = red] at ($(out_connector) + (0.9, 0.1)$) {$i_\text{out}$};
+\draw[-, color = red] (out_connector) ++(0.9, 0) -- ++(0.75, 0);
+
+%Switch connections
+\draw[-, dotted] (s1) to (ccp);
+\draw[color = red] (s2) to (ccp);
+\draw[color = red] (s2) to (out_connector);
+\draw[-, dotted] (s3) to (ccm);
+\draw[-, dotted] (s3) to (out_connector);
+\draw[color = red] (s4) to (ccm);
+
+%Flying capacitor
+\node[capacitor, name=cap, rotate = -90, small circuit symbols, color = red] at ($(out_connector) + (-1, 0)$) {};
+\node [right, color = red] at ($(out_connector) + (-0.75, 0)$) {$C$};
+\draw[-triangle 45, color = red] ($(cap.east) + (-0.4, 0.5)$) -- ($(cap.west) + (-0.4, -0.5)$) node[midway, left, dotted] {$v_\text{c}$};
+\draw[-, color = red] (cap.west) |- (ccp);
+\draw[-, color = red] (cap.east) |- (ccm);
+
+%Current through flying capacitor
+\draw[-triangle 45, color = red] ($(cap.west) + (0, 1)$) -- ($(cap.west) + (0, 0.9)$);
+\node[left, color = red] at ($(cap.west) + (-0.05, 1.05)$) {$i_\text{c}$};
+
+%Ground connection
+\draw[-, color = red] ($(out_connector) + (-2.75, 0)$) node[contact, name = gnd_contact, color = red] {} -- ++(-0.5, 0) -- ++(0, -0.25) node[ground, rotate = -90, right, color = red] {};
+
+%Voltage sources
+\node[voltage source, small circuit symbols, name=Vplus, dotted]  at ($(ccp) + (-2.75, 0)$) {};
+\draw[-triangle 45, dotted] ($(Vplus.north) + (-0.4, 0.2)$) -- ($(Vplus.south) + (-0.4, -0.2)$) node[midway, left, dotted] {$0.5 V_\text{dc}$};
+\node[voltage source, small circuit symbols, name=Vminus, color = red, fill = white]  at ($(ccm) + (-2.75, 0)$) {};
+\draw[-triangle 45, color = red] ($(Vminus.north) + (-0.4, 0.2)$) -- ($(Vminus.south) + (-0.4, -0.2)$) node[midway, left] {$0.5 V_\text{dc}$};
+
+%Connections of the voltage sources to ground
+\draw[-, dotted] (Vplus.south) -- (gnd_contact);
+\draw[color = red] (Vminus.north) -- (gnd_contact);
+
+%Connect the voltage sources to the switches
+\draw[-, dotted] (s1) -- ($(s1) + (0, 0.85)$) -| (Vplus.north);
+\draw[color = red] (s4) -- ($(s4) + (0, -0.85)$) -| (Vminus.south);
+\end{tikzpicture}

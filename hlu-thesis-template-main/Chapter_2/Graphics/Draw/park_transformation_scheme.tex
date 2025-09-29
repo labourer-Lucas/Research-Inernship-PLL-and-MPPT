@@ -1,0 +1,18 @@
+\begin{tikzpicture}[scale = 0.4]
+
+\draw[-triangle 45] (0, 0) -- (10, 0) node [right] {$\alpha$}; %alpha axis
+\draw[-triangle 45] (0, 0) -- (0, 10) node [above] {$\beta$}; %beta axis
+
+\draw[-triangle 45] (0, 0) -- (30:10) node [above right] {$d$}; %d axis
+
+\draw[-triangle 45] (0, 0) -- (120:10) node [above left] {$q$}; %q axis
+
+\draw[-triangle 45] (30:7) -- (30:7.5);		%Rotor flux
+\node [above, rotate=30] at (32:7.2) {$\bm{\psi}_\text{r}$};
+
+\draw[fill = tumblue_light] (0, 0) -- (4, 0) arc (0:30:4) -- cycle;				%Rotor flux angle
+\draw[-triangle 45] (25:3.98) -- (30:4);
+
+\node at (15:2.5) {$\varphi$};
+
+\end{tikzpicture}

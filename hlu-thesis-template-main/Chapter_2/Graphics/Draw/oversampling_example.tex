@@ -1,0 +1,55 @@
+\begin{tikzpicture}[scale = 1]
+%Definitions
+\def \sample {0.8}				%Length of a sample ("normal" sampling time Ts)
+\def \numsamples {16}			%Number of samples (sampling time Ts)
+\def \osfactor {5}				%Oversampling factor: Number of samples Tsos per Ts
+\def \ref {2.5}						%Reference value
+\def \risingslope {4}			%Delta y per one sample Ts
+
+\pgfmathsetmacro\numossamples{\numsamples*\osfactor}	%Number of samples in case of the oversampling
+
+%Oversampling helper lines
+\foreach \x in {1, ..., \numossamples} { \draw[loosely dotted, gray] (\x*\sample/\osfactor , 0) -- (\x*\sample/\osfactor , 2*\ref); }
+
+%Normal sampling helper lines
+\foreach \x in {1, ..., \numsamples}
+{
+\draw[white] (\x*\sample, 0) -- (\x*\sample, 2*\ref);		%To shade the oversampling helper lines
+\draw[dashed] (\x*\sample, 0) -- (\x*\sample, 2*\ref);
+\draw[] (\x*\sample, 0.1) -- (\x*\sample, -0.1);
+}
+
+%Number of samples
+\foreach \x in {0, ..., 3}
+{
+\pgfmathtruncatemacro\xlabel{5*\x}
+\node[below] at (5*\x*\sample, -0.1) {$\xlabel$};
+}
+
+%Coordinate system
+\draw[-triangle 45] (0, -0.1) -- (0, 2*\ref+0.5) node[above] {$y$};
+\draw[-triangle 45] (-0.1, 0) -- (\numsamples*\sample+0.75, 0) node[right] {$\frac{t}{T_\text{s}}$};
+
+%Reference value
+\draw[-] (-0.1, \ref) node[left] {$y^*$} -- (\numsamples*\sample+0.1, \ref);
+
+%Draw the normal FS-MPC result
+\draw[-, red, name path = fs_mpc] (0, \ref) \foreach \x in {0, ..., 2} {-- (5*\x*\sample + 2*\sample, \ref-0.5*\risingslope) -- (5*\x*\sample + 3*\sample, \ref+0.5*\risingslope) -- (5*\x*\sample + 5*\sample, \ref)} -- (16*\sample, \ref-0.25*\risingslope);
+
+%Draw the oversampling FS-MPC result
+\draw[-, blue, name path = oversampling] (0, \ref) \foreach \x in {0, ..., 15} {-- (\x*\sample + 2*\sample/\osfactor, \ref-0.5*\risingslope/\osfactor) -- (\x*\sample + 3*\sample/\osfactor, \ref+0.5*\risingslope/\osfactor) -- (\x*\sample + 5*\sample/\osfactor, \ref)};
+
+%Draw the normal FS-MPC result
+%\draw[-, red, name path = fs_mpc] (0, \ref-0.5*\risingslope) \foreach \x in {0, ..., 2} {-- (5*\x*\sample + \sample, \ref+0.5*\risingslope) -- (5*\x*\sample + 5*\sample, \ref-0.5*\risingslope)} -- (\numsamples*\sample, \ref);
+
+%Draw the oversampling FS-MPC result
+%\draw[-, blue, name path = oversampling] (0, \ref) \foreach \x in {0, ..., 7} {-- (2*\x*\sample + \sample/\osfactor, \ref+\risingslope/\osfactor) -- (2*\x*\sample + 9*\sample/\osfactor, \ref-\risingslope/\osfactor) -- (2*\x*\sample + 10*\sample/\osfactor, \ref)};
+
+%Label FS-MPC
+\path [name path=arrow_fs_mpc] (7.2*\sample, 0) -- (7.2*\sample, \ref);
+\draw[-triangle 45, name intersections={of=fs_mpc and arrow_fs_mpc, by=conn_fs_mpc}] (8.2*\sample, \ref-1.7) node[right, fill = white, align = center] {Normal\\FS-MPC} -- (conn_fs_mpc);
+
+%Label Oversampling
+\path [name path=arrow_oversampling] (5.6*\sample, 0) -- (5.6*\sample, 2*\ref);
+\draw[-triangle 45, name intersections={of=oversampling and arrow_oversampling, by=conn_oversampling}] (5.6*\sample, \ref+\risingslope/\osfactor + 0.5) node[above, fill = white, align = center] {Oversampling\\FS-MPC}-- (conn_oversampling);
+\end{tikzpicture}

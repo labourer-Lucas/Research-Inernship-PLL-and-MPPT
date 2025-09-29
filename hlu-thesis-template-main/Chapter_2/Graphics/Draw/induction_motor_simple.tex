@@ -1,0 +1,34 @@
+\begin{tikzpicture}[scale=0.75]
+%Stator
+\draw[-, fill = cyan!50] (0, 0) circle(5);
+\draw[-, fill = white] (0, 0) circle(3);
+
+%Rotor
+\draw[-, fill = gray!85] (0, 0) circle(2.5);
+\draw[-, fill = cyan!50] (0, 0) circle(1.5);
+
+%Rotor bars
+\foreach \bar in {0, 36, ..., 324} {\draw[-, fill = matlabgreen!75] ($(0, 0) + (\bar:2)$) circle(0.4);};
+
+%Inner point, axis and rotation
+\draw[-, fill = black] (0, 0) circle(0.25);
+\draw[-] (0:0.5) arc (0:150:0.5);
+\draw[-triangle 45] (140:0.493) -- (153:0.51);
+\node[above] at (60:0.5) {$\omega_\text{m}$};
+
+%Coils
+\node[rectangle, align = center, draw = black, fill = lightgray, minimum width = 1.15cm, minimum height = 1cm, font = \scriptsize] at (0:4) {Coil\\phase $a$};
+\node[rectangle, align = center, draw = black, fill = lightgray, minimum width = 1.15cm, minimum height = 1cm, rotate = 120, font = \scriptsize] at (120:4) {};
+\node[align = center, font = \scriptsize] at (119:4) {Coil\\phase $b$};
+\node[rectangle, align = center, draw = black, fill = lightgray, minimum width = 1.15cm, minimum height = 1cm, rotate = 240, font = \scriptsize] at (240:4) {};
+\node[align = center, font = \scriptsize] at (239:4) {Coil\\phase $c$};
+
+%Annotations
+\draw[-triangle 45] ($(300:4) + (2.5, 0)$) node[right] {Stator} -- (300:4);
+\draw[-triangle 45] ($(320:2.65) + (3.25, 0)$) node[right] {Air gap} -- (320:2.65);
+\draw[-triangle 45] (18:5.75) node[right] {Rotor} -- (18:1);
+\draw[-triangle 45] ($(162:2) + (-3.75, 0)$) node[align = center,left] {Short-circuit\\ring} -- (162:2);
+\draw[-triangle 45] ($(216:2) + (-4, 0)$) node[left] {Rotor bar} -- (216:2);
+\node at (0, -4) {Iron};
+\node at (0, -0.75) {Iron};
+\end{tikzpicture}

@@ -1,0 +1,75 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols]
+\node[voltage source, small circuit symbols] (Vplus) at (0, -3.05) {};
+\draw[-triangle 45] ($(Vplus.north) + (-0.4, 0.2)$) -- ($(Vplus.south) + (-0.4, -0.2)$) node[midway, left] {$0.5 V_\text{dc}$};
+
+\node[voltage source, small circuit symbols] (Vminus) at (0, -4.95) {};
+\draw[-triangle 45] ($(Vminus.north) + (-0.4, 0.2)$) -- ($(Vminus.south) + (-0.4, -0.2)$) node[midway, left] {$0.5 V_\text{dc}$};
+
+\draw[-] (Vplus) -- (Vminus) node[midway, contact] (ground_contact) {};
+\node[left, color = blue] at (ground_contact) {NP};
+
+\draw[-] (ground_contact) -- ($(ground_contact) + (0.5, 0)$) -- ($(ground_contact) + (0.5, -0.25)$) node[ground, right, rotate=-90] {};
+
+%Phase 1
+\node[nigbt, name=igbt_11, scale=1] at (2, -3) {};
+\draw (igbt_11.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_11.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_11.B) {$S_{11}$};
+
+\node[nigbt, name=igbt_12, scale=1] at (2, -5) {};
+\draw (igbt_12.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_12.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_12.B) {$S_{12}$};
+
+\draw[-] (igbt_12.C) -- (igbt_11.E) node[midway, contact] (out_contact1) {};
+
+\draw[-] (Vplus.north) |- ($(igbt_11.C) + (0, 0.1)$) node[contact] (contact_top1) {} -- (igbt_11.C);
+\draw[-] (Vminus.south) |- ($(igbt_12.E) + (0, -0.1)$) node[contact] (contact_bottom1) {}  -- (igbt_12.E);
+
+\coordinate (upper_lim) at ($(igbt_11.C) + (0, 0.1)$);
+\coordinate (bottom_lim) at ($(igbt_12.E) + (0, -0.1)$);
+
+\node[below right, color = red] at (Vplus.north |- upper_lim) {DC+};
+\node[above right, color = black] at (Vminus.south |- bottom_lim) {DC-};
+
+\draw[-] (out_contact1) -- ++((0.6, 0) -- ++(0, -2.25) node[draw, circle, inner sep = 1.25pt, fill = white] (out_contact_terminal1) {};
+
+\draw[-triangle 45] ($(out_contact_terminal1) + (0, -0.15)$) -- ++(0, -1) node[midway, left] {$v_a$};
+\draw[-] ($(out_contact_terminal1) + (0, -1.3)$) node[draw, circle, inner sep = 1.25pt, fill = white] {} -- ++(0, -0.3) node[ground, right, rotate=-90] {};
+
+%Phase 2
+\node[nigbt, name=igbt_21, scale=1] at (4.25, -3) {};
+\draw (igbt_21.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_21.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_21.B) {$S_{21}$};
+
+\node[nigbt, name=igbt_22, scale=1] at (4.25, -5) {};
+\draw (igbt_22.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_22.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_22.B) {$S_{22}$};
+
+\draw[-] (igbt_22.C) -- (igbt_21.E) node[midway, contact] (out_contact2) {};
+
+\draw[-] (contact_top1) |- ($(igbt_21.C) + (0, 0.1)$) node[contact] (contact_top2) {} -- (igbt_21.C);
+\draw[-] (contact_bottom1) |- ($(igbt_22.E) + (0, -0.1)$) node[contact] (contact_bottom2) {}  -- (igbt_22.E);
+
+\draw[-] (out_contact2) -- ++((0.6, 0) -- ++(0, -2.25) node[draw, circle, inner sep = 1.25pt, fill = white] (out_contact_terminal2) {};
+
+\draw[-triangle 45] ($(out_contact_terminal2) + (0, -0.15)$) -- ++(0, -1) node[midway, left] {$v_b$};
+\draw[-] ($(out_contact_terminal2) + (0, -1.3)$) node[draw, circle, inner sep = 1.25pt, fill = white] {} -- ++(0, -0.3) node[ground, right, rotate=-90] {};
+
+%Phase 3
+\node[nigbt, name=igbt_31, scale=1] at (6.5, -3) {};
+\draw (igbt_31.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_31.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_31.B) {$S_{31}$};
+
+\node[nigbt, name=igbt_32, scale=1] at (6.5, -5) {};
+\draw (igbt_32.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt_32.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+\node[left] at (igbt_32.B) {$S_{32}$};
+
+\draw[-] (igbt_32.C) -- (igbt_31.E) node[midway, contact] (out_contact3) {};
+
+\draw[-] (contact_top2) |- ($(igbt_31.C) + (0, 0.1)$) -- (igbt_31.C);
+\draw[-] (contact_bottom2) |- ($(igbt_32.E) + (0, -0.1)$)  -- (igbt_32.E);
+
+\draw[-] (out_contact3) -- ++((0.6, 0) -- ++(0, -2.25) node[draw, circle, inner sep = 1.25pt, fill = white] (out_contact_terminal3) {};
+
+\draw[-triangle 45] ($(out_contact_terminal3) + (0, -0.15)$) -- ++(0, -1) node[midway, left] {$v_c$};
+\draw[-] ($(out_contact_terminal3) + (0, -1.3)$) node[draw, circle, inner sep = 1.25pt, fill = white] {} -- ++(0, -0.3) node[ground, right, rotate=-90] {};
+\end{tikzpicture}

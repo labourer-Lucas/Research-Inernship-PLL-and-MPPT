@@ -1,0 +1,110 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols]
+%Induction machine
+\node[circle, fill =  lightgray, draw = black, minimum width = 1cm, name = im, drop shadow] at (0, 0) {IM};
+\path (im.east) -- ++(0.12, 0);
+
+%Inverter
+\node[rectangle, fill = lightgray, draw = black, minimum height = 1.75cm, minimum width = 1.5cm, inner sep = 0pt, name = pe, left of = im, node distance = 1.75cm, drop shadow] {};
+\node[nigbt, name=igbt, scale=1] at ($(pe) + (0.2, 0)$) {};
+\draw (igbt.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+
+%PCC algorithm
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 5cm, minimum width = 2.25cm, inner sep = 0pt, name = pcc_algorithm, left of = pe, node distance = 2.75cm, align = center, drop shadow] {FS-MPC\\PCC\\algorithm};
+
+%Stator flux and torque estimation
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 2.25cm, minimum width = 2.25cm, inner sep = 0pt, name = estimator, align = center, drop shadow] at ($(pcc_algorithm.south west) + (0.25, -2.625)$) {Rotor flux\\and\\back-EMF\\estimation};
+
+%Clarke transformation
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 1.25cm, minimum width = 1.25cm, inner sep = 0pt, name = clarke_transformation, node distance = 2.75cm, drop shadow] at (estimator -| pe)  {};
+\begin{scope}
+\clip (clarke_transformation.south west) rectangle (clarke_transformation.north east);
+\draw[-] (clarke_transformation.south west) -- (clarke_transformation.north east);
+\end{scope}
+\path (clarke_transformation.north west) -- (clarke_transformation.south east) node[pos = 0.3] {$\alpha \beta$} node[pos = 0.7] {$abc$\,};
+
+%Inverse Park transformation
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 2cm, minimum width = 1cm, inner sep = 0pt, name = inverse_park_transformation, drop shadow] at ($(pcc_algorithm.west) + (-3, 1.5)$)  {};
+\begin{scope}
+\clip (inverse_park_transformation.south west) rectangle (inverse_park_transformation.north east);
+\draw[-] (inverse_park_transformation.south west) -- (inverse_park_transformation.north east);
+\end{scope}
+\path (inverse_park_transformation.north west) -- (inverse_park_transformation.south east) node[pos = 0.3] {$dq$} node[pos = 0.7] {$\alpha \beta\,$};
+
+%Torque to isq conversion
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 1cm, minimum width = 1cm, inner sep = 0pt, name = torque_conversion, drop shadow] at ($(inverse_park_transformation.west) + (-1.5, 0.6)$)  {};
+\begin{scope}
+\clip (torque_conversion.south west) rectangle (torque_conversion.north east);
+\draw[-] (torque_conversion.south west) -- (torque_conversion.north east);
+\end{scope}
+\path (torque_conversion.north west) -- (torque_conversion.south east) node[pos = 0.3] {\scriptsize{$T_\text{m}$}} node[pos = 0.7] {\scriptsize{$i_{\text{s} q}$}};
+
+%Speed PID controller
+\node[rectangle, fill = blue!20, draw = black, minimum height = 0.75cm, minimum width = 1cm, inner sep = 0pt, name = speed_pid, node distance = 2cm, left of = torque_conversion, drop shadow] {PID};
+\node[above right] at (speed_pid.east) {$T_\text{m}^*$};
+\node[sum, left of = speed_pid, node distance = 1.25cm, name = speed_pid_sum]{};
+\node[below right] at (speed_pid_sum) {$-$};
+
+%Speed reference
+\node[left, name = speed_reference, left of = speed_pid_sum, node distance = 1cm] {$\omega_\text{m}^*$};
+
+%Flux to isd conversion
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 1cm, minimum width = 1cm, inner sep = 0pt, name = flux_conversion, drop shadow] at ($(inverse_park_transformation.west) + (-1.5, -0.6)$)  {};
+\begin{scope}
+\clip (flux_conversion.south west) rectangle (flux_conversion.north east);
+\draw[-] (flux_conversion.south west) -- (flux_conversion.north east);
+\end{scope}
+\path (flux_conversion.north west) -- (flux_conversion.south east) node[pos = 0.3] {\scriptsize{$\left | \bm{\psi}_\text{r} \right |$}} node[pos = 0.7] {\scriptsize{$i_{\text{s} d}$}};
+
+%Connections of the nodes
+\draw[-triangle 45] (speed_reference) to (speed_pid_sum);
+\draw[-triangle 45] (speed_pid_sum) to (speed_pid);
+\draw[-triangle 45] (speed_pid.east) -- (torque_conversion.west);
+
+\draw[-triangle 45] ($(inverse_park_transformation.east) + (0, 0.5)$) coordinate (i_s_alpha_ref) -- (i_s_alpha_ref -| pcc_algorithm.west) node[midway, above] {$i_{\text{s} \alpha}^*$};
+\draw[-triangle 45] ($(inverse_park_transformation.east) + (0, -0.5)$) coordinate (i_s_beta_ref) -- (i_s_beta_ref -| pcc_algorithm.west) node[midway, above] {$i_{\text{s} \beta}^*$};
+
+%Flux reference
+\node[left, name = flux_reference] at ($(flux_conversion.west) + (-0.75, 0)$) {$\left | \bm{\psi}_\text{r} \right |^*$};
+\draw[-triangle 45] (flux_reference) -- (flux_conversion.west);
+
+\draw[-triangle 45] ($(pcc_algorithm.east) + (0, 0.65)$) -- ($(pe.west) + (0, 0.65)$);
+\node[above] at ($(pcc_algorithm.east) + (0.35, 0.65)$) {$s_a$};
+\draw[-triangle 45] (pcc_algorithm.east) -- (pe.west);
+\node[above] at ($(pcc_algorithm.east) + (0.35, 0)$) {$s_b$};
+\draw[-triangle 45] ($(pcc_algorithm.east) + (0, -0.65)$) -- ($(pe.west) + (0, -0.65)$);
+\node[above] at ($(pcc_algorithm.east) + (0.35, -0.65)$) {$s_c$};
+
+\draw[-] ($(im.center) + (145:0.5)$) -- ($(pe.east) + (0, {0.5*sin(145)})$);
+\draw[-] (im) to (pe);
+\draw[-] ($(im.center) + (215:0.5)$) -- ($(pe.east) + (0, {0.5*sin(215)})$);
+
+\draw[-triangle 45] ($(im.center) + (-125:0.5)$) |- ($(clarke_transformation.north east) + (0, -0.3)$);
+\draw[-triangle 45] (im.south) |- ($(clarke_transformation.south east) + (0, 0.3)$);
+\node[above] at ($(clarke_transformation.north east) + (0.5, -0.3)$) {$i_{\text{s} a}$};
+\node[above] at ($(clarke_transformation.south east) + (0.5, 0.3)$) {$i_{\text{s} b}$};
+
+\draw[-triangle 45] ($(clarke_transformation.north west) + (0, -0.3)$) coordinate (marker1) node[above left] {$i_{\text{s} \alpha}$} -- (marker1 -| estimator.east) node[contact, name = alpha_contact, pos = 0.75] {};
+\draw[-triangle 45] ($(clarke_transformation.south west) + (0, 0.3)$) coordinate (marker2) node[above left] {$i_{\text{s} \beta}$} -- (marker2 -| estimator.east) node[contact, name = beta_contact, pos = 0.5] {};
+
+\draw[-triangle 45] ($(im.center) + (-55:0.5)$) |- ($(estimator.south) + (0, -0.75)$) coordinate (omega_bottom) -| (speed_pid_sum.south);
+\draw[-triangle 45] ($(estimator.south) + (0, -0.75)$) node[contact] {} node[above right] {$\omega_\text{m}$} -- (estimator.south);
+\coordinate (omega_contact) at ($(pcc_algorithm.west) + (-3.5, 0)$);
+\draw[-triangle 45] (omega_bottom -| omega_contact) node[contact] {} |- ($(omega_contact) + (3.5, 0)$);
+
+%\draw[-triangle 45] ($(estimator.north west) + (0, -0.3)$) coordinate (rotor_flux_est)  -| ($(pcc_algorithm.west) + (-2, -1)$) -- ($(pcc_algorithm.west) + (0, -1)$);
+\draw[vecArrow] ($(estimator.north west) + (0, -0.3)$) coordinate (rotor_flux_est)  -| ($(pcc_algorithm.west) + (-2, -1)$) -- ($(pcc_algorithm.west) + (0, -1)$);
+\draw[innerWhite] ($(estimator.north west) + (0, -0.3)$) coordinate (rotor_flux_est)  -| ($(pcc_algorithm.west) + (-2, -1)$) -- ($(pcc_algorithm.west) + (0, -1)$);
+\node[above] at ($(rotor_flux_est) + (-0.5, 0)$) {$\bm{\psi}_\text{r}$};
+%\draw[-triangle 45] (estimator.west) -| ($(pcc_algorithm.west) + (-2.5, -0.5)$) -- ($(pcc_algorithm.west) + (0, -0.5)$);
+\draw[vecArrow] (estimator.west) -| ($(pcc_algorithm.west) + (-2.5, -0.5)$) -- ($(pcc_algorithm.west) + (0, -0.5)$);
+\draw[innerWhite] (estimator.west) -| ($(pcc_algorithm.west) + (-2.5, -0.5)$) -- ($(pcc_algorithm.west) + (0, -0.5)$);
+\node[above] at ($(estimator.west) + (-0.5, 0)$) {$\bm{v}_\text{emf}$};
+\draw[-triangle 45] ($(estimator.south west) + (0, 0.3)$) coordinate (angle_est) -| (inverse_park_transformation.south);
+\node[above] at ($(angle_est) + (-0.5, 0)$) {$\varphi$};
+
+\draw[-triangle 45] (alpha_contact) |- ($(estimator.north east) + (0, 0.5)$) -| ($(pcc_algorithm.west) + (-1.5, -1.5)$) -- ($(pcc_algorithm.west) + (0, -1.5)$);
+\draw[-triangle 45] (beta_contact) |- ($(pcc_algorithm.south) + (0, -0.5)$) -| ($(pcc_algorithm.west) + (-1, -2)$) -- ($(pcc_algorithm.west) + (0, -2)$);
+
+\draw[-triangle 45] (torque_conversion.east) -- (torque_conversion.east -| inverse_park_transformation.west) node[above, pos=0.4] {$i_{\text{s} q}^*$};
+\draw[-triangle 45] (flux_conversion.east) -- (flux_conversion.east -| inverse_park_transformation.west) node[above, pos=0.4] {$i_{\text{s} d}^*$};
+\end{tikzpicture}

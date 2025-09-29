@@ -1,0 +1,112 @@
+\begin{tikzpicture}[circuit ee IEC, set diode graphic=var diode IEC graphic, tiny circuit symbols]
+%Definitions
+\definecolor{matlabgreen}{rgb}{0, 0.5, 0}
+
+%Speed PID controller
+\node[rectangle, fill = blue!20, draw = black, minimum height = 0.75cm, minimum width = 1cm, inner sep = 0pt, name = speed_pid, drop shadow] at (0, 0) {PID};
+\node[above right] at (speed_pid.east) {$T_\text{m}^*$};
+\node[sum, left of = speed_pid, node distance = 1.25cm, name = speed_pid_sum]{};
+\node[below right] at (speed_pid_sum) {$-$};
+
+%Speed reference
+\node[left, name = speed_reference, left of = speed_pid_sum, node distance = 1cm] {$\omega_\text{m}^*$};
+
+%Torque
+\node[sum, right of = speed_pid, node distance = 1.5cm, name = torque_sum] {};
+\node[below right] at (torque_sum) {$-$};
+
+%Flux
+\node[sum, name = flux_sum] at ($(torque_sum) + (2, -1)$) {};
+\node[below right] at (flux_sum) {$-$};
+
+%Flux reference
+\node[left, name = flux_reference, left of = flux_sum, node distance = 1.25cm] {$\left | \bm{\psi}_\text{s} \right |^*$};
+
+%Flux hysteresis controller
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 0.75cm, minimum width = 1cm, inner sep = 0pt, name = flux_hysteresis, right of = flux_sum, node distance = 1.5cm, drop shadow] {};
+\node[above] at ($(flux_hysteresis.east) + (0.35, 0)$) {$h_\psi$};
+\node[rectangle, fill=matlabgreen!30, draw=black, minimum height = 0.25cm, minimum width = 0.25cm, inner sep = 0pt, name = flux_hysteresis_inside] at (flux_hysteresis.center) {};
+\draw[-] ($(flux_hysteresis_inside) + (-0.125, -0.125)$) -- +(-0.2, 0);
+\draw[-] ($(flux_hysteresis_inside) + (0.125, 0.125)$) -- +(0.2, 0);
+
+%Sector table
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 0.75cm, minimum width = 1cm, inner sep = 0pt, name = sector_table, below of = flux_hysteresis, node distance = 1cm, drop shadow] {};
+\node[above] at ($(sector_table.east) + (0.35, 0)$) {$S$};
+\coordinate (angle_zero) at ($(sector_table.center) + (180:0.3)$);
+\draw[draw = none, fill = cyan!30] (angle_zero) -- ($(angle_zero) + (-17.5:0.3)$) arc (-17.5:17.5:0.3) -- cycle;
+\draw[-] ($(sector_table.center) + (35:0.3)$) -- (angle_zero) -- ($(sector_table.center) + (-35:0.3)$);
+\draw[-] ($(angle_zero) + (-50:0.3)$) arc (-50:50:0.3);
+
+%Torque hysteresis
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 0.75cm, minimum width = 1cm, inner sep = 0pt, name = torque_hysteresis, above of = flux_hysteresis, node distance = 1cm, drop shadow] {};
+\node[above] at ($(torque_hysteresis.east) + (0.35, 0)$) {$h_\text{t}$};
+\node[rectangle, fill=magenta!30, draw=black, minimum height = 0.2cm, minimum width = 0.2cm, inner sep = 0pt, name = torque_hysteresis_inside_left] at ($(torque_hysteresis.center) + (-0.1, -0.1)$) {};
+\node[rectangle, fill=magenta!30, draw=black, minimum height = 0.2cm, minimum width = 0.2cm, inner sep = 0pt, name = torque_hysteresis_inside_right] at ($(torque_hysteresis.center) + (0.1, 0.1)$) {};
+\draw[-] ($(torque_hysteresis_inside_left) + (-0.1, -0.1)$) -- +(-0.15, 0);
+\draw[-] ($(torque_hysteresis_inside_right) + (0.1, 0.1)$) -- +(0.15, 0);
+
+%Lookup table
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 3cm, minimum width = 2.25cm, inner sep = 0pt, name = lookup_table, right of = flux_hysteresis, node distance = 2.5cm, align = center, drop shadow] {Lookup\\table};
+
+%Stator flux and torque estimation
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 2cm, minimum width = 2.25cm, inner sep = 0pt, name = estimator, below of = lookup_table, node distance = 3cm, align = center, drop shadow] {Stator flux\\and torque\\estimation};
+
+%abc to alpha beta conversion (Clarke transformation)
+\node[rectangle, fill = yellow!50, draw = black, minimum height = 1.25cm, minimum width = 1.25cm, inner sep = 0pt, name = conversion, right of = estimator, node distance = 2.75cm, drop shadow] {};
+\begin{scope}
+\clip (conversion.south west) rectangle (conversion.north east);
+\draw[-] (conversion.south west) -- (conversion.north east);
+\end{scope}
+\path (conversion.north west) -- (conversion.south east) node[pos = 0.3] {$\alpha \beta$} node[pos = 0.7] {$abc$\,};
+
+%Inverter
+\node[rectangle, fill = lightgray, draw = black, minimum height = 1.75cm, minimum width = 1.5cm, inner sep = 0pt, name = pe, right of = lookup_table, node distance = 2.75cm, drop shadow] {};
+\node[nigbt, name=igbt, scale=1] at ($(pe) + (0.2, 0)$) {};
+\draw (igbt.E)++(0,0.2) node[contact] {} -- ++(0.3,0) to [diode] ($(igbt.C)+(0.3,-0.2)$) -- ++(-0.3,0) node[contact] {};
+
+%Induction machine
+\node[circle, fill =  lightgray, draw = black, minimum width = 1cm, right of = pe, node distance = 2cm, name = im, drop shadow] {IM};
+\path (im.east) -- ++(0.15, 0);
+
+%Connections of the nodes
+\draw[-triangle 45] (speed_reference) to (speed_pid_sum);
+\draw[-triangle 45] (speed_pid_sum) to (speed_pid);
+\draw[-triangle 45] (speed_pid.east) to (torque_sum);
+\draw[-triangle 45] (torque_sum) to (torque_hysteresis);
+\draw[-triangle 45] (torque_hysteresis) -- ($(lookup_table.west) + (0, 1)$);
+
+\draw[-triangle 45] (flux_hysteresis) -- (lookup_table.west);
+\draw[-triangle 45] (sector_table) -- ($(lookup_table.west) + (0, -1)$);
+
+\draw[-triangle 45] (flux_reference) to (flux_sum);
+\draw[-triangle 45] (flux_sum) to (flux_hysteresis);
+
+\draw[-triangle 45] ($(lookup_table.east) + (0, 0.65)$) -- ($(pe.west) + (0, 0.65)$);
+\node[above] at ($(lookup_table.east) + (0.35, 0.65)$) {$s_a$};
+\draw[-triangle 45] (lookup_table.east) -- (pe.west);
+\node[above] at ($(lookup_table.east) + (0.35, 0)$) {$s_b$};
+\draw[-triangle 45] ($(lookup_table.east) + (0, -0.65)$) -- ($(pe.west) + (0, -0.65)$);
+\node[above] at ($(lookup_table.east) + (0.35, -0.65)$) {$s_c$};
+
+\draw[-] ($(im.center) + (145:0.5)$) -- ($(pe.east) + (0, {0.5*sin(145)})$);
+\draw[-] (im) to (pe);
+\draw[-] ($(im.center) + (215:0.5)$) -- ($(pe.east) + (0, {0.5*sin(215)})$);
+
+\draw[-triangle 45] ($(im.center) + (-125:0.5)$) |- ($(conversion.north east) + (0, -0.3)$);
+\draw[-triangle 45] (im.south) |- ($(conversion.south east) + (0, 0.3)$);
+\node[above] at ($(conversion.north east) + (0.6, -0.3)$) {$i_{\text{s}a}$};
+\node[above] at ($(conversion.south east) + (0.6, 0.3)$) {$i_{\text{s}b}$};
+
+\draw[-triangle 45] ($(conversion.north west) + (0, -0.3)$) coordinate (marker1) node[above left] {$i_{\text{s} \alpha}$} -- (marker1 -| estimator.east);
+\draw[-triangle 45] ($(conversion.south west) + (0, 0.3)$) coordinate (marker2) node[above left] {$i_{\text{s} \beta}$} -- (marker2 -| estimator.east);
+
+\draw[-triangle 45] ($(estimator.west) + (0, 0.7)$) -| ($(sector_table.west) + (-0.5, 0)$) -- (sector_table.west);
+\node[above] at ($(estimator.west) + (-0.5, 0.7)$) {$\varphi$};
+\draw[-triangle 45] (estimator.west) -| (flux_sum.south);
+\node[above] at ($(estimator.west) + (-0.5, 0)$) {$\left | \bm{\psi}_\text{s} \right |$};
+\draw[-triangle 45] ($(estimator.west) + (0, -0.7)$) -| (torque_sum.south);
+\node[above] at ($(estimator.west) + (-0.5, -0.7)$) {$T_\text{m}$};
+
+\draw[-triangle 45] ($(im.center) + (-55:0.5)$) |- ($(estimator.south) + (0, -0.5)$) -| (speed_pid_sum.south);
+\node[above] at ($(estimator.south west) + (-0.5, -0.5)$) {$\omega_\text{m}$};
+\end{tikzpicture}

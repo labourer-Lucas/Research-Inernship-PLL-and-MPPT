@@ -1,0 +1,67 @@
+\begin{tikzpicture}[scale = 0.96]
+\node[sum, name = start] at (0, 0.4) {};
+
+\node[diamond, draw = black, fill = blue!20, drop shadow, inner sep = 0pt, minimum height = 1.5cm, aspect = 4, name = new_sample] at (0, -1.25) {New sample?};
+\node[above right] at (new_sample.east) {no};
+\node[below right] at (new_sample.south) {yes};
+
+\draw[-triangle 45] (start) to (new_sample);
+\draw[-triangle 45] (new_sample.east) -- ($(new_sample.east) + (0.8, 0)$) |- (start.east);
+
+\node[draw = black, rectangle, rounded corners, fill = tumblue_superlight, drop shadow, inner sep = 0pt, minimum width = 3cm, minimum height = 0.75cm, name = measurements] at (0, -2.75-0.75/2) {Measurements};
+
+\draw[-triangle 45] (new_sample) to (measurements);
+
+\node[draw = black, rectangle, rounded corners, fill = tumblue_superlight, drop shadow, align = center, inner sep = 0pt, minimum width = 6.5cm, minimum height = 2.5cm, name = init]  at (0, -5.5) {Number of switching states $i_\text{sw}$\\Switching state $i = 0$\\Optimum switching state $s_\text{opt} = 0$\\Minimum cost $j_\text{min} = \infty$};
+
+\draw[-triangle 45] (measurements) to (init);
+
+\node[draw = black, rectangle, rounded corners, fill = tumblue_superlight, drop shadow, inner sep = 0pt, minimum width = 2cm, minimum height = 0.75cm, name = i_pp] at (0, -8.55-0.75/2) {$i = i + 1$};
+
+\path (init.south) -- (i_pp.north) node[midway, sum, name = opt_iteration] {};
+
+\draw[-triangle 45] (init) to (opt_iteration);
+\draw[-triangle 45] (opt_iteration) to (i_pp);
+
+\node[draw = black, rectangle, rounded corners, fill = tumblue_superlight, drop shadow, align = center, inner sep = 0pt, minimum width = 4cm, minimum height = 1.25cm, name = prediction] at (0, -10.05-1.25/2) {Predict model for\\switching state $s_i$};
+
+\draw[-triangle 45] (i_pp) to (prediction);
+
+\node[draw = black, rectangle, rounded corners, fill = tumblue_superlight, drop shadow, align = center, inner sep = 0pt, minimum width = 4cm, minimum height = 1.25cm, name = cost_calculation] at (0, -12.05-1.25/2) {Calculate cost $j_i$ for\\switching state $s_i$};
+
+\draw[-triangle 45] (prediction) to (cost_calculation);
+
+\node[diamond, draw = black, fill = blue!20, drop shadow, inner sep = 0pt, minimum height = 1.5cm, aspect = 4, name = cost_check] at (0, -14.05-0.7) {$j_i < j_\text{min}$?};
+
+\draw[-triangle 45] (cost_calculation) to (cost_check);
+
+\node[above right] at (cost_check.east) {yes};
+
+\node[right] at (0, -15.85) {no};
+
+\node[draw = black, rectangle, rounded corners, fill = tumblue_superlight, drop shadow, align = center, inner sep = 0pt, minimum width = 2.5cm, minimum height = 1.25cm, name = min_found]  at (2.75, -15.55-1.25/2) {$j_\text{min} = j_i$\\$s_\text{opt} = s_i$};
+\path (min_found.east) -- ++(0.1, 0);
+
+\coordinate (marker) at ($(min_found.south) + (0, -0.75)$);
+\node[sum, name = optimization_join] at (marker -| 0, 0) {};
+
+\draw[-triangle 45] (cost_check.east) -| (min_found.north);
+\draw[-triangle 45] (min_found.south) |- (optimization_join.east);
+
+\draw[-triangle 45] (cost_check) to (optimization_join);
+
+\node[diamond, draw = black, fill = blue!20, drop shadow, inner sep = 0pt, minimum height = 1.5cm, aspect = 4, name = optimization_done] at (0, -18.45-0.75) {$i = i_\text{sw}$?};
+
+\draw[-triangle 45] (optimization_done.west) -| ($(cost_calculation.west) + (-0.75, 0)$) |- (opt_iteration.west);
+\node[above left] at (optimization_done.west) {no};
+
+\draw[-triangle 45] (optimization_join) to (optimization_done);
+
+\node[below right] at (optimization_done.south) {yes};
+
+\node[draw = black, rectangle, rounded corners, fill = tumblue_superlight, drop shadow, align = center, inner sep = 0pt, minimum width = 2.5cm, minimum height = 0.75cm, name = apply_sopt]  at (0, -20.7-0.75/2) {Apply $s_\text{opt}$};
+
+\draw[-triangle 45] (optimization_done) to (apply_sopt);
+
+\draw[-triangle 45] (apply_sopt.south) -- ($(apply_sopt.south) + (0, -0.75)$) -| ($(init.west) + (-0.75, 0)$) |- (start.west);
+\end{tikzpicture}

@@ -1,0 +1,117 @@
+\begin{tikzpicture}[scale = 0.6]
+%Space after "}" necessary if math in polar coordinates, otherwise error (TikZ bug)
+\draw[-triangle 45] (-10.5, 0) -- (10.5, 0) node[right] {$\alpha$};
+\draw[-triangle 45] (0, -9.25) -- (0, 9.25) node[above] {$\beta$};
+
+\draw[fill = lightgray] (0, 0) -- (4, 0) -- (60:4) -- cycle;
+\draw[fill = white] (0, 0) -- (60:4) -- (120:4) -- cycle;
+\draw[fill = lightgray] (0, 0) -- (120:4) -- (-4, 0) -- cycle;
+\draw[fill = white] (0, 0) -- (-4, 0) -- (-120:4) -- cycle;
+\draw[fill = lightgray] (0, 0) -- (-120:4) -- (-60:4) -- cycle;
+\draw[fill = white] (0, 0) -- (-60:4) -- (4, 0) -- cycle;
+
+\draw[fill = lightgray] (4, 0) -- (8, 0) -- (30:{8*0.5*sqrt(3)} ) -- cycle;
+\draw[fill = lightgray] (30:{8*0.5*sqrt(3)} ) -- (60:4) -- (60:8) -- cycle;
+\draw[fill = lightgray] (60:4) -- (90:{8*0.5*sqrt(3)} ) -- (120:4) -- cycle;
+\draw[fill = lightgray] (120:4) -- (120:8) -- (150:{8*0.5*sqrt(3)} ) -- cycle;
+\draw[fill = lightgray] (-4, 0) -- (-8, 0) -- (150:{8*0.5*sqrt(3)} ) -- cycle;
+\draw[fill = lightgray] (-4, 0) -- (-150:{8*0.5*sqrt(3)} ) -- (-120:4) -- cycle;
+\draw[fill = lightgray] (-120:4) -- (-120:8) -- (-90:{8*0.5*sqrt(3)} ) -- cycle;
+\draw[fill = lightgray] (-60:4) -- (-60:8) -- (-90:{8*0.5*sqrt(3)} ) -- cycle;
+\draw[fill = lightgray] (4, 0) -- (-30:{8*0.5*sqrt(3)} ) -- (-60:4) -- cycle;
+
+\draw[fill = white] (-60:4) -- (-90:{8*0.5*sqrt(3)} ) -- (-120:4) -- cycle;
+
+\draw[-] (60:8) -- (120:8);
+\draw[-] (-60:8) -- (-120:8);
+\draw[-] (0:8) -- (-60:8);
+\draw[-] (0:-8) -- (-120:8);
+
+\draw[-, fill = white] (0, 0) circle [radius = 1];
+\node[align = center, font = \scriptsize] at (0, 0) {ppp\\000\\nnn};
+
+\draw[-, fill = white] (4, 0) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (4, 0) {p00\\0nn};
+
+\draw[-, fill = white] (-4, 0) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (-4, 0) {pp0\\00n};
+
+\draw[-, fill = white] (60:4) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (60:4) {0p0\\n0n};
+
+\draw[-, fill = white] (120:4) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (120:4) {0pp\\n00};
+
+\draw[-, fill = white] (-120:4) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (-120:4) {00p\\nn0};
+
+\draw[-, fill = white] (-60:4) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (-60:4) {p0p\\0n0};
+
+\draw[-, fill = white] (8, 0) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (8, 0) {pnn};
+
+\draw[-, fill = white] (30:{8*0.5*sqrt(3)} ) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (30:{8*0.5*sqrt(3)} ) {p0n};
+
+\draw[-, fill = white] (60:8) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (60:8) {ppn};
+
+\draw[-, fill = white] (90:{8*0.5*sqrt(3)} ) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (90:{8*0.5*sqrt(3)} ) {0pn};
+
+\draw[-, fill = white] (120:8) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (120:8) {npn};
+
+\draw[-, fill = white] (150:{8*0.5*sqrt(3)} ) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (150:{8*0.5*sqrt(3)} ) {np0};
+
+\draw[-, fill = white] (-8, 0) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (180:8) {npp};
+
+\draw[-, fill = white] (-150:{8*0.5*sqrt(3)} ) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (-150:{8*0.5*sqrt(3)} ) {n0p};
+
+\draw[-, fill = white] (-120:8) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (-120:8) {nnp};
+
+\draw[-, fill = white] (-90:{8*0.5*sqrt(3)} ) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (-90:{8*0.5*sqrt(3)} ) {0np};
+
+\draw[-, fill = white] (-60:8) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (-60:8) {pnp};
+
+\draw[-, fill = white] (-30:{8*0.5*sqrt(3)} ) circle [radius = 0.75];
+\node[align = center, font = \scriptsize] at (-30:{8*0.5*sqrt(3)} ) {pn0};
+
+\node[align = center] at (30:2.25) {$10$};
+\node[align = center] at (-30:2.25) {$17$};
+\node[align = center] at (90:2.25) {$9$};
+\node[align = center] at (-90:2.25) {$16$};
+\node[align = center] at (150:2.25) {$8$};
+\node[align = center] at (-150:2.25) {$15$};
+
+\node[align = center] at ($(4, 0) + (30:2.25)$) {$12$};
+\node[align = center] at ($(4, 0) + (90:2.25)$) {$11$};
+\node[align = center] at ($(4, 0) + (-30:2.25)$) {$19$};
+\node[align = center] at ($(4, 0) + (-90:2.25)$) {$18$};
+
+\node[align = center] at ($(-4, 0) + (150:2.25)$) {$6$};
+\node[align = center] at ($(-4, 0) + (90:2.25)$) {$7$};
+\node[align = center] at ($(-4, 0) + (-150:2.25)$) {$13$};
+\node[align = center] at ($(-4, 0) + (-90:2.25)$) {$14$};
+
+\node[align = center] at ($(60:4) + (30:2.25)$) {$5$};
+\node[align = center] at ($(60:4) + (90:2.25)$) {$4$};
+\node[align = center] at ($(60:4) + (150:2.25)$) {$3$};
+
+\node[align = center] at ($(-60:4) + (-30:2.25)$) {$24$};
+\node[align = center] at ($(-60:4) + (-90:2.25)$) {$23$};
+\node[align = center] at ($(-60:4) + (-150:2.25)$) {$22$};
+
+\node[align = center] at ($(120:4) + (90:2.25)$) {$2$};
+\node[align = center] at ($(120:4) + (150:2.25)$) {$1$};
+
+\node[align = center] at ($(-120:4) + (-90:2.25)$) {$21$};
+\node[align = center] at ($(-120:4) + (-150:2.25)$) {$20$};
+\end{tikzpicture}
