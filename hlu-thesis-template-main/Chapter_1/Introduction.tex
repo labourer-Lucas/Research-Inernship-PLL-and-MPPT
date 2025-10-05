@@ -3,5 +3,32 @@
 \clearpage
 
 \chapter{Introduction} \label{chapter:introduction}
+\section{Background of the Internship}
+I have been a research intern at Infineon Technologies AG since July, 2025, working as a Power Control Algorithm Intern. I was responsible for developing and implementing middleware control algorithms for power electronics systems, specifically focusing on PLL and MPPT algorithms using Model Based Design (MBD). With aid of MATLAB/Simulink, I designed the algorithms and tested them in a simulated environment. Finally, I generated C code from the Simulink models using Embedded Coder.
+\subsection{Company Overview}
+Infineon Technologies AG is a global leader in semiconductor solutions, providing innovative technologies for various applications, including automotive, industrial, and consumer electronics. 
 
+I was working in the Power \& Sensor Systems (PSS) division, which focuses on developing advanced sensor solutions and power management technologies. The PSS division powers Infineon’s decarbonization and digitalization vision with a wide range of energy-efficient and digital solutions.
+\subsection{Project Overview}
+The project "Power Control Middleware" aims to develop and middleware control algorithms for power electronics systems, such as PLL, MPPT, Kalman Filter, and 3-zero-3-pole filters. During my internship, I focused on the PLL and MPPT algorithms.
+\section{Objective of the Internship}
+The main objectives of my internship were to:
+\begin{itemize}
+    \item Develop and implement PLL and MPPT algorithms using MBD
+    \item Test the algorithms in a simulated environment using MATLAB/Simulink and evaluate their performance
+    \item Generate C code from the Simulink models using Embedded Coder
+    \item Document the development process and results in a comprehensive report
+\end{itemize}
+\subsection{Phase-Locked Loop (PLL)}
+Grid synchronization is the process by which power converters, especially those connected to renewable energy sources, ensure that the power injected by the inverter is aligned with the grid. This includes estimating and matching the phase angle, frequency, and voltage magnitude.
+
+Grid synchronization can be achieved using various control techniques. The primary tool for achieving this is PLL. The latter consists of a feedback control loop that follows the frequency and phase of its input signal. In grid-tied applications, the PLL input is the grid voltage. Moreover, some advanced grid synchronization methods combine the PLL with filters applied to the input voltage. Such a combination allows for robust and precise estimation of the above-mentioned grid parameters even under unbalanced voltages, harmonic distortions, or voltage sags.
+
+In my internship, I developed and implemented synchronous reference frame PLL (SRF-PLL), Double Decoupled Synchronous Reference Frame (DDSRF) PLL, Second-Order Generalized Integrators (SOGI) PLL, Dual-Second-Order Generalized Integrators (DSOGI) PLL, and Multiple Second-Order Generalized Integrators (MSOGI) PLL.
+\subsection{Maximum Power Point Tracking (MPPT)}
+MPPT is a family of control algorithms that aims at optimizing the use of a power source that possesses a fluctuating power profile.
+
+In my research internship, I focus on developing the MPPT algorithms for DC optimizers, which are power electronic devices that are connected to individual solar panels in a photovoltaic (PV) system. I developed and implemented Perturb and Observe (P\&O) and Incremental Conductance (InC) MPPT algorithms.
+\section{Structure of the Report}
+The first chapter introduces the background and objectives of the internship. The second chapter provides a detailed overview of the PLL and MPPT algorithms, including their principles, types, and applications. The third chapter describes the deesign and implementation of the PLL and MPPT algorithms using MBD, including the Simulink models. The fourth chapter presents the testing and evaluation of the algorithms in a simulated environment, including performance analysis and results. Finally, the fifth chapter concludes the report with a summary of the work done, challenges faced, and future work suggestions.
 \cleardoublepage
