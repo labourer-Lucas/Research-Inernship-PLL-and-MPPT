@@ -1,0 +1,88 @@
+\setcounter{equation}{0}
+
+\clearpage
+
+\chapter{Algorithm Development} \label{chapter:Algorithm Development}
+\section{Phase-Locked Loop Algorithm} 
+
+\subsection{Overview of PLL and its Applications and Development}
+The increasing penetration of renewable energy into the grid necessitates the employment of grid synchronization techniques to ensure proper integration and stability of the system. Several grid synchronization techniques are available, among which the PLL method has proven to be the more employed one owing to its simplicity and robustness.
+
+Despite being able to provide effective operation of the system under variable grid conditions this technique faces certain technological challenges. This paper studies, in detail, the various PLL techniques that are implemented in the Renewable Energy Sectorsuch as Synchronous Reference Frame (SRF-PLL), Decoupled Double Synchronous Reference Frame (DDSRF-PLL), Second Order General Integrator (SOGI-PLL), Dual Second Order General Integrator (DSOGI-PLL), and Multi Second Order General Integrator (MSOGI-PLL). The different techniques of the PLL are compared and analyzed based on their efficiency, response to voltage and frequency deviations, complexity, and stability. SRF-PLL gives excellent response under balanced grid conditions, but E-PLL, FLL and SOGI based PLLs are more efficient to address unbalanced grid conditions. The limitations of the PLL technique such as reduced stability margin and manufacturing costs, has lead to the development of improved and new PLLs, which are under research.
+
+\subsection{Types of PLL}
+\subsubsection{Synchronous Reference Frame PLL}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Chapter_2/Graphics/SRF-PLL.png}
+    \caption{Block diagram of a typical SRF-PLL}
+    \label{fig:SRF-PLL}
+\end{figure}
+
+A synchronous reference frame PLL is a basic type of phase-locked loop based on the Park transform\cite{567077}. In a nutshell, the SRF PLL is built using a Park transformation that acts as a phase detector, a low-pass filter (LPF) usually in the form of a PI regulator, and a voltage-controlled oscillator (VCO) typically made from an integrator. The objective of this PLL is then to minimize either the direct or quadrature axis reference voltage. This will then ensure that the phase angle of the rotating reference frame of the park transformation matches the phase angle of the utility grid voltage vector.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\linewidth]{Chapter_2/Graphics/Q1b1.png}
+    \caption{\( d-q \) and \( \hat{d}-\hat{q} \) Frame}
+    \label{fig:Q1b1}
+\end{figure}
+The block diagram of a typical SRF-PLL is shown in Fig. \ref{fig:SRF-PLL}. In the conventional SRF-PLL, the three-phase voltage vector is translated from the $abc$ reference frame to the $dq$ reference frame using the Park transformation. The angular position of this $dq$ reference frame is controlled by a feedback loop which regulates the $q$ component to zero. Therefore in steady-state, the $d$ component depicts the voltage vector amplitude and its phase is determined by the output of the feedback loop.
+
+
+
+As shown in Figure \ref{fig:Q1b1} ,the actual phase angle of \( {V}_{\delta} \) is \( \theta \), and the phase angle estimated by the PLL is \( \hat{\theta} \). The corresponding \( d-q \) and \( \hat{d}-\hat{q} \) are rotating coordinate systems. Define \( \delta = \theta - \hat{\theta} \), then
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{Chapter_2/Graphics/Q1b2.png}
+    \caption{Block diagram of SRF-PLL in small signal model}
+    \label{fig:Block_diagram_of_SRF-PLL}
+\end{figure}
+
+\begin{equation}
+    \hat{V}_q = V_\delta \cdot \sin(\delta)
+\end{equation}
+
+
+
+When \( \delta \) is very small, \( \sin(\delta) \approx \delta = \theta - \hat{\theta} \), and thus the control block diagram of the PLL can be depicted.
+
+
+Figure \ref{fig:Block_diagram_of_SRF-PLL} shows the small signal model of the SRF-PLL. However, in practical applications, this model is sensitive to the variation of the grid voltage amplitude. Thus, in order to compensate for that, we are going to design a normalized PLL in this section. The block diagram of normalized PLL is shown in Figure \ref{fig:Block_diagram_of_normalized_PLL}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{Chapter_2/Graphics/normalized_SRF_PLL.png}
+    \caption{Block diagram of normalized SRF-PLL}
+    \label{fig:Block_diagram_of_normalized_PLL}
+\end{figure}
+
+Therefore, the close loop transfer function of the system can be written as: 
+\begin{equation}
+    G_{cl}(s)=\frac{\hat{\theta}\left(s\right)}{\theta(s)}=\frac{ K_{p}s+ K_{i}}{s^{2}+K_{p}s+K_{i}}
+\end{equation}
+
+where \( K_p \) and \( K_i \) are the proportional and integral gains of the PI controller, respectively. The natural frequency \( \omega_n \) and damping ratio \( \zeta \) of the system can be defined as:
+\begin{equation}
+    \omega_n=\sqrt{K_i}
+\end{equation}
+\begin{equation}
+    \zeta=\frac{K_p}{2\sqrt{K_i}}
+\end{equation}
+
+In practical applications, the SRF-PLL is usually designed with a damping ratio of \( \zeta=0.707 \) to ensure a good dynamic response without overshoot. The natural frequency \( \omega_n \) is typically chosen to be arround 30Hz. A higher value of \( \omega_n \) results in a faster dynamic response but may also lead to increased sensitivity to noise and harmonics in the grid voltage.
+
+
+
+%add Response of the SRF-PLL with a phase shift at t=0.15s under i) balanced and ii) unbalanced conditions, iii)with harmonics. (a) Utility voltage [V], (b) Detected phase angle [rad], and (c) SRF axes voltage [V].
+
+
+
+
+\subsubsection{Decoupled Double Synchronous Reference Frame PLL}
+\subsubsection{Second Order General Integrator PLL}
+\subsubsection{Dual Second Order General Integrator PLL}
+\subsubsection{Multi Second Order General Integrator PLL}
+\section{Maximum Power Point Tracking Algorithm}
+\subsection{Overview of MPPT and its Applications and Development}
+\subsection{Types of MPPT}
+
+\cleardoublepage
