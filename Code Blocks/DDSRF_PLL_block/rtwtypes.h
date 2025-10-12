@@ -5,11 +5,11 @@
  *
  * File: rtwtypes.h
  *
- * Code generated for Simulink model 'SRF_block'.
+ * Code generated for Simulink model 'DDSRF_PLL_block'.
  *
- * Model version                  : 2.8
+ * Model version                  : 2.5
  * Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
- * C/C++ source code generated on : Sun Oct 12 18:48:18 2025
+ * C/C++ source code generated on : Sun Oct 12 18:53:49 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex-M

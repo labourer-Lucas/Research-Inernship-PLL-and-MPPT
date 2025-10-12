@@ -3,34 +3,25 @@
  * course requirements at degree granting institutions only.  Not for
  * government, commercial, or other organizational use.
  *
- * File: rtGetNaN.c
+ * File: SRF_block_private.h
  *
- * Code generated for Simulink model 'SRF_PLL_Block'.
+ * Code generated for Simulink model 'SRF_block'.
  *
- * Model version                  : 1.24
+ * Model version                  : 2.8
  * Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
- * C/C++ source code generated on : Sun Oct 12 17:47:33 2025
+ * C/C++ source code generated on : Sun Oct 12 18:48:18 2025
  *
  * Target selection: ert.tlc
- * Embedded hardware selection: Intel->x86-64 (Windows64)
+ * Embedded hardware selection: ARM Compatible->ARM Cortex-M
  * Code generation objectives: Unspecified
  * Validation result: Not run
  */
 
+#ifndef SRF_block_private_h_
+#define SRF_block_private_h_
 #include "rtwtypes.h"
-#include "rtGetNaN.h"
-
-/* Return rtNaN needed by the generated code. */
-real_T rtGetNaN(void)
-{
-  return rtNaN;
-}
-
-/* Return rtNaNF needed by the generated code. */
-real32_T rtGetNaNF(void)
-{
-  return rtNaNF;
-}
+#include "SRF_block_types.h"
+#endif                                 /* SRF_block_private_h_ */
 
 /*
  * File trailer for generated code.
