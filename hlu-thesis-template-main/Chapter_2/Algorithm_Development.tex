@@ -10,8 +10,7 @@ The increasing penetration of renewable energy into the grid necessitates the em
 
 Despite being able to provide effective operation of the system under variable grid conditions this technique faces certain technological challenges. This paper studies, in detail, the various PLL techniques that are implemented in the Renewable Energy Sectorsuch as Synchronous Reference Frame (SRF-PLL), Decoupled Double Synchronous Reference Frame (DDSRF-PLL), Second Order General Integrator (SOGI-PLL), Dual Second Order General Integrator (DSOGI-PLL), and Multi Second Order General Integrator (MSOGI-PLL). The different techniques of the PLL are compared and analyzed based on their efficiency, response to voltage and frequency deviations, complexity, and stability. SRF-PLL gives excellent response under balanced grid conditions, but E-PLL, FLL and SOGI based PLLs are more efficient to address unbalanced grid conditions. The limitations of the PLL technique such as reduced stability margin and manufacturing costs, has lead to the development of improved and new PLLs, which are under research.
 
-\subsection{Types of PLL}
-\subsubsection{Synchronous Reference Frame PLL}
+\subsection{Synchronous Reference Frame PLL}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Chapter_2/Graphics/SRF-PLL.png}
@@ -77,10 +76,14 @@ In practical applications, the SRF-PLL is usually designed with a damping ratio 
 
 
 
-\subsubsection{Decoupled Double Synchronous Reference Frame PLL}
-\subsubsection{Second Order General Integrator PLL}
-\subsubsection{Dual Second Order General Integrator PLL}
-\subsubsection{Multi Second Order General Integrator PLL}
+\subsection{Decoupled Double Synchronous Reference Frame PLL}
+Thanks to its simplicity and performance under nominal conditions, the SRF-PLL has become the PLL of choice for applications where robustness against disturbances is not required. However, in the presence of unbalance in the grid voltage, an oscillating term at twice the fundamental frequency appears after the Park transform. The DDSRF-PLL effectively addresses this issue by using a decoupling network to separate the positive and negative sequence components, ensuring accurate detection even under unbalanced voltages\cite{4118328}.
+
+
+%add Response of the DDSRF-PLL with a phase shift at t=0.15s under i) balanced and ii) unbalanced conditions, iii)with harmonics. (a) Utility voltage [V], (b) Detected phase angle [rad], and (c) SRF axes voltage [V].
+\subsection{Second Order General Integrator PLL}
+\subsection{Dual Second Order General Integrator PLL}
+\subsection{Multi Second Order General Integrator PLL}
 \section{Maximum Power Point Tracking Algorithm}
 \subsection{Overview of MPPT and its Applications and Development}
 \subsection{Types of MPPT}
