@@ -2,15 +2,14 @@
 
 \clearpage
 
-\chapter{Algorithm Development} \label{chapter:Algorithm Development}
-\section{Phase-Locked Loop Algorithm} 
-
-\subsection{Overview of PLL and its Applications and Development}
+\chapter{Algorithm Development} \label{chapter:Algorithm Development of Phase-Locked Loop}
+\section{Overview of PLL and its Applications and Development}
 The increasing penetration of renewable energy into the grid necessitates the employment of grid synchronization techniques to ensure proper integration and stability of the system. Several grid synchronization techniques are available, among which the PLL method has proven to be the more employed one owing to its simplicity and robustness.
 
 Despite being able to provide effective operation of the system under variable grid conditions this technique faces certain technological challenges. This paper studies, in detail, the various PLL techniques that are implemented in the Renewable Energy Sectorsuch as Synchronous Reference Frame (SRF-PLL), Decoupled Double Synchronous Reference Frame (DDSRF-PLL), Second Order General Integrator (SOGI-PLL), Dual Second Order General Integrator (DSOGI-PLL), and Multi Second Order General Integrator (MSOGI-PLL). The different techniques of the PLL are compared and analyzed based on their efficiency, response to voltage and frequency deviations, complexity, and stability. SRF-PLL gives excellent response under balanced grid conditions, but E-PLL, FLL and SOGI based PLLs are more efficient to address unbalanced grid conditions. The limitations of the PLL technique such as reduced stability margin and manufacturing costs, has lead to the development of improved and new PLLs, which are under research.
 
-\subsection{Synchronous Reference Frame PLL}
+\section{Synchronous Reference Frame PLL}
+\subsection{SRF-PLL concept}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Chapter_2/Graphics/SRF-PLL.png}
@@ -68,24 +67,514 @@ where \( K_p \) and \( K_i \) are the proportional and integral gains of the PI 
 \end{equation}
 
 In practical applications, the SRF-PLL is usually designed with a damping ratio of \( \zeta=0.707 \) to ensure a good dynamic response without overshoot. The natural frequency \( \omega_n \) is typically chosen to be arround 30Hz. A higher value of \( \omega_n \) results in a faster dynamic response but may also lead to increased sensitivity to noise and harmonics in the grid voltage.
+\subsection{SRF-PLL under different grid conditions}
+To simply test the performance of the SRF-PLL under different grid conditions, a simulation is carried out in MATLAB/Simulink. The parameters of the SRF-PLL are chosen with a natural frequency of \( \omega_n=50Hz \) and a damping ratio of \( \zeta=0.707 \). 
+
+The result of SRF-PLL under balanced grid conditions with a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:SRF_PLL_balanced}. It can be observed that the SRF-PLL can quickly track the phase angle of the grid voltage.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/SRF_PLL_balanced.png}
+    \caption{Response of the SRF-PLL with a phase shift at t=0.1s under balanced conditions. Utility voltage [V], Detected phase angle [rad], Fundamental voltage [V] and  SRF axes voltage [V]}
+    \label{fig:SRF_PLL_balanced}
+\end{figure}
+
+The result of SRF-PLL under unbalanced grid conditions with a negative sequence component of 30\% and a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:SRF_PLL_unbalanced}. It can be observed that the SRF-PLL can still track the phase angle of the grid voltage, but with some oscillations in the detected phase angle due to the unbalance in the grid voltage. In addition, the \( d \) and \( q \) axis voltages also show oscillations at twice the fundamental frequency, which can affect the performance of the PLL.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/SRF_PLL_unbalanced.png}
+    \caption{Response of the SRF-PLL with a phase shift at t=0.1s under unbalanced conditions. Utility voltage [V], Detected phase angle [rad], Fundamental voltage [V] and  SRF axes voltage [V]}
+    \label{fig:SRF_PLL_unbalanced}
+\end{figure}
+
+The result of SRF-PLL under grid conditions with 30\% of the 5th harmonics and a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:SRF_PLL_harmonics}. It can be observed that the SRF-PLL can still track the phase angle of the grid, but with some oscillations in the detected phase angle due to the presence of harmonics in the grid voltage. The \( d \) and \( q \) axis voltages also show oscillations at the harmonic frequencies, which can affect the performance of the PLL.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/SRF_PLL_harmonics.png}
+    \caption{Response of the SRF-PLL with a phase shift at t=0.1s under grid conditions with 30\% of the 5th harmonics. Utility voltage [V], Detected phase angle [rad], Fundamental voltage [V] and  SRF axes voltage [V]}
+    \label{fig:SRF_PLL_harmonics}
+\end{figure}
+
+
+In conclusion, the SRF-PLL is a simple and effective method for grid synchronization under balanced grid conditions. However, its performance can be affected by unbalanced grid conditions and the presence of harmonics in the grid voltage. Therefore, for applications where the grid conditions are expected to be unbalanced or distorted, more advanced PLL techniques should be disgussed in the following sections.
 
 
 
-%add Response of the SRF-PLL with a phase shift at t=0.15s under i) balanced and ii) unbalanced conditions, iii)with harmonics. (a) Utility voltage [V], (b) Detected phase angle [rad], and (c) SRF axes voltage [V].
 
-
-
-
-\subsection{Decoupled Double Synchronous Reference Frame PLL}
+\section{Decoupled Double Synchronous Reference Frame PLL}
+\subsection{DDSRF-PLL concept}
 Thanks to its simplicity and performance under nominal conditions, the SRF-PLL has become the PLL of choice for applications where robustness against disturbances is not required. However, in the presence of unbalance in the grid voltage, an oscillating term at twice the fundamental frequency appears after the Park transform. The DDSRF-PLL effectively addresses this issue by using a decoupling network to separate the positive and negative sequence components, ensuring accurate detection even under unbalanced voltages\cite{4118328}.
 
+The grid is subject to varying conditions which result in imbalances in the phase voltages. From the theory of symmetrical components we know that any unbalanced three phase system can be reduced to two symmetrical systems and zero component. The behavior of unbalanced voltages on park and clark transform is analyzed in section below. 
 
-%add Response of the DDSRF-PLL with a phase shift at t=0.15s under i) balanced and ii) unbalanced conditions, iii)with harmonics. (a) Utility voltage [V], (b) Detected phase angle [rad], and (c) SRF axes voltage [V].
-\subsection{Second Order General Integrator PLL}
-\subsection{Dual Second Order General Integrator PLL}
-\subsection{Multi Second Order General Integrator PLL}
-\section{Maximum Power Point Tracking Algorithm}
-\subsection{Overview of MPPT and its Applications and Development}
-\subsection{Types of MPPT}
+Now an unbalanced three phase system can be written as summation of balanced three phase systems; one rotating with the sequence of the three phase quantities called the positive sequence and one rotating in the opposite sequence called the negative sequence, whhich is shown in Figure \ref{fig:Unbalanced_voltage}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{Chapter_2/Graphics/Unbalanced_voltage.png}
+    \caption{Unbalanced and balanced Three Phase Systems}
+    \label{fig:Unbalanced_voltage}
+\end{figure}
+
+The mathamatical representation of the unbalanced three phase system is given as:
+\begin{equation}
+    v=V^{+1}
+\begin{bmatrix}
+\cos(wt) \\
+\cos(wt-2\pi/3) \\
+\cos(wt-4\pi/3)
+\end{bmatrix}+V^{-1}
+\begin{bmatrix}
+\cos(wt) \\
+\cos(wt-4\pi/3) \\
+\cos(wt-2\pi/3)
+\end{bmatrix}+V^0
+\begin{bmatrix}
+1 \\
+1 \\
+1
+\end{bmatrix}
+\end{equation}
+
+If we apply the Clark transformation to the symmetrical components, we get the following results:
+
+\begin{equation}
+\nu_{\alpha\beta}=T_{abc->\alpha\beta}\cdot \nu=\frac{2}{3}
+\begin{bmatrix}
+1 & -\frac{1}{2} & -\frac{1}{2} \\
+0 & \frac{\sqrt{3}}{2} & -\frac{\sqrt{3}}{2} \\
+\frac{1}{2} & \frac{1}{2} & \frac{1}{2}
+\end{bmatrix}\cdot \nu=V^{+1}
+\begin{bmatrix}
+\cos(wt) \\
+\sin(wt)
+\end{bmatrix}+V^{-1}
+\begin{bmatrix}
+\cos(-wt) \\
+\sin(-wt)
+\end{bmatrix}
+\end{equation}
+
+Taking the projections on the rotating reference frame, we observe that any negative sequence component appears with twice the frequency on the positive sequence rotating frame axis and vice versa.
+
+\begin{equation}
+    \begin{cases}
+        & \nu_{dq+}=T_{abc->dq0+}^{*}\nu_{\alpha\beta}=
+        \begin{bmatrix}
+        \cos(\omega t) & \sin(\omega t) \\
+        -\sin(\omega t) & \cos(\omega t)
+        \end{bmatrix}=V^{+1}
+        \begin{bmatrix}
+        1 \\
+        0
+        \end{bmatrix}+V^{-1}
+        \begin{bmatrix}
+        \cos(-2wt) \\
+        \sin(-2wt)
+        \end{bmatrix} \\
+        & \nu_{dq-}=T_{abc->dq0-}^{*}\nu_{\alpha\beta}=
+        \begin{bmatrix}
+        \cos(\omega t) & -\sin(\omega t) \\
+        \sin(\omega t) & \cos(\omega t)
+        \end{bmatrix}=V^{+1}
+        \begin{bmatrix}
+        \cos(-2wt) \\
+        \sin(-2wt)
+        \end{bmatrix}+V^{-1}
+        \begin{bmatrix}
+        1 \\
+        0
+        \end{bmatrix}
+    \end{cases}
+\end{equation}
+
+This can cause errors in the control loop and estimation of the grid angle and needs to taken into account while designing a phase locked loop for three phase grid connected application, like shown in Figure .% Responce of SRF-PLL
+
+Hence assuming the instance just before the PLL is locked to the positive vector, the grid voltages can be written as :
+\begin{equation}
+    v=V^{+1}
+    \begin{bmatrix}
+    \cos(wt+\phi_1) \\
+    \cos(wt-2\pi/3+\phi_1) \\
+    \cos(wt-4\pi/3+\phi_1)
+    \end{bmatrix}+V^{-1}
+    \begin{bmatrix}
+    \cos(wt+\phi_{-1}) \\
+    \cos(wt-4\pi/3+\phi_{-1}) \\
+    \cos(wt-2\pi/3+\phi_{-1})
+    \end{bmatrix}+V^0
+    \begin{bmatrix}
+    1 \\
+    1 \\
+    1
+    \end{bmatrix}
+\end{equation}
+
+Figure \ref{fig:Positve and Negative sequence in alpha-beta frame} shows the positive and negative sequence components in the alpha-beta frame. The positive sequence vector rotates in the positive direction while the negative sequence vector rotates in the negative direction.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\linewidth]{Chapter_2/Graphics/Positve_and_Negative_sequence_in_alpha-beta_frame.png}
+    \caption{Positive and Negative sequence in alpha-beta frame}
+    \label{fig:Positve and Negative sequence in alpha-beta frame}
+\end{figure}
+
+Taking the clark transform and ignoring the zero component and the zero sequence, we have:
+\begin{equation}
+    V_{\alpha\beta}=V^{+1}
+    \begin{bmatrix}
+    \cos(\omega t+\phi_{+1}) \\
+    \sin(\omega t+\phi_{+1})
+    \end{bmatrix}+V^{-1}
+    \begin{bmatrix}
+    \cos(-\omega t+\phi_{-1}) \\
+    \sin(-\omega t+\phi_{-1})
+    \end{bmatrix}
+\end{equation}
+
+If we take park transform and lock the angle by the positive sequence component, we have:
+\begin{equation}
+    v_{dq+}=\left(V^{+1}\left[
+    \begin{array}
+    {c}\cos(\omega t+\phi_{+1}) \\
+    \sin(\omega t+\phi_{+1})
+    \end{array}\right]+V^{-1}\left[
+    \begin{array}
+    {c}\cos(-\omega t+\phi_{-1}) \\
+    \sin(-\omega t+\phi_{-1})
+    \end{array}\right]\right)\left[
+    \begin{array}
+    {cc}\cos(\omega t) & \sin(\omega t) \\
+    -\sin(\omega t) & \cos(\omega t)
+    \end{array}\right]
+\end{equation}
+
+By solving the above equation we can get the decoupled value of \( v_{dq+} \) as:
+\begin{equation}
+    \begin{cases}
+        v_{d+_{decoupled}}=V^{+1}\cos(\phi_{+1})=v_{d+}-\bar{v}_{d-}\cos(2\omega t)-\bar{v}_{q-}\sin(2\omega t)\\
+        v_{q+_{decoupled}}=V^{+1}\sin(\phi_{+1})=v_{q+}+\bar{v}_{d-}\sin(2\omega t)-\bar{v}_{q-}\cos(2\omega t)
+    \end{cases}
+\end{equation}
+
+Therefore, the block diagram of the DDSRF-PLL with decoupling network is shown in Figure \ref{fig:Block_diagram_of_DDSRF-PLL}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/Block_diagram_of_DDSRF-PLL.png}
+    \caption{Block diagram of DDSRF-PLL with decoupling network}
+    \label{fig:Block_diagram_of_DDSRF-PLL}
+\end{figure}
+
+The low pass filter (LPF) is used to eliminate the high frequency components in the decoupled voltage signals, which is the $2\omega$ ripple. A common choice for the LPF is a first-order filter as:
+\begin{equation}
+    G_{LPF}(s)=\frac{\omega_c}{s+\omega_c}
+\end{equation}
+where \( \omega_c \) is the cut-off frequency of the filter. The cut-off frequency should be chosen to be low enough to attenuate the $2\omega$ ripple, but high enough to ensure a fast dynamic response of the PLL. A typical value for \( \omega_c \) is around 30rad/s.  
+
+\subsection{DDSRF-PLL under different grid conditions}
+To simply test the performance of the DDSRF-PLL under different grid conditions, a simulation is carried out in MATLAB/Simulink. The parameters of the DDSRF-PLL are chosen with a natural frequency of \( \omega_n=50Hz \) and a damping ratio of \( \zeta=0.707 \). The cut-off frequency of the low pass filter is chosen to be \( \omega_c=30rad/s \).
+
+The result of DDSRF-PLL under balanced grid conditions with a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:DDSRF_PLL_balanced}. It can be observed that the DDSRF-PLL can quickly track the phase angle of the grid voltage.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/DDSRF_PLL_balanced.png}
+    \caption{Response of the DDSRF-PLL with a phase shift at t=0.1s under balanced conditions. Utility voltage [V], Detected phase angle [rad], Fundamantal voltage [V] and  SRF axes voltage [V]}
+    \label{fig:DDSRF_PLL_balanced}
+\end{figure}
+\FloatBarrier
+The result of DDSRF-PLL under unbalanced grid conditions with a negative sequence component of 30\% and a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:DDSRF_PLL_unbalanced}. It can be observed that the DDSRF-PLL can still track the phase angle of the grid voltage without any oscillations in the detected phase angle, thanks to the decoupling network that effectively separates the positive and negative sequence components. The \( d \) and \( q \) axis voltages also show no oscillations at twice the fundamental frequency, which indicates that the PLL is robust against unbalanced grid conditions.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/DDSRF_PLL_unbalanced.png}
+    \caption{Response of the DDSRF-PLL with a phase shift at t=0.1s under unbalanced conditions. Utility voltage [V], Detected phase angle [rad], Fundamental voltage [V] and  SRF axes voltage [V]}
+    \label{fig:DDSRF_PLL_unbalanced}
+\end{figure}
+\FloatBarrier
+The result of DDSRF-PLL under grid conditions with 30\% of the 5th harmonics and a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:DDSRF_PLL_harmonics}. It can be observed that the DDSRF-PLL can still track the phase angle of the grid voltage without any oscillations in the detected phase angle, thanks to the decoupling network that effectively separates the positive and negative sequence components. The \( d \) and \( q \) axis voltages show oscillations at the harmonic frequencies, which indicates that teh DDSRF-PLL is still sensitive to harmonics in the grid voltage.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/DDSRF_PLL_harmonics.png}
+    \caption{Response of the DDSRF-PLL with a phase shift at t=0.1s under grid conditions with 30\% of the 5th harmonics. Utility voltage [V], Detected phase angle [rad], Fundamental voltage [V] and  SRF axes voltage [V]}
+    \label{fig:DDSRF_PLL_harmonics}
+\end{figure}
+
+In conclusion, the DDSRF-PLL is an effective method for grid synchronization under unbalanced grid conditions. The decoupling network effectively separates the positive and negative sequence components, ensuring accurate detection of the phase angle even under unbalanced voltages. However, the DDSRF-PLL is still sensitive to harmonics in the grid voltage, which can affect its performance. Therefore, for applications where the grid conditions are expected to be highly distorted, more advanced PLL techniques should be considered.
+
+\FloatBarrier
+\section{Second Order General Integrator PLL}
+\subsection{SOGI-PLL concept}
+SOGI-PLL is proposed for use as phase detectors\cite{1711988} and positive-sequence voltage extractors in single-phase grid-connected systems\cite{1712059}.  
+
+SOGI structures are mainly composed of two filter types. First, a band-pass filter with no phase delay at the fundamental frequency is used for the estimation of the phase voltage $v^{\prime}$. Secondly, a low-pass filter is used to obtain the in-quadrature component $qv^{\prime}$, which is $90^\circ$ phase delayed from the input signal. Therefore, SOGI structures have the attractive benefit of providing simultaneous access to both the filtered output as well as a quadrature-shifted version of the same output, which represent the $\alpha$ and $\beta$ components. As such, they allow for an easy implementation that can fit that of conventional SRF-PLL mentioned before.
+
+The general principle of the SOGI-based PLL is given in Figure \ref{fig:Block_diagram_of_SOGI-PLL}. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/Block_diagram_of_SOGI-PLL.png}
+    \caption{Block diagram of SOGI-PLL}
+    \label{fig:Block_diagram_of_SOGI-PLL}
+\end{figure}
+
+Based on the preceding diagram, the subsequent transfer functions can be derived as follows:
+ \begin{equation}
+   D(s)=\frac{v^{\prime}}{v}(s)=\frac{k\omega^{\prime}s}{s^2+k\omega^{\prime}s+\omega^{\prime2}}
+\end{equation}
+and the quadrature component is given by:
+\begin{equation}
+    Q(s)=\frac{qv^{\prime}}{v}(s)=\frac{k\omega^{\prime2}}{s^2+k\omega^{\prime}s+\omega^{\prime2}}
+\end{equation}
+where $\omega^{\prime}$ is the estimated angular frequency of the grid voltage, and $k$ is the damping factor of the SOGI. 
+
+The effect of the damping factor $k$ on the frequency response of the SOGI is shown in Figure \ref{fig:Effect_of_damping_factor_k_on_frequency_response_of_SOGI}.  
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/Effect_of_damping_factor_k_on_frequency_response_of_SOGI.png}
+    \caption{Effect of damping factor $k$ on frequency response of SOGI}
+    \label{fig:Effect_of_damping_factor_k_on_frequency_response_of_SOGI}
+\end{figure}
+
+An examination of the above transfer functions reveals that the parameter $\omega^{\prime}$ centers the transfer function of the filters, while the parameter $k$ plays a significant role in adjusting the filte's bandwidth.
+
+It is also worth noting that the damping factor $k$ does not alter the behavior of the SOGI at the frequency $\omega'$. Consequently, a lower $k$ value enhances frequency selectivity but slows down the response to voltage changes. Therefore, a trade-off between transient response and attenuation of distorsions must be made. A commonly adopted tuning is $k = \sqrt{2}$, which is equivalent to $k = 2\zeta = 2\frac{1}{\sqrt{2}}$, with $\zeta$ representing the damping ratio for a second-order system.
+\FloatBarrier
+\subsection{SOGI-PLL with DC offset rejection}
+In practical applications, the grid voltage may contain a DC offset component due to various reasons, such as sensor errors or power quality issues. If a DC offset is present in the measured voltage, it is not filtered by $Q(s)$ since the latter is of low-pass type. Consequently, the offset is also transferred to the quadrature signal and enters the SRF-PLL. This continuous term is then shifted to $2\omega$ through the Park transformation, resulting in an oscillating term at twice the grid frequency in $V_q$. Given that the PI controller is unable to fully attenuate a non-continuous term, this oscillation is further propagated to the frequency and phase estimations.
+
+To address this issue, a DC offset rejection technique can be implemented in the SOGI-PLL.  SOGI block can be modified so that the low-pass filter generating the quadrature signal, $Q(s)$, is replaced with a band-pass filter with the same characteristics at the fundamental frequency. The block diagram of the SOGI-PLL with DC offset rejection is shown in Figure \ref{fig:Block_diagram_of_SOGI-PLL_with_DC_offset_rejection}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{Chapter_2/Graphics/Block_diagram_of_SOGI-PLL_with_DC_offset_rejection.png}
+    \caption{Block diagram of SOGI-PLL with DC offset rejection}
+    \label{fig:Block_diagram_of_SOGI-PLL_with_DC_offset_rejection}
+\end{figure}
+
+The transfer function of the band-pass filter can be expressed as:
+\begin{equation}
+    D(s)=\frac {v^\prime}{v}(s)=\frac {k_{\text {dc}} \omega s^{2}}{s^{3}+(k+k_{\text {dc}} )\omega s^{2}+\omega ^{2}s+k\omega ^{3}} 
+\end{equation}
+\begin{equation}
+    Q(s)=\frac {q{v}^\prime}{v}(s)=\frac {k_{\text {dc}} \omega ^{2}s}{s^{3}+(k+k_{\text {dc}} )\omega s^{2}+\omega ^{2}s+k\omega ^{3}} 
+\end{equation}
+
+The Bode diagram of the SOGI with DC offset rejection is shown in Figure \ref{fig:Bode_diagram_of_SOGI_with_DC_offset_rejection}. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/Bode_diagram_of_SOGI_with_DC_offset_rejection.png}
+    \caption{Bode diagram of SOGI with DC offset rejection}
+    \label{fig:Bode_diagram_of_SOGI_with_DC_offset_rejection}
+\end{figure}
+\subsection{SOGI-PLL under different grid conditions}
+To simply test the performance of the SOGI-PLL under different grid conditions, a simulation is carried out in MATLAB/Simulink. The parameters of the SOGI-PLL are chosen with a natural frequency of \( \omega_n=50Hz \) and a damping ratio of \( \zeta=0.707 \). The cut-off frequency of the low pass filter is chosen to be \( \omega_c=30rad/s \). The damping factor of the SOGI is chosen to be \( k=\sqrt{2} \).
+
+The result of SOGI-PLL without DC offset and harmonics with a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:SOGI_PLL_balanced}. It can be observed that the SOGI-PLL can track the phase angle of the grid voltage, however the dynamic response is slower compared to the SRF-PLL and DDSRF-PLL.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/SOGI_PLL_balanced.png}
+    \caption{Response of the SOGI-PLL with a phase shift at t=0.1s without DC offset and harmonics. Utility voltage [V], Detected phase angle [rad], Fundamental voltage [V] and  SRF axes voltage [V]}
+    \label{fig:SOGI_PLL_balanced}
+\end{figure}
+\FloatBarrier
+
+The result of SOGI-PLL with 66V DC offset and no harmonics with a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:SOGI_PLL_DC_offset}. It can be obeserved that there is a slight oscillation in the detected phase angle due to the presence of DC offset in the grid voltage and a $2\omega$ ripple in the \( d \) axis voltage. To solve this issue, the SOGI-PLL with DC offset rejection can be used as mentioned before.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/SOGI_PLL_DC_offset.png}
+    \caption{Response of the SOGI-PLL with a phase shift at t=0.1s with 66V DC offset and no harmonics. Utility voltage [V], Detected phase angle [rad], Fundamental voltage [V] and  SRF axes voltage [V]}
+    \label{fig:SOGI_PLL_DC_offset}
+\end{figure}
+\FloatBarrier
+The result of SOGI-PLL with 30\% of the 5th harmonics and no DC offset with a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:SOGI_PLL_harmonics}. It can be observed that the SOGI-PLL can still track the phase angle of the grid voltage without any oscillations in the detected phase angle, thanks to the SOGI structure that effectively filters out the harmonics. The \( d \) and \( q \) axis voltages show little oscillations at the harmonic frequencies, which indicates that the PLL is robust against harmonics in the grid voltage.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/SOGI_PLL_harmonics.png}
+    \caption{Response of the SOGI-PLL with a phase shift at t=0.1s with 30\% of the 5th harmonics and no DC offset. Utility voltage [V], Detected phase angle [rad], Fundamental voltage [V] and  SRF axes voltage [V]}
+    \label{fig:SOGI_PLL_harmonics}
+\end{figure}
+\FloatBarrier
+\subsection{Performance of SOGI-PLL with DC offset rejection}
+To simply test the performance of the SOGI-PLL with DC offset rejection under different grid conditions, a simulation is carried out in MATLAB/Simulink. The parameters of the SOGI-PLL with DC offset rejection are chosen with a natural frequency of \( \omega_n=50Hz \) and a damping ratio of \( \zeta=0.707 \). The cut-off frequency of the low pass filter is chosen to be \( \omega_c=30rad/s \). The damping factor of the SOGI is chosen to be \( k=\sqrt{2} \) and \( k_{dc}=\sqrt{2} \).
+
+The result of SOGI-PLL with DC offset rejection with 66V DC offset and no harmonics with a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:SOGI_PLL_DC_offset_rejection}. It can be observed that the SOGI-PLL with DC offset rejection can track the phase angle of the grid voltage without any oscillations in the detected phase angle, thanks to the band-pass filter that effectively filters out the DC offset. The \( d \) and \( q \) axis voltages show no oscillations at twice the fundamental frequency, which indicates that the PLL is robust against DC offset in the grid voltage. However, the dynamic response is still slower compared to conventional SOGI-PLL.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/SOGI_PLL_DC_offset_rejection.png}
+    \caption{Response of the SOGI-PLL with DC offset rejection with a phase shift at t=0.1s with 66V DC offset and no harmonics. Utility voltage [V], Detected phase angle [rad], Fundamental voltage [V] and  SRF axes voltage [V]}
+    \label{fig:SOGI_PLL_DC_offset_rejection}
+\end{figure}
+
+In conclusion, the SOGI-PLL is an effective method for single phase grid synchronization under distorted grid conditions. The SOGI structure effectively filters out harmonics in the grid voltage, ensuring accurate detection of the phase angle even under distorted voltages. However, the SOGI-PLL is sensitive to DC offset in the grid voltage, which can affect its performance. Therefore, for applications where the grid conditions are expected to have DC offset, the SOGI-PLL with DC offset rejection should be considered.
+\section{Dual Second Order General Integrator PLL}
+\subsection{DSOGI-PLL concept}
+For three-phase synchronization systems, the DSOGI  structure is common, since it not only attenuates low-order voltage harmonics but also allows ready estimation of symmetrical components by passing its output through a positive/negative sequence calculator (PSC) prior to feeding into the SRF-PLL. However, the estimated frequency from the SRF-PLL needs to be fed back into the SOGI to make it frequency adaptive, and thus provide accurate voltage magnitude and phase estimation as the grid frequency varies\cite{7008472}. This feedback path limits the dynamic performance of the SRF-PLL, increases the complexity of tuning the PLL gains and reduces its stability margin\cite{6179528}.
+
+The block diagram of the DSOGI-PLL is shown in Figure \ref{fig:Block_diagram_of_DSOGI-PLL}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{Chapter_2/Graphics/Block_diagram_of_DSOGI-PLL.png}
+    \caption{Block diagram of DSOGI-PLL}
+    \label{fig:Block_diagram_of_DSOGI-PLL}
+\end{figure}
+
+The DSOGI consists of two SOGIs, one for the $\alpha$ axis and one for the $\beta$ axis. The transfer functions of the DSOGI can be expressed as:
+\begin{equation}
+    \begin{aligned}
+\begin{bmatrix}
+v_\alpha^{+^{\prime}}(s) \\
+v_\beta^{+^{\prime}}(s)
+\end{bmatrix} & =\frac{1}{2}{
+\begin{bmatrix}
+D(s) & -Q(s) \\
+Q(s) & D(s)
+\end{bmatrix}}{
+\begin{bmatrix}
+v_\alpha(s) \\
+v_\beta(s)
+\end{bmatrix}} \\
+ & =\frac{1}{2}\frac{k\omega}{s^2+k\omega^{\prime}+{\omega^{\prime}}^2}
+\begin{bmatrix}
+s & -\omega^{\prime} \\
+\omega^{\prime} & s
+\end{bmatrix}
+\begin{bmatrix}
+v_\alpha(s) \\
+v_\beta(s)
+\end{bmatrix}
+\end{aligned}
+\end{equation}
+
+The equation above shows how the combination of the DSOGI and the PSC form a low-pass filter that both filters out harmonic voltages and extracts the positive sequence only, from a distorted and unbalanced input voltage set. Consequently the positive sequence stationary frame quadrature output signals $v_\alpha^{+^{\prime}}$ and $v_\beta^{+^{\prime}}(s)$ will have equal amplitudes, which will eliminate any unbalanced double frequency voltage oscillations prior to feeding the voltages into the SRF-PLL for phase angle and frequency estimation.
+\subsection{DSOGI-PLL under different grid conditions}
+To simply test the performance of the DSOGI-PLL under different grid conditions, a simulation is carried out in MATLAB/Simulink. The parameters of the DSOGI-PLL are chosen with a natural frequency of \( \omega_n=50Hz \) and a damping ratio of \( \zeta=0.707 \). The cut-off frequency of the low pass filter is chosen to be \( \omega_c=30rad/s \). The damping factor of the SOGI is chosen to be \( k=\sqrt{2} \).
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/DSOGI_PLL_balanced.png}
+    \caption{Response of the DSOGI-PLL with a phase shift at t=0.1s under balanced conditions. Utility voltage [V], Detected phase angle [rad], Fundamental voltage [V] and  SRF axes voltage [V]}
+    \label{fig:DSOGI_PLL_balanced}
+\end{figure}
+
+The result of DSOGI-PLL under balanced grid conditions with a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:DSOGI_PLL_balanced}. It can be observed that the DSOGI-PLL can quickly track the phase angle of the grid voltage.
+\FloatBarrier
+
+The result of DSOGI-PLL under unbalanced grid conditions with a negative sequence component of 30\% and a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:DSOGI_PLL_unbalanced}. It can be observed that the DSOGI-PLL can still track the phase angle of the grid voltage without any oscillations in the detected phase angle, thanks to the DSOGI structure that effectively filters out the negative sequence component. The \( d \) and \( q \) axis voltages also show no oscillations at twice the fundamental frequency, which indicates that the PLL is robust against unbalanced grid conditions.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/DSOGI_PLL_unbalanced.png}
+    \caption{Response of the DSOGI-PLL with a phase shift at t=0.1s under unbalanced conditions. Utility voltage [V], Detected phase angle [rad], Fundamental voltage [V] and  SRF axes voltage [V]}
+    \label{fig:DSOGI_PLL_unbalanced}
+\end{figure}
+\FloatBarrier
+
+The result of DSOGI-PLL under grid conditions with 30\% of the 5th harmonics and a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:DSOGI_PLL_harmonics}. It can be observed that the DSOGI-PLL can still track the phase angle of the grid voltage without any oscillations in the detected phase angle, thanks to the DSOGI structure that effectively filters out the harmonics. The \( d \) and \( q \) axis voltages show little oscillations at the harmonic frequencies, which indicates that the PLL is robust against harmonics in the grid voltage.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/DSOGI_PLL_harmonics.png}
+    \caption{Response of the DSOGI-PLL with a phase shift at t=0.1s under grid conditions with 30\% of the 5th harmonics. Utility voltage [V], Detected phase angle [rad], Fundamental voltage [V] and  SRF axes voltage [V]}
+    \label{fig:DSOGI_PLL_harmonics}
+\end{figure}
+\FloatBarrier
+
+In conclusion, the DSOGI-PLL is an effective method for three phase grid synchronization under unbalanced and distorted grid conditions. The DSOGI structure effectively filters out negative sequence components and harmonics in the grid voltage, ensuring accurate detection of the phase angle even under unbalanced and distorted voltages. 
+\section{Multiple Second Order General Integrator PLL}
+\subsection{MSOGI-PLL concept}
+In a SOGI block, the attenuation of low-order harmonic distortions typically ranges between -10dB and -20dB for harmonics of order less than 10th when $k=\sqrt{2}$. However, in certain applications, this level of attenuation may prove insufficient. In order to selectively attenuate certain harmonics, a cross-feedback network composed of multiple SOGIs can be introduced, each tuned to the selected frequencies. This solution is referred to as the MSOGI-PLL. It is very effective for estimating the positive sequence component under disturbed conditions\cite{5446347}. 
+
+The block diagram of the MSOGI-PLL is shown in Figure \ref{fig:Block_diagram_of_MSOGI-PLL}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/Block_diagram_of_MSOGI-PLL.png}
+    \caption{Block diagram of MSOGI-PLL}
+    \label{fig:Block_diagram_of_MSOGI-PLL}
+\end{figure}
+
+The parallel structure shown in Figure \ref{fig:Block_diagram_of_MSOGI-PLL} forms a cross-feedback architecture often known as a {Harmonic Decoupling Network (HDN)}. The key benefit of this network is that it creates sharp notches in the system's frequency response precisely at the frequencies where the individual SOGIs are tuned. As a consequence, the selective filtering characteristic of each SOGI is significantly improved. This enhancement allows the MSOGI-PLL to maintain a robust performance even in the presence of high distortion levels in the input signal.
+
+The MSOGI consists of several SOGIs connected in parallel, each tuned to a specific harmonic frequency. The transfer function of the MSOGI can be expressed as:
+\begin{equation}
+    v_i^{\prime}=\left[D_i(s)\prod_{\binom{j=1}{j\neq i}}^n\left(\frac{1-D_j(s)}{1-D_i(s)D_j(s)}\right)\right]v
+\end{equation}
+where $D_i(s)$ represents the transfer function of the SOGI block tuned to the $i$-th harmonic frequency of interest. 
+\subsection{MSOGI-PLL under different grid conditions}
+To simply test the performance of the MSOGI-PLL under different grid conditions, a simulation is carried out in MATLAB/Simulink. The parameters of the MSOGI-PLL are chosen with a natural frequency of \( \omega_n=50Hz \) and a damping ratio of \( \zeta=0.707 \). The cut-off frequency of the low pass filter is chosen to be \( \omega_c=30rad/s \). The damping factor of the SOGI is chosen to be \( k=\sqrt{2} \). The MSOGI is designed to attenuate the 5th and 7th harmonics. 
+
+The result of MSOGI-PLL with 30\% of the 5th and 7th harmonics and no DC offset with a phase shift of \( 180^\circ \) at \( t=0.1s \) is shown in Figure \ref{fig:MSOGI_PLL_harmonics}. It can be observed that the MSOGI-PLL can track the phase angle of the grid voltage without any oscillations in the detected phase angle, thanks to the MSOGI structure that effectively filters out the 5th and 7th harmonics. The \( d \) and \( q \) axis voltages show little oscillations at the harmonic frequencies, which indicates that the PLL is robust against harmonics in the grid voltage.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/MSOGI_PLL_harmonics.png}
+    \caption{Response of the MSOGI-PLL with a phase shift at t=0.1s with 30\% of the 5th and 7th harmonics and no DC offset. Utility voltage [V], Detected phase angle [rad], Fundamental voltage [V] and  SRF axes voltage [V]}
+    \label{fig:MSOGI_PLL_harmonics}
+\end{figure}
+\FloatBarrier
+\section{Comparison of PLLs}
+The following is a summerized description of the five different types of PLLs:
+\begin{itemize}
+    \item SRF-PLL: Uses Park transformation to convert three-phase signals to d-q frame and locks the phase using PI control.
+    \item DDSRF-PLL: An improved SRF-PLL that decouples positive and negative sequence components for better unbalance handling.
+    \item SOGI: A second-order filter structure generating orthogonal signals from a single-phase input, used to extract fundamental frequency.
+    \item DSOGI: Extension of SOGI for dual orthogonal outputs, positive and negative sequences in $\alpha-\beta$ frame.
+    \item MSOGI: A bank of multiple SOGIs tuned to different harmonics; useful in harmonic estimation and multi-frequency systems.
+\end{itemize}
+
+For disturbances like unbalance, harmonics, and DC offset, the PLLs can be described in table \ref{tab:PLL_comparison}.
+\begin{table}[h]
+    \centering
+    \caption{Comparison of Signal Disturbance Handling Capabilities}
+    \begin{tabular}{|l|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
+        \hline
+        Technique & Unbalance Handling & Harmonics Immunity & DC Offset Immunity & Frequency Deviation Handling \\
+        \hline
+        SRF-PLL   & Poor      & Moderate   & Poor      & Good      \\
+        DDSRF-PLL & Excellent & Moderate   & Poor      & Good      \\
+        SOGI      & Poor      & Poor       & Moderate  & Moderate  \\
+        DSOGI     & Good      & Moderate   & Moderate  & Good      \\
+        MSOGI     & Excellent & Excellent  & Moderate  & Excellent \\
+        \hline
+    \end{tabular}
+    \label{tab:PLL_comparison}
+\end{table}
+
+Additionally, the dynamic response of the PLLs can be compared in table \ref{tab:PLL_dynamic_response}.
+\begin{table}[h]
+    \centering
+    \caption{Comparison of Dynamic Response}
+    \begin{tabular}{|l|p{5cm}|}
+        \hline
+        Technique & Dynamic Response \\
+        \hline
+        SRF-PLL   & Fast      \\
+        DDSRF-PLL & Moderate  \\
+        SOGI      & Slow      \\
+        DSOGI     & Moderate  \\
+        MSOGI     & Slow      \\
+        \hline
+    \end{tabular}
+    \label{tab:PLL_dynamic_response}
+\end{table}
+ 
+The calculation time of the PLL is also an important factor to consider, especially in real-time applications. The computational complexity of each PLL can be summarized in table \ref{tab:PLL_computational_complexity}.
+\begin{table}[h]
+    \centering
+    \caption{Comparison of Computational Complexity}
+    \begin{tabular}{|l|p{3cm}|p{3cm}|p{3cm}|}
+        \hline
+        Technique & Number of Operations & Memory Usage & Implementation Complexity \\
+        \hline
+        SRF-PLL   & Low      & Low       & Low       \\
+        DDSRF-PLL & High     & Low       & Moderate  \\
+        SOGI      & Moderate & Moderate  & Moderate  \\
+        DSOGI     & High     & Moderate  & Moderate  \\
+        MSOGI     & High     & High      & High      \\
+        \hline
+    \end{tabular}
+    \label{tab:PLL_computational_complexity}
+\end{table}
+
+In summary, the choice of PLL technique depends on the specific application requirements, including the nature of the disturbances expected in the grid, the desired dynamic response, and the available computational resources. Each PLL has its strengths and weaknesses, and a careful evaluation is necessary to select the most suitable one for a given scenario.
+\FloatBarrier
+
+%add bode diagram of MSOGI
+
+
+% \section{Maximum Power Point Tracking Algorithm}
+% \subsection{Overview of MPPT and its Applications and Development}
+% \subsection{Types of MPPT}
 
 \cleardoublepage
