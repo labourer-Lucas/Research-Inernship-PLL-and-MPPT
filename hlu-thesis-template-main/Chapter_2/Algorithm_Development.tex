@@ -2,7 +2,7 @@
 
 \clearpage
 
-\chapter{Algorithm Development} \label{chapter:Algorithm Development of Phase-Locked Loop}
+\chapter{Algorithm Development for PLL} \label{chapter:Algorithm Development of Phase-Locked Loop}
 \section{Overview of PLL and its Applications and Development}
 The increasing penetration of renewable energy into the grid necessitates the employment of grid synchronization techniques to ensure proper integration and stability of the system. Several grid synchronization techniques are available, among which the PLL method has proven to be the more employed one owing to its simplicity and robustness.
 
@@ -253,6 +253,7 @@ By solving the above equation we can get the decoupled value of \( v_{dq+} \) as
         v_{d+_{decoupled}}=V^{+1}\cos(\phi_{+1})=v_{d+}-\bar{v}_{d-}\cos(2\omega t)-\bar{v}_{q-}\sin(2\omega t)\\
         v_{q+_{decoupled}}=V^{+1}\sin(\phi_{+1})=v_{q+}+\bar{v}_{d-}\sin(2\omega t)-\bar{v}_{q-}\cos(2\omega t)
     \end{cases}
+    \label{eq:decoupled_positive_sequence}
 \end{equation}
 
 Therefore, the block diagram of the DDSRF-PLL with decoupling network is shown in Figure \ref{fig:Block_diagram_of_DDSRF-PLL}.
@@ -335,6 +336,8 @@ An examination of the above transfer functions reveals that the parameter $\omeg
 
 It is also worth noting that the damping factor $k$ does not alter the behavior of the SOGI at the frequency $\omega'$. Consequently, a lower $k$ value enhances frequency selectivity but slows down the response to voltage changes. Therefore, a trade-off between transient response and attenuation of distorsions must be made. A commonly adopted tuning is $k = \sqrt{2}$, which is equivalent to $k = 2\zeta = 2\frac{1}{\sqrt{2}}$, with $\zeta$ representing the damping ratio for a second-order system.
 \FloatBarrier
+\subsection{Different discrete methods for SOGI}
+When implementing the SOGI-PLL in a digital control system, it is essential to discretize the continuous-time transfer functions. Several discretization methods can be employed, each with its own advantages and disadvantages. The most commonly used methods include:
 \subsection{SOGI-PLL with DC offset rejection}
 In practical applications, the grid voltage may contain a DC offset component due to various reasons, such as sensor errors or power quality issues. If a DC offset is present in the measured voltage, it is not filtered by $Q(s)$ since the latter is of low-pass type. Consequently, the offset is also transferred to the quadrature signal and enters the SRF-PLL. This continuous term is then shifted to $2\omega$ through the Park transformation, resulting in an oscillating term at twice the grid frequency in $V_q$. Given that the PI controller is unable to fully attenuate a non-continuous term, this oscillation is further propagated to the frequency and phase estimations.
 

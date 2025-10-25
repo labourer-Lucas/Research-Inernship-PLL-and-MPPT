@@ -1,0 +1,128 @@
+\setcounter{equation}{0}
+
+\clearpage
+\chapter{Design and Implementation} \label{chapter:Design and Implementation}
+To implement the Model Based Design (MBD) for the PLL algorithms, MATLAB/Simulink is used as the simulation platform.
+\section{Modeling in MATLAB/Simulink for PLL}
+ The following subsections describe the different PLL models developed in MATLAB/Simulink.
+\subsection{Test Signal Generation Block}
+The test signal generation block is used to generate the three-phase voltage signals with adjustable frequency, amplitude, phase angle, negative sequence, and harmonic distortion. The fundamental waveform generation block is shown in Fig.~\ref{fig:Fundamental_Waveform_Generation_Block}. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Chapter_4/Graphics/Fundamental_Waveform_Generation_Block.png}
+    \caption{Fundamental Waveform Generation Block}
+    \label{fig:Fundamental_Waveform_Generation_Block}
+\end{figure}
+
+The harmonic waveform generation block is shown in Fig.~\ref{fig:Harmonic_Waveform_Generation_Block}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Chapter_4/Graphics/Harmonic_Waveform_Generation_Block.png}
+    \caption{Harmonic Waveform Generation Block}
+    \label{fig:Harmonic_Waveform_Generation_Block}
+\end{figure}
+
+The negative sequence waveform generation block is shown in Fig.~\ref{fig:Negative_Sequence_Waveform_Generation_Block}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Chapter_4/Graphics/Negative_Sequence_Waveform_Generation_Block.png}
+    \caption{Negative Sequence Waveform Generation Block}
+    \label{fig:Negative_Sequence_Waveform_Generation_Block}
+\end{figure}
+\subsection{SRF-PLL Model}
+The SRF-PLL model developed in MATLAB/Simulink is shown in Fig.~\ref{fig:SRF_PLL_Model}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Chapter_4/Graphics/SRF_PLL_Model.png}
+    \caption{SRF-PLL Model}
+    \label{fig:SRF_PLL_Model}
+\end{figure}
+
+The SRF-PLL model consists of the blocks such as Clarke Transformation, Park Transformation, PI Controller with saturation limits and a foward Euler integrator to obtain the phase angle. The model is then used to implement MBD and generate C code for real-time implementation. 
+\subsection{DDSRF-PLL Model}
+The double decoupled block is shown in Fig.~\ref{fig:Double_Decoupled_Block}. It extracts the positive and negative sequence components and subtracts them from the original signal to provide a decoupled signal for the SRF-PLL. The block implements the Equantion \ref{eq:decoupled_positive_sequence} mentioned in Chapter~\ref{chapter:Algorithm Development of Phase-Locked Loop}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Chapter_4/Graphics/Double_Decoupled_Block.png}
+    \caption{Double Decoupled Block}
+    \label{fig:Double_Decoupled_Block}
+\end{figure}
+
+The complete DDSRF-PLL model developed is shown in Fig.~\ref{fig:DDSRF_PLL_Model}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Chapter_4/Graphics/DDSRF_PLL_Model.png}
+    \caption{DDSRF-PLL Model}
+    \label{fig:DDSRF_PLL_Model}
+\end{figure}
+After the block is a SRF-PLL block similar to the one shown in Fig.~\ref{fig:SRF_PLL_Model}.
+\subsection{SOGI-PLL Model}
+We use Tustin discretization method for the SOGI integrator implementation in the SOGI-PLL model. The Tustin method provides a good balance between accuracy and stability for the integrator in this application, and its block diagram is shown in Fig.~\ref{fig:Tustin_Integrator_Block}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Chapter_4/Graphics/Tustin_Integrator_Block.png}
+    \caption{Tustin Integrator Block}
+    \label{fig:Tustin_Integrator_Block}
+\end{figure}
+
+The SOGI block used in the SOGI-PLL model is shown in Fig.~\ref{fig:SOGI_Block}.    
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Chapter_4/Graphics/SOGI_Block.png}
+    \caption{SOGI Block}
+    \label{fig:SOGI_Block}
+\end{figure}
+
+If the DC offset rejection is required, an additional integrator is needed in the SOGI block as shown in Fig.~\ref{fig:SOGI_Block_with_DC_Offset_Rejection}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Chapter_4/Graphics/SOGI_Block_with_DC_Offset_Rejection.png}
+    \caption{SOGI Block with DC Offset Rejection}
+    \label{fig:SOGI_Block_with_DC_Offset_Rejection}
+\end{figure}
+% The complete SOGI-PLL model developed is shown in Fig.~\ref{fig:SOGI_PLL_Model}.
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=1\textwidth]{Chapter_4/Graphics/SOGI_PLL_Model.png}
+%     \caption{SOGI-PLL Model}
+%     \label{fig:SOGI_PLL_Model}
+% \end{figure}
+\subsection{DSOGI-PLL Model}
+DSOGI uses two SOGI blocks to extract the positive and negative sequence components separately. The block diagram of the DSOGI is shown in Fig.~\ref{fig:DSOGI_Block}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Chapter_4/Graphics/DSOGI_Block.png}
+    \caption{DSOGI Block}
+    \label{fig:DSOGI_Block}
+\end{figure}
+
+The rest of the DSOGI-PLL model is similar to the SRF-PLL model.
+\subsection{MSOGI-PLL Model}
+MSOGI uses multiple SOGI blocks to extract the harmonic components separately. The block diagram of the MSOGI is shown in Fig.~\ref{fig:MSOGI_Block}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Chapter_4/Graphics/MSOGI_Block.png}
+    \caption{MSOGI Block}
+    \label{fig:MSOGI_Block}
+\end{figure}
+The rest of the MSOGI-PLL model is similar to the SRF-PLL model.
+\section{Modeling in MATLAB/Simulink for MPPT}
+    The following subsections describe the different MPPT models developed in MATLAB/Simulink.
+\subsection{MPPT P\&O Model}
+The MPPT P\&O model developed in MATLAB/Simulink is shown in Fig.~\ref{fig:MPPT_PO_Model}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Chapter_4/Graphics/MPPT_P&O_Model.png}
+    \caption{MPPT P\&O Model}
+    \label{fig:MPPT_PO_Model}
+\end{figure}
+
+\subsection{MPPT IncCond Model}
+The MPPT IncCond model developed in MATLAB/Simulink is shown in Fig.~\ref{fig:MPPT_IncCond_Model}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Chapter_4/Graphics/MPPT_IncCond_Model.png}
+    \caption{MPPT IncCond Model}
+    \label{fig:MPPT_IncCond_Model}
+\end{figure}
+\cleardoublepage
