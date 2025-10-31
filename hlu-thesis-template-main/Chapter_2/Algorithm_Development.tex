@@ -337,7 +337,69 @@ An examination of the above transfer functions reveals that the parameter $\omeg
 It is also worth noting that the damping factor $k$ does not alter the behavior of the SOGI at the frequency $\omega'$. Consequently, a lower $k$ value enhances frequency selectivity but slows down the response to voltage changes. Therefore, a trade-off between transient response and attenuation of distorsions must be made. A commonly adopted tuning is $k = \sqrt{2}$, which is equivalent to $k = 2\zeta = 2\frac{1}{\sqrt{2}}$, with $\zeta$ representing the damping ratio for a second-order system.
 \FloatBarrier
 \subsection{Different discrete methods for SOGI}
-When implementing the SOGI-PLL in a digital control system, it is essential to discretize the continuous-time transfer functions. Several discretization methods can be employed, each with its own advantages and disadvantages. The most commonly used methods include:
+When implementing the SOGI-PLL in a digital control system, it is essential to discretize the continuous-time transfer functions. Several discretization methods can be employed, each with its own advantages and disadvantages. The most commonly used methods include: forward Euler, backward Euler, Tustin transformation and zero-order hold (ZOH)\cite{4757948}.
+
+The forward Euler method is very simple, but it can introduce significant numerical damping and frequency distortion; thus, it's only acceptable for very high sampling rates or quick prototyping.
+
+The backward Euler method is stable and conservative. It's convenient when discretizing each integrator block of SOGI and for frequency-adaptive implementations, but selectivity strongly depends on a sufficiently small sampling period.
+
+The Tustin transformation offers a balanced approximation of both magnitude and phase for direct transfer-function discretization. While it inherently introduces frequency warping, this effect can be mitigated through pre-warping or by directly substituting the target fundamental frequency, which makes Tustin one of the most consistent approaches for SOGI and DSOGI applications.
+
+The ZOH method, derived from the hold-equivalent approach, achieves accurate modeling of the plant-plus-hold system and delivers reliable magnitude and phase characteristics for SOGI discretization. However, its coefficients typically require offline derivation, which reduces flexibility for real-time adaptation when the fundamental frequency changes.
+
+Overall, Tustin and ZOH tend to offer the best fidelity for direct transfer-function discretization, whereas Backward Euler is advantageous for frequency-adaptive, per-integrator designs. The $s$-to-$z$ mappings used for SOGI discretization is summarized in Table \ref{tab:s_to_z_mappings_for_SOGI_discretization}.
+\begin{table}[h]
+\centering
+\caption{$s$-to-$z$ mappings used for SOGI discretization}
+\begin{tabular}{ll}
+\hline
+\textbf{Method} & \textbf{Mapping / Construction} \\
+\hline
+Forward Euler &
+$ s \approx \dfrac{z-1}{T_s} $ \\[6pt]
+Backward Euler &
+$ s \approx \dfrac{1 - z^{-1}}{T_s} $ \\[6pt]
+Tustin (bilinear) &
+$ s \approx \dfrac{2}{T_s}\,\dfrac{1 - z^{-1}}{1 + z^{-1}} $ \\[8pt]
+Zero-Order Hold (ZOH) &
+$ H(z) = \mathcal{Z}\!\left\{ \dfrac{1 - e^{-sT_s}}{s}\, H(s) \right\} $ \\
+\hline
+\end{tabular}
+\label{tab:s_to_z_mappings_for_SOGI_discretization}
+\end{table}
+
+If we substitue the $s$-to-$z$ mappings into the transfer functions of SOGI, we can obtain the discrete-time transfer functions for each method. It's shown in Table \ref{tab:discrete_time_transfer_functions_for_SOGI}.\begin{table}[h]
+\centering
+\caption{Discrete-time integrator methods and their $z$-domain equations.}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Type of integrator} & \textbf{$z$-domain equation / Difference equation} \\
+\hline
+Euler Forward &
+$ H(z) = \dfrac{\omega_0 T_s (z-1)}{z^2 - 2z + \omega_0^2 T_s^2 + 1} $ \\ 
+\hline
+Backward Euler &
+$ H(z) = \dfrac{\omega_0 T_s}{1 + \omega_0^2 T_s^2} \cdot \dfrac{(z-1)z}{z^2 - \dfrac{2}{1+\omega_0^2 T_s^2}z + \dfrac{1}{1+\omega_0^2 T_s^2}} $ \\
+\hline
+Tustin &
+$ H(z) = \dfrac{2\omega_0 T_s}{4 + \omega_0^2 T_s^2} \cdot 
+\dfrac{z^2 - 1}{z^2 + \dfrac{\omega_0^2 T_s^2 - 8}{4 + \omega_0^2 T_s^2}z + 1} $ \\
+\hline
+ZOH &
+$ H(z) = \dfrac{\sin(\omega_0 T_s)(z-1)}{z^2 - 2\cos(\omega_0 T_s)z + 1} $ \\
+\hline
+\end{tabular}
+\label{tab:discrete_time_transfer_functions_for_SOGI}
+\end{table}
+
+The Bode diagrams of the discrete-time SOGI at a sampling frequency of 10kHz for each method are shown in Figure \ref{fig:Bode_diagrams_of_discrete_time_SOGI}. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Chapter_2/Graphics/Bode_diagrams_of_discrete_time_SOGI.png}
+    \caption{Bode diagrams of discrete-time SOGI at a sampling frequency of 10kHz for different discretization methods}
+    \label{fig:Bode_diagrams_of_discrete_time_SOGI}
+\end{figure}
 \subsection{SOGI-PLL with DC offset rejection}
 In practical applications, the grid voltage may contain a DC offset component due to various reasons, such as sensor errors or power quality issues. If a DC offset is present in the measured voltage, it is not filtered by $Q(s)$ since the latter is of low-pass type. Consequently, the offset is also transferred to the quadrature signal and enters the SRF-PLL. This continuous term is then shifted to $2\omega$ through the Park transformation, resulting in an oscillating term at twice the grid frequency in $V_q$. Given that the PI controller is unable to fully attenuate a non-continuous term, this oscillation is further propagated to the frequency and phase estimations.
 

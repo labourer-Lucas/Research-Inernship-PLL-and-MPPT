@@ -4,7 +4,23 @@
 
 \chapter{Conclusion} \label{chapter:conclusion}
 \section{Summary of Work}
-\section{Recommendations for Future Work}
+This research internship focused on the development and evaluation of power control middleware algorithms, specifically PLL and MPPT techniques, using a MBD approach.
 
+For PLL algorithms, multiple structures were investigated and implemented, including SRF-PLL, DDSRF-PLL, SOGI-PLL, DSOGI-PLL, and MSOGI-PLL. Their performances under balanced, unbalanced, and distorted grid conditions were thoroughly analyzed. The results showed that while SRF-PLL is simple and effective under ideal conditions, DDSRF-PLL and DSOGI-PLL provide superior robustness against unbalances, and MSOGI-PLL demonstrates excellent harmonic rejection capabilities.
+
+For MPPT algorithms, both P\&O and IncCond methods were developed and compared. P\&O is computationally efficient and simple to implement but exhibits oscillations around the maximum power point. In contrast, IncCond offers higher accuracy and better performance under rapidly changing irradiance, at the cost of increased complexity.
+
+All algorithms were modeled, simulated, and validated in MATLAB/Simulink. The models were further prepared for Embedded C code generation, ensuring that the developed methods can be directly applied in real-time digital control platforms. The work thus contributes a reusable algorithm library for power control systems, addressing both synchronization and maximum power extraction challenges.
+\section{Recommendations for Future Work}
+Although this work successfully developed and validated several PLL and MPPT algorithms, further research is recommended in the following directions:
+
+\begin{enumerate}
+    \item Hardware-in-the-Loop (HIL)  and real-time Testing: Implement the developed algorithms on real-time digital controllers and perform HIL testing to evaluate their performance in practical scenarios.
+    \item Enhanced MPPT Techniques: Explore intelligent MPPT algorithms, such as fuzzy logic, neural networks, or model predictive control, to improve tracking efficiency under partial shading and highly variable irradiance.
+    \item Integration into Complete Power Control Middleware: Extend the developed library by incorporating additional control functions, such as active/reactive power control, DC-link voltage regulation, and fault-ride-through strategies, to support grid codes and industrial deployment.
+    \item Comparative Benchmarking: Conduct a comprehensive benchmarking study comparing the developed algorithms with existing state-of-the-art methods in terms of performance, computational efficiency, and robustness.
+\end{enumerate}
+
+In conclusion, this research internship successfully delivered a foundation for a modular and flexible power control middleware, while leaving open opportunities for experimental validation, algorithmic improvements, and industrial integration.
 \cleardoublepage
 
